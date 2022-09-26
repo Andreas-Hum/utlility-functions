@@ -9,11 +9,10 @@ typedef struct int_TREE{
 } int_TREE;
 
 
-/* Int tree */
-
 
 int length(int_TREE* tree);
 int fold_r(int_TREE* tree, int f());
+int fold_l(int_TREE* tree, int f());
 void mergeSort(int arr[], int l, int r);
 void merge(int arr[], int l, int m, int r);
 void print_tree(int_TREE* tree);
@@ -24,6 +23,7 @@ int find(int_TREE* tree, int f());
 int pop(int_TREE* tree);
 int shift(int_TREE* tree);
 
+void flip(int_TREE* tree);
 int_TREE* sort(int_TREE* tree);
 int_TREE* init_int_TREE (int data);
 int_TREE* get_next(int_TREE* tree);
@@ -31,6 +31,10 @@ int_TREE* set_next(int_TREE* tree, int_TREE* new);
 int_TREE* for_each(int_TREE* tree,int f());
 int_TREE* filter_map(int_TREE* tree, int f());
 
+
+int sum(int i,int b){
+        return i-b;
+}
 
 int_TREE* init_int_TREE (int data){
         int_TREE *tree = calloc (1, sizeof (int_TREE));
@@ -158,34 +162,64 @@ int_TREE* filter(int_TREE* tree, int f()){
 }
 
 
+int fold_l(int_TREE* tree,int f()){
+        flip(tree);
+        int temp = fold_r(tree,sum);
+        flip(tree);
+        return temp;
+}
+
+void flip(int_TREE* tree){
+        int_TREE * cur = tree;
+        int_TREE * temp = cur;
+        int arr[length(tree)+1];
+        int sum = 0;
+        for (int i = 0; i <= length(tree); i++){
+                arr[i] = temp->data;
+                temp = get_next(temp);
+        }
+
+        temp = cur;
+
+        for(int i = length(tree);i>=0;i--){
+                temp->data = arr[i];
+                temp = get_next(temp);
+        }
+
+        if(tree->elements < 0){
+                tree->elements = -tree->elements;
+        }
+       
+        return temp;
+
+}
+
 int fold_r(int_TREE* tree,int f()){
 
 
         int_TREE * cur = tree;
+        int arr[length(tree)];
         int sum = 0;
-        for (int i = 0; i <= length(tree); i++)
-        {
-
-                sum += f(cur->data);
+        for (int i = 0; i <= length(tree); i++){
+                arr[i] = cur->data;
                 cur = get_next(cur);
+        }
+
+        int once = 0;
+        for(int i = 0; i <= length(tree)+1; i++){
+                // printf("%d \n",sum);
+                if(i == 2){
+                        sum += f(arr[i-2],arr[i-1]);
+                        printf("%d, %d %d\n",arr[i-2],arr[i-1], sum);
+                        once = 1;
+                } else if(once == 1){
+                        printf("%d, %d\n",arr[i-1], sum);
+                        sum = f(sum,arr[i-1]);
+                }
         }
 
         return sum;
 }
-
-// int fold_l(int_TREE* tree){
-
-
-//         int_TREE * cur = tree;
-//         int sum = 0;
-//         for (int i = tree->elements; i >= 0; i--)
-//         {
-//                 sum += cur -> data;
-//                 cur = get_next(cur);
-//         }
-
-//         return sum;
-// }
 
 
 
@@ -352,17 +386,18 @@ void mergeSort(int arr[], int l, int r)
 }
 
 
-int main (void){
-        int_TREE *tree = init_int_TREE(10);
 
-        for(int i = 9; i >= 0; i--){
-                push(tree,init_int_TREE(i));
-        }
-        int test = shift(tree);
-        printf("%d",test);
-        // shift(tree);
-        // print_tree(tree);
-        return 0;
-}
+
+// int main (void){
+//         int_TREE *tree = init_int_TREE(10);
+
+//         for(int i = 9; i >= 6-1; i--){
+//                 push(tree,init_int_TREE(i));
+//         }
+
+//         // shift(tree);
+//         // print_tree(tree);
+//         return 0;
+// }
 
 
