@@ -27,7 +27,7 @@ int every(int_tree* root, int f());
 int for_each(int_tree* root, int f());
 int *int_tree_to_array(int_tree* root);
 int find_index(int_tree* root, int f());
-
+int no_change (int i);
 
 /* Creating new trees */
 int_tree *create_node(int data);
@@ -128,22 +128,31 @@ int_tree *concat_int_tree(int_tree* tree_one_root, int_tree* tree_two_root){
 
         int length = int_tree_length(tree_one_root)+int_tree_length(tree_two_root);
 
-        
-        int *tree_one_arr = int_tree_to_array(tree_one_root);
-        int *tree_two_arr = int_tree_to_array(tree_two_root);
-        int_tree* concatinated_tree = create_node(tree_one_arr[0]);
 
-        for(int i = 1; i < length-int_tree_length(tree_two_root);i++){
-                push(concatinated_tree,create_node(tree_one_arr[i]));
+        // int *tree_one_arr = int_tree_to_array(tree_one_root);
+        // int *tree_two_arr = int_tree_to_array(tree_two_root);
+        int_tree* concatinated_tree = filter(tree_one_root,no_change);
+        int_tree*cur = concatinated_tree;
+        while(cur->next != NULL ){
+                cur = cur->next;
         }
 
-        for(int i = 0; i < length-int_tree_length(tree_one_root);i++){
-                push(concatinated_tree,create_node(tree_two_arr[i]));
-        }
+        cur->next = filter(tree_two_root,no_change);
 
-        free(tree_one_arr);
-        free(tree_two_arr);
         return concatinated_tree;
+
+        // for(int i = 1; i < length-int_tree_length(tree_two_root);i++){
+        //         push(concatinated_tree,create_node(tree_one_arr[i]));
+        // }
+
+        // for(int i = 0; i < length-int_tree_length(tree_one_root);i++){
+        //         push(concatinated_tree,create_node(tree_two_arr[i]));
+        // }
+
+        // free(tree_one_arr);
+        // free(tree_two_arr);
+
+        
 
 }
 
@@ -170,10 +179,9 @@ int_tree* flip(int_tree* root){
         return new;
 }
 
-int no_chance (int i){
+int no_change (int i){
         return i >= 0;
 }
-
 
 
 int shift(int_tree* root){
@@ -186,9 +194,9 @@ int shift(int_tree* root){
         // return value;
 
          /* Works */
-        test_array = flip(test_array);
-        int test = pop(test_array);
-        test_array = flip(test_array);
+        // test_array = flip(test_array);
+        // int test = pop(test_array);
+        // test_array = flip(test_array);
 }
 
 
@@ -257,7 +265,7 @@ int *int_tree_to_array(int_tree* root){
         }
 
         int length = int_tree_length(root);
-        int *arr = malloc(sizeof(root));
+        int *arr = malloc(sizeof(int_tree));
 
         int_tree* cur = root;
         for(int i = 0; i < length; i++){
@@ -265,7 +273,7 @@ int *int_tree_to_array(int_tree* root){
                 cur = cur->next;
         };
 
-        // free(arr);
+        
         return arr;
 }
 
@@ -329,6 +337,36 @@ int for_each(int_tree* root, int f()){
         return accumulator;
 }
 
+
+int_tree *fill(int_tree* root, int length,int value,int new_tree){
+        if(!new_tree){
+                int_tree* cur = root;
+                if(int_tree_length(root) < length){
+                        for(int i = 0; i < int_tree_length(root); i++){
+                                cur->data = value;
+                                cur = cur->next;
+                        }
+                        for (int i = int_tree_length(root); i < length ; i++)
+                        {
+                                push(root,create_node(value));
+                        }
+                } else{
+                        for (int i = 0; i < length; i++)
+                        {
+                                cur->data = value;
+                                cur = cur->next;
+                        }
+                }
+
+        } else {
+                root = create_node(value);
+                for (int i = 1; i < length; i++){
+                        push(root,create_node(value));
+                }
+        }
+
+        return root;
+}
 
 void free_node(int_tree* root, int_tree* node){
 
