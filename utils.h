@@ -8,6 +8,8 @@ typedef struct int_tree
         struct int_tree *next;
 } int_tree;
 
+
+
 /* freeing memory */
 void free_tree(int_tree* root);
 void free_node(int_tree* root, int_tree* node);
@@ -16,6 +18,7 @@ void free_node(int_tree* root, int_tree* node);
 void push(int_tree* root, int_tree* node);
 int pop(int_tree* root);
 int remove_index(int_tree* root, int index);
+int shift(int_tree* root);
 
 /* Utility functions */
 void print_tree(int_tree* root);
@@ -25,12 +28,14 @@ int for_each(int_tree* root, int f());
 int *int_tree_to_array(int_tree* root);
 int find_index(int_tree* root, int f());
 
+
 /* Creating new trees */
 int_tree *create_node(int data);
 int_tree *create_tree_from_int_array(int array[],int size);
 int_tree *concat_int_tree(int_tree* tree_one_root, int_tree* tree_two_root);
 int_tree *filter(int_tree* root, int f());
 int_tree *map(int_tree* root, int f());
+int_tree *flip(int_tree* root);
 
 int_tree *create_node(int data){
         int_tree* node = malloc(sizeof(int_tree));
@@ -143,6 +148,50 @@ int_tree *concat_int_tree(int_tree* tree_one_root, int_tree* tree_two_root){
 }
 
 
+int_tree* flip(int_tree* root){
+        if(root == NULL){
+                return root;
+        }
+
+
+        int_tree* new;
+        int once = 0;
+        for(int i = int_tree_length(root); i > 0; i--){
+                if(once == 0){
+                        new = create_node(pop(root));
+                        once = 1;
+                } else {
+                        push(new,create_node(pop(root)));
+                }
+        }
+
+        // free_tree(root);
+
+        return new;
+}
+
+int no_chance (int i){
+        return i >= 0;
+}
+
+
+
+int shift(int_tree* root){
+        // if(root == NULL){
+        //         return -1;
+        // }
+        // root = flip(root);
+        // // print_tree(root);
+        // int value = pop(root);
+        // return value;
+
+         /* Works */
+        test_array = flip(test_array);
+        int test = pop(test_array);
+        test_array = flip(test_array);
+}
+
+
 int find_index(int_tree* root, int f()){
         if(root== NULL){
                 return -2;
@@ -208,14 +257,15 @@ int *int_tree_to_array(int_tree* root){
         }
 
         int length = int_tree_length(root);
-        int *arr = malloc(length);
+        int *arr = malloc(sizeof(root));
 
         int_tree* cur = root;
         for(int i = 0; i < length; i++){
                 arr[i] = cur->data;
                 cur = cur->next;
-        }
+        };
 
+        // free(arr);
         return arr;
 }
 
@@ -282,8 +332,9 @@ int for_each(int_tree* root, int f()){
 
 void free_node(int_tree* root, int_tree* node){
 
+
         if(root == node){
-                free_tree(root);
+                free_tree;
                 return;
         }
 
@@ -302,7 +353,7 @@ void free_node(int_tree* root, int_tree* node){
                 prev->next = NULL;
         }
         
-        free(cur);
+        // free(cur);
         return;
 }
 
