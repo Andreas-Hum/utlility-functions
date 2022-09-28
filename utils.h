@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct int_tree
 {
@@ -17,11 +18,13 @@ void push(int_tree* root, int_tree* node);
 /* Utility functions */
 void print_tree(int_tree* root);
 int int_tree_length(int_tree* root);
+int every(int_tree* root, int f());
 
-/* Creating or chaning tree */
+/* Creating new trees */
 int_tree *create_node(int data);
 int_tree *create_tree_from_int_array(int array[],int size);
 int_tree *concat_int_tree(int_tree* tree_one_root, int_tree* tree_two_root);
+int_tree *filter(int_tree* root, int f());
 
 int_tree *create_node(int data){
         int_tree* node = malloc(sizeof(int_tree));
@@ -53,11 +56,13 @@ int_tree *create_tree_from_int_array(int array[],int size){
 }
 
 int *int_tree_to_array(int_tree* root){
+
+        if(root == NULL){
+                return (int*)-1;
+        }
+
         int length = int_tree_length(root);
         int *arr = malloc(length);
-        if(!arr){
-                return NULL;
-        }
 
         int_tree* cur = root;
         for(int i = 0; i < length; i++){
@@ -66,6 +71,27 @@ int *int_tree_to_array(int_tree* root){
         }
 
         return arr;
+}
+
+int_tree *filter(int_tree* root, int f()){
+
+        if(root == NULL){
+                return root;
+        }
+
+        int *arr = int_tree_to_array(root);
+
+        int_tree* filtered_array = create_node(f(arr[0]));
+
+        for (int i = 1; i < int_tree_length(root); i++)
+        {
+                push(filtered_array,create_node(f(arr[i])));
+        }
+
+        free(arr);
+
+        return filtered_array;
+
 }
 
 int_tree *concat_int_tree(int_tree* tree_one_root, int_tree* tree_two_root){
@@ -148,13 +174,14 @@ int int_tree_length(int_tree* root){
 void free_node(int_tree* root, int_tree* node){
 
         if(root == node){
-                free(root);
+                free_tree(root);
+                return;
         }
 
         int_tree* cur = root;
         int_tree* prev = root;
 
-        while (cur->next != NULL)
+        while (cur->next != node)
         {
                 prev = cur;
                 cur = cur->next;
@@ -162,6 +189,7 @@ void free_node(int_tree* root, int_tree* node){
 
         prev->next = NULL;
         free(cur);
+        return;
 }
 
 void free_tree(int_tree* root){
@@ -183,3 +211,21 @@ void free_tree(int_tree* root){
 
 }
 
+int every(int_tree* root, int f()){
+
+        if(root == NULL){
+                return -1;
+        }
+
+        int_tree* cur = root;
+
+        while (cur->next != NULL){
+                if(!f(cur->data)){
+                        return false;
+                }
+                cur = cur->next;
+        }
+
+        return true;
+
+}
