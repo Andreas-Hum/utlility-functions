@@ -36,6 +36,7 @@ int_tree *concat_int_tree(int_tree* tree_one_root, int_tree* tree_two_root);
 int_tree *filter(int_tree* root, int f());
 int_tree *map(int_tree* root, int f());
 int_tree *flip(int_tree* root);
+int_tree *cpy_tree(int_tree* root);
 
 int_tree *create_node(int data){
         int_tree* node = malloc(sizeof(int_tree));
@@ -131,13 +132,13 @@ int_tree *concat_int_tree(int_tree* tree_one_root, int_tree* tree_two_root){
 
         // int *tree_one_arr = int_tree_to_array(tree_one_root);
         // int *tree_two_arr = int_tree_to_array(tree_two_root);
-        int_tree* concatinated_tree = filter(tree_one_root,no_change);
+        int_tree* concatinated_tree = cpy_tree(tree_one_root);
         int_tree*cur = concatinated_tree;
         while(cur->next != NULL ){
                 cur = cur->next;
         }
 
-        cur->next = filter(tree_two_root,no_change);
+        cur->next = cpy_tree(tree_two_root);
 
         return concatinated_tree;
 
@@ -177,6 +178,10 @@ int_tree* flip(int_tree* root){
         // free_tree(root);
 
         return new;
+}
+
+int_tree *cpy_tree(int_tree* root){
+        return filter(root,no_change);
 }
 
 int no_change (int i){
@@ -415,6 +420,10 @@ void free_tree(int_tree* root){
 }
 
 void push(int_tree* root, int_tree* node){
+
+        if(!root){
+                printf("dasdadas");
+        }
 
         if(root != NULL && node != NULL){
                 if(root->next != NULL){
