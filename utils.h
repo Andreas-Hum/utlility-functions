@@ -44,7 +44,7 @@ int_linked_list *int_linked_list_map(int_linked_list* root, int f());
 int_linked_list *int_linked_list_cpy(int_linked_list* root);
 int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right);
 int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int right);
-int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove);
+int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove);
 
 /* freeing memory */
 
@@ -60,6 +60,7 @@ void int_linked_list_change_element(int_linked_list** root, int index, int new_d
 void int_linked_list_flip(int_linked_list** root);
 void int_linked_list_push(int_linked_list** root, int_linked_list* node);
 void int_linked_list_unshift(int_linked_list** root,int data);
+void int_linked_list_insert_at(int_linked_list** root, int index, int new_data);
 
 /* Utility functions */
 
@@ -277,7 +278,7 @@ int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int righ
         int_linked_list* sliced;
         int once = 0;
 
-        for (int i = left; i < right + 1 ; i++)
+        for (int i = left; i < right ; i++)
         {
                 if(once IS 0){
                         sliced = int_linked_list_create_node(int_linked_list_at(root,i));
@@ -290,14 +291,56 @@ int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int righ
         return sliced;
 }
 
-int_linked_list* int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove){
+int_linked_list* int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove){
+        
+        int_linked_list* cur = *root;
+        int_linked_list* deleted;
+
         if(*root IS NULL){
                 return add_remove;
-        } else if(add_remove IS NULL){
-                return root;
-        }else if(*root IS NULL ){
-
+        } else if(add_remove IS NULL AND remove IS 0){
+                return cur;
+        }else if(*root IS NULL AND add_remove IS NULL){
+                return int_linked_list_create_node(-1);
+        } else if(delete_count > int_linked_list_length(*root)){
+                return int_linked_list_create_node(-1);
         }
+
+
+
+        
+
+        if(delete_count > 0){
+                int once = 0;
+                for(int i = 0; i < delete_count; i++){
+                        if (once IS 0){
+                                deleted = int_linked_list_create_node(int_linked_list_at(*root,start));
+                                int_linked_list_remove_index(root,start);
+                                once = 1;
+                        } else {
+                                int_linked_list_push(&deleted,int_linked_list_create_node(int_linked_list_at(*root,start)));
+                                int_linked_list_remove_index(root,start);
+                        }
+                }
+
+                if(remove IS 0){
+                        for(int i = 0; i < int_linked_list_length(add_remove); i++){
+                                int_linked_list_insert_at(root,start,int_linked_list_at(add_remove,i));
+                                start++;
+                        }
+                }
+                
+                return deleted;
+
+        } else {
+                for(int i = 0; i < int_linked_list_length(add_remove); i++){
+                        int_linked_list_insert_at(root,start,int_linked_list_at(add_remove,i));
+                        start++;
+                }
+                return int_linked_list_create_node(0);
+        }
+
+
 }
 
 
@@ -462,11 +505,39 @@ void int_linked_list_push(int_linked_list** root, int_linked_list* node){
 
 void int_linked_list_unshift(int_linked_list** root,int data){
 
+
+        if(*root IS NULL){
+                return;
+        }
+
         int_linked_list* new_root = int_linked_list_create_node(data);
         new_root->next = *root;
         *root = new_root;
 }
 
+void int_linked_list_insert_at(int_linked_list** root, int index, int new_data){
+
+        if(root IS NULL){
+                return;
+        }
+
+        if(index > int_linked_list_length(*root)){
+                return;
+        }
+
+
+        if(index IS 0){
+                int_linked_list_unshift(root,new_data);
+        } else {
+                int_linked_list* temp_first_part = int_linked_list_slice(*root,0,index);
+                int_linked_list* temp_last_part = int_linked_list_slice(*root,index,int_linked_list_length(*root));
+                int_linked_list_push(&temp_first_part,int_linked_list_create_node(new_data));
+                *root = int_linked_list_concat(temp_first_part,temp_last_part);
+        }
+
+        return;
+
+}
 
 
 int int_linked_list_length(int_linked_list* root){
