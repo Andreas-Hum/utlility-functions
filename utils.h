@@ -41,7 +41,7 @@ int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int
 void int_linked_list_free(int_linked_list** root);
 void int_linked_list_free_node(int_linked_list** root, int_linked_list* node);
 
-/* Changing list size */
+/* Mutating list */
 
 int int_linked_list_pop(int_linked_list** root);
 int int_linked_list_remove_index(int_linked_list** root, int index);
@@ -63,6 +63,8 @@ int int_linked_list_find_last(int_linked_list* root, int f());
 int int_linked_list_find_last_index(int_linked_list* root, int f());
 int int_linked_list_at(int_linked_list* root, int index);
 int int_linked_list_includes(int_linked_list* root, int value);
+int int_linked_list_foldr(int_linked_list* root, int f(), int start_value);
+int int_linked_list_foldl(int_linked_list* root, int f(),int start_value);
 void int_linked_list_print(int_linked_list* root);
 void int_linked_list_sort(int_linked_list** root); /* BROKEN */
 
@@ -84,7 +86,7 @@ int_linked_list *int_linked_list_create_node(int data){
         }
 
         return node;
-}
+} 
 
 int_linked_list *int_linked_list_array_to_list(int array[],int size){
 
@@ -616,6 +618,61 @@ int int_linked_list_includes(int_linked_list* root, int value){
 
 }
 
+int int_linked_list_foldr(int_linked_list* root, int f(),int start_value){
+        if(root == NULL){
+                return int_linked_list_at(root,0);
+        }
+
+        if(start_value < 0){
+                return int_linked_list_at(root,0);
+        }
+
+        if(int_linked_list_length(root) < 2){
+                return int_linked_list_at(root,0);
+        }
+
+        if(int_linked_list_length(root) == 2){
+                return f(int_linked_list_at(root,0), int_linked_list_at(root,1));
+        }
+
+        int accumulator = start_value;
+        int once = 0;
+
+        for (int i = 0; i < int_linked_list_length(root); i++){
+                accumulator = f(accumulator,int_linked_list_at(root,i));
+        }
+
+        return accumulator;
+}
+
+int int_linked_list_foldl(int_linked_list* root, int f(),int start_value){
+        if(root == NULL){
+                return int_linked_list_at(root,0);
+        }
+
+        if(start_value < 0){
+                return int_linked_list_at(root,0);
+        }
+
+        if(int_linked_list_length(root) < 2){
+                return int_linked_list_at(root,0);
+        }
+
+        if(int_linked_list_length(root) == 2){
+                return f(int_linked_list_at(root,1), int_linked_list_at(root,0));
+        }
+
+        int accumulator = start_value;
+        int once = 0;
+
+        for (int i = int_linked_list_length(root)-1; i >= 0; i--){
+                accumulator = f(accumulator,int_linked_list_at(root,i));
+        }
+
+        return accumulator;
+}
+
+
 void int_linked_list_print(int_linked_list* root){
 
         if(root == NULL){
@@ -648,6 +705,8 @@ void int_linked_list_sort(int_linked_list** root){ /* BROKEn*/
         // print_linked_list(*root);
         // return;
 }
+
+
 
 int cpy_func (int i){
         i;
