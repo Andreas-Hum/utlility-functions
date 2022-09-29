@@ -78,7 +78,7 @@ int int_linked_list_foldr(int_linked_list* root, int f(), int start_value);
 int int_linked_list_foldl(int_linked_list* root, int f(),int start_value);
 int int_linked_list_some(int_linked_list* root, int f());
 void int_linked_list_print(int_linked_list* root);
-void int_linked_list_sort(int_linked_list** root); /* BROKEN */
+void int_linked_list_sort(int_linked_list** root); 
 
 /* Non specific utility functions */
 
@@ -830,24 +830,24 @@ void int_linked_list_print(int_linked_list* root){
 
 void int_linked_list_sort(int_linked_list** root){ /* BROKEn*/
 
-        // if(*root IS NULL){
-        //         return;
-        // }
-
-        // int *arr = int_linked_list_to_array(*root);
-
-        // mergeSort(arr,0,int_linked_list_length(*root)-1);
+        if(*root IS NULL){
+                return;
+        }
 
 
-        // int_linked_list* cur = *root;
-        // *root = cur;
-        
-        // for(int i = 0; i < int_linked_list_length(*root);i++){
-        //         cur->data = arr[i];
-        //         cur = cur->next;
-        // }
-        // print_linked_list(*root);
-        // return;
+        int_linked_list* cur = *root;
+
+        int *arr = int_linked_list_to_array(cur);
+
+        mergeSort(arr,0,int_linked_list_length(cur)-1);
+
+        *root = cur;
+        for(int i = 0; i < int_linked_list_length(*root);i++){
+                cur->data = arr[i];
+                cur = cur->next;
+        }
+        int_linked_list_print(*root);
+        return;
 }
 
 
