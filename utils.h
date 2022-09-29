@@ -1,3 +1,11 @@
+/*
+*
+*
+* Created by Andreas Svanberg Hummelmose, student at AAU
+*
+* Updated: 29-09-2022
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -9,47 +17,60 @@ typedef struct int_linked_list
 } int_linked_list;
 
 
+/* All functions are in order of return type:*/
+
+
+/*
+* integer linked list
+*/
 
 /* freeing memory */
-void free_int_list(int_linked_list** root);
-void free_node(int_linked_list** root, int_linked_list* node);
+void int_linked_list_free(int_linked_list** root);
+void int_linked_list_free_node(int_linked_list** root, int_linked_list* node);
 
-/* Changing tree size */
-void push(int_linked_list** root, int_linked_list* node);
-int pop(int_linked_list** root);
-int remove_index(int_linked_list** root, int index);
-int shift(int_linked_list** root);
-void flip(int_linked_list** root);
-void unshift(int_linked_list** root,int data);
-void change_element_at_index_int(int_linked_list** root, int index, int new_data);
-
+/* Changing list size */
+int int_linked_list_pop(int_linked_list** root);
+int int_linked_list_remove_index(int_linked_list** root, int index);
+int int_linked_list_remove_shift(int_linked_list** root);
+void int_linked_list_change_element(int_linked_list** root, int index, int new_data);
+void int_linked_list_flip(int_linked_list** root);
+void int_linked_list_push(int_linked_list** root, int_linked_list* node);
+void int_linked_list_unshift(int_linked_list** root,int data);
 
 /* Utility functions */
-void print_linked_list(int_linked_list* root);
 int int_linked_list_length(int_linked_list* root);
-int every(int_linked_list* root, int f());
-int for_each(int_linked_list* root, int f());
+int int_linked_list_every(int_linked_list* root, int f());
+int int_linked_list_for_each(int_linked_list* root, int f());
 int *int_linked_list_to_array(int_linked_list* root);
-int find_index(int_linked_list* root, int f());
-int find(int_linked_list* root, int f());
+int int_linked_list_find_index(int_linked_list* root, int f());
+int int_linked_list_find(int_linked_list* root, int f());
+int int_linked_list_at(int_linked_list* root, int index);
+int int_linked_list_find_last(int_linked_list* root, int f());
+int int_linked_list_find_last_index(int_linked_list* root, int f());
+int int_linked_list_includes(int_linked_list* root, int value); /* TODO */
+void int_linked_list_print(int_linked_list* root);
+void int_linked_list_sort(int_linked_list** root); /* BROKEN */
+
+/* Creating new trees */
+int_linked_list *int_linked_list_create_node(int data);
+int_linked_list *int_linked_list_array_to_list(int array[],int size);
+int_linked_list *int_linked_list_concat(int_linked_list* tree_one_root, int_linked_list* tree_two_root);
+int_linked_list *int_linked_list_filter(int_linked_list* root, int f());
+int_linked_list *int_linked_list_map(int_linked_list* root, int f());
+int_linked_list *int_linked_list_cpy(int_linked_list* root);
+int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right);
+
+
+
+/* Non specific utility functions */
 int cpy_func (int i);
 void mergeSort(int arr[], int l, int r);
 void merge(int arr[], int l, int m, int r);
-void sort_int_linked_list(int_linked_list** root);
-void print_Array(int array[], int size); /* BROKEN */
-int int_at(int_linked_list* root, int index);
-
-/* Creating new trees */
-int_linked_list *create_int_node(int data);
-int_linked_list *create_list_from_int_array(int array[],int size);
-int_linked_list *concat_int_linked_list(int_linked_list* tree_one_root, int_linked_list* tree_two_root);
-int_linked_list *filter(int_linked_list* root, int f());
-int_linked_list *map(int_linked_list* root, int f());
-int_linked_list *cpy_int_tree(int_linked_list* root);
-int_linked_list *cpy_int_within(int_linked_list* root, int left, int right);
+void print_Array(int array[], int size);
 
 
-int_linked_list *create_int_node(int data){
+
+int_linked_list *int_linked_list_create_node(int data){
         int_linked_list* node = malloc(sizeof(int_linked_list));
         if(node != NULL){
                 node->data = data;
@@ -59,18 +80,18 @@ int_linked_list *create_int_node(int data){
         return node;
 }
 
-int_linked_list *cpy_int_within(int_linked_list* root, int left, int right){
+int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right){
         if(root == NULL){
-                return create_int_node(-1);
+                return int_linked_list_create_node(-1);
         }
 
 
         if(left > right){
-                return create_int_node(-1);
+                return int_linked_list_create_node(-1);
         } else if (right > int_linked_list_length(root)){
-                return create_int_node(-1);
+                return int_linked_list_create_node(-1);
         } else if(left < 0 || right < 0){
-                return create_int_node(-1);
+                return int_linked_list_create_node(-1);
         }
 
         int_linked_list* copied;
@@ -79,10 +100,10 @@ int_linked_list *cpy_int_within(int_linked_list* root, int left, int right){
         for (int i = left; i < right + 1 ; i++)
         {
                 if(once == 0){
-                        copied = create_int_node(int_at(root,i));
+                        copied = int_linked_list_create_node(int_linked_list_at(root,i));
                         once = 1;
                 } else {
-                        push(&copied,create_int_node(int_at(root,i)));
+                        int_linked_list_push(&copied,int_linked_list_create_node(int_linked_list_at(root,i)));
                 }
         }
 
@@ -91,19 +112,19 @@ int_linked_list *cpy_int_within(int_linked_list* root, int left, int right){
 
 
 }
-int_linked_list *create_list_from_int_array(int array[],int size){
+int_linked_list *int_linked_list_array_to_list(int array[],int size){
 
 
         if(size == 0){
                 printf("Error empty array\n");
-                return create_int_node(0);
+                return int_linked_list_create_node(0);
         }
 
 
-        int_linked_list *root = create_int_node(array[0]);
+        int_linked_list *root = int_linked_list_create_node(array[0]);
 
        for(int i = 1; i < size;i++){
-                push(&root,create_int_node(array[i]));
+                int_linked_list_push(&root,int_linked_list_create_node(array[i]));
        }
 
         return root;
@@ -111,7 +132,7 @@ int_linked_list *create_list_from_int_array(int array[],int size){
 
 
 
-int_linked_list *filter(int_linked_list* root, int f()){
+int_linked_list *int_linked_list_filter(int_linked_list* root, int f()){
 
         if(root == NULL){
                 return root;
@@ -124,10 +145,10 @@ int_linked_list *filter(int_linked_list* root, int f()){
         for (int i = 0; i < int_linked_list_length(root); i++)
         {
                 if(f(cur->data) && once == 0){
-                        filtered_array = create_int_node(cur->data);
+                        filtered_array = int_linked_list_create_node(cur->data);
                         once = 1;
                 } else if(f(cur->data) && once == 1){
-                        push(&filtered_array,create_int_node(cur->data));
+                        int_linked_list_push(&filtered_array,int_linked_list_create_node(cur->data));
                 }
                 cur = cur->next;
         }
@@ -136,7 +157,7 @@ int_linked_list *filter(int_linked_list* root, int f()){
 
 }
 
-int_linked_list *map(int_linked_list* root, int f()){
+int_linked_list *int_linked_list_map(int_linked_list* root, int f()){
 
         if(root == NULL){
                 return root;
@@ -149,10 +170,10 @@ int_linked_list *map(int_linked_list* root, int f()){
         for (int i = 0; i < int_linked_list_length(root); i++)
         {
                 if(once == 0){
-                        filtered_array = create_int_node(f(cur->data));
+                        filtered_array = int_linked_list_create_node(f(cur->data));
                         once = 1;
                 } else if(once == 1){
-                        push(&filtered_array,create_int_node(f(cur->data)));
+                        int_linked_list_push(&filtered_array,int_linked_list_create_node(f(cur->data)));
                 }
                 cur = cur->next;
         }
@@ -161,7 +182,7 @@ int_linked_list *map(int_linked_list* root, int f()){
 
 }
 
-int_linked_list *concat_int_linked_list(int_linked_list* tree_one_root, int_linked_list* tree_two_root){
+int_linked_list *int_linked_list_concat(int_linked_list* tree_one_root, int_linked_list* tree_two_root){
 
         if(tree_one_root == NULL){
                 return tree_two_root;
@@ -176,22 +197,22 @@ int_linked_list *concat_int_linked_list(int_linked_list* tree_one_root, int_link
 
         // int *tree_one_arr = int_linked_list_to_array(tree_one_root);
         // int *tree_two_arr = int_linked_list_to_array(tree_two_root);
-        int_linked_list* concatinated_tree = cpy_int_tree(tree_one_root);
+        int_linked_list* concatinated_tree = int_linked_list_cpy(tree_one_root);
         int_linked_list*cur = concatinated_tree;
         while(cur->next != NULL ){
                 cur = cur->next;
         }
 
-        cur->next = cpy_int_tree(tree_two_root);
+        cur->next = int_linked_list_cpy(tree_two_root);
 
         return concatinated_tree;
 
         // for(int i = 1; i < length-int_linked_list_length(tree_two_root);i++){
-        //         push(concatinated_tree,create_int_node(tree_one_arr[i]));
+        //         int_linked_list_push(concatinated_tree,int_linked_list_create_node(tree_one_arr[i]));
         // }
 
         // for(int i = 0; i < length-int_linked_list_length(tree_one_root);i++){
-        //         push(concatinated_tree,create_int_node(tree_two_arr[i]));
+        //         int_linked_list_push(concatinated_tree,int_linked_list_create_node(tree_two_arr[i]));
         // }
 
         // free(tree_one_arr);
@@ -203,12 +224,12 @@ int_linked_list *concat_int_linked_list(int_linked_list* tree_one_root, int_link
 
 
 
-int_linked_list *cpy_int_tree(int_linked_list* root){
+int_linked_list *int_linked_list_cpy(int_linked_list* root){
         if(root == NULL){
                 return root;
         }
 
-        return filter(root,cpy_func);
+        return int_linked_list_filter(root,cpy_func);
 }
 
 
@@ -222,7 +243,7 @@ int_linked_list *fill(int_linked_list* root, int length,int value,int new_tree){
                         }
                         for (int i = int_linked_list_length(root); i < length ; i++)
                         {
-                                push(&root,create_int_node(value));
+                                int_linked_list_push(&root,int_linked_list_create_node(value));
                         }
                 } else{
                         for (int i = 0; i < length; i++)
@@ -233,9 +254,9 @@ int_linked_list *fill(int_linked_list* root, int length,int value,int new_tree){
                 }
 
         } else {
-                root = create_int_node(value);
+                root = int_linked_list_create_node(value);
                 for (int i = 1; i < length; i++){
-                        push(&root,create_int_node(value));
+                        int_linked_list_push(&root,int_linked_list_create_node(value));
                 }
         }
 
@@ -249,16 +270,16 @@ int cpy_func (int i){
 }
 
 
-int shift(int_linked_list** root){
+int int_linked_list_remove_shift(int_linked_list** root){
         
-        flip(root);
-        int value = pop(root);
-        flip(root);
+        int_linked_list_flip(root);
+        int value = int_linked_list_pop(root);
+        int_linked_list_flip(root);
         return value;
 }
 
 
-int find_index(int_linked_list* root, int f()){
+int int_linked_list_find_index(int_linked_list* root, int f()){
         if(root== NULL){
                 return -2;
         }
@@ -277,7 +298,7 @@ int find_index(int_linked_list* root, int f()){
 
 }
 
-int find(int_linked_list* root, int f()){
+int int_linked_list_find(int_linked_list* root, int f()){
         if(root== NULL){
                 return -2;
         }
@@ -295,7 +316,46 @@ int find(int_linked_list* root, int f()){
         return -1;
 }
 
-int remove_index(int_linked_list** root, int index){
+int int_linked_list_find_last(int_linked_list* root, int f()){
+        if(root== NULL){
+                return -2;
+        }
+
+        int_linked_list* cur = root;
+        int value = -1;
+
+        for (int i = 0; i < int_linked_list_length(root); i++)
+        {
+                if(f(cur->data)){
+                        value = cur->data;
+                }
+                cur = cur->next;
+        }
+
+        return value;
+}
+
+int int_linked_list_find_last_index(int_linked_list* root, int f()){
+        
+        if(root== NULL){
+                return -2;
+        }
+
+        int_linked_list* cur = root;
+        int index = -1;
+
+        for (int i = 0; i < int_linked_list_length(root); i++)
+        {
+                if(f(cur->data)){
+                        index = i;
+                }
+                cur = cur->next;
+        }
+
+        return index;
+}
+
+int int_linked_list_remove_index(int_linked_list** root, int index){
         if(root == NULL){
                 return -1;
         }
@@ -315,13 +375,13 @@ int remove_index(int_linked_list** root, int index){
 
         value = cur->data;
 
-        free_node(root,cur);
+        int_linked_list_free_node(root,cur);
 
         return (value);
 
 }
 
-int pop(int_linked_list** root){
+int int_linked_list_pop(int_linked_list** root){
 
         if(*root == NULL){
                 return -1;
@@ -335,7 +395,7 @@ int pop(int_linked_list** root){
         }
 
         value = cur->data;
-        free_node(root,cur);
+        int_linked_list_free_node(root,cur);
 
         return value;
 
@@ -378,7 +438,7 @@ int int_linked_list_length(int_linked_list* root){
 }
 
 
-int every(int_linked_list* root, int f()){
+int int_linked_list_every(int_linked_list* root, int f()){
 
         if(root == NULL){
                 return -1;
@@ -397,7 +457,7 @@ int every(int_linked_list* root, int f()){
 
 }
 
-int for_each(int_linked_list* root, int f()){
+int int_linked_list_for_each(int_linked_list* root, int f()){
         if (root == NULL){
                 return -1;
         }
@@ -419,7 +479,7 @@ int for_each(int_linked_list* root, int f()){
         return accumulator;
 }
 
-int int_at(int_linked_list* root, int index){
+int int_linked_list_at(int_linked_list* root, int index){
         if (root == NULL){
                 return -1;
         }
@@ -512,18 +572,17 @@ void mergeSort(int arr[], int l, int r)
 }
 
 
-void flip(int_linked_list** root){
+void int_linked_list_flip(int_linked_list** root){
         
 
         int_linked_list* new;
         int once = 0;
-        // print_linked_list(*root);
         for(int i = int_linked_list_length(*root); i > 0; i--){
                 if(once == 0){
-                        new = create_int_node(pop(root));
+                        new = int_linked_list_create_node(int_linked_list_pop(root));
                         once = 1;
                 } else {
-                        push(&new,create_int_node(pop(root)));
+                        int_linked_list_push(&new,int_linked_list_create_node(int_linked_list_pop(root)));
                 }
         }
 
@@ -533,7 +592,7 @@ void flip(int_linked_list** root){
 
 /* BROKEN */
 
-void sort_int_linked_list(int_linked_list** root){
+void int_linked_list_sort(int_linked_list** root){
 
         // if(*root == NULL){
         //         return;
@@ -564,7 +623,7 @@ void print_Array(int array[], int size) {
 }
 
 
-void change_element_at_index_int(int_linked_list** root, int index, int new_data){
+void int_linked_list_change_element(int_linked_list** root, int index, int new_data){
         if(*root== NULL){
                 return;
         }
@@ -580,18 +639,18 @@ void change_element_at_index_int(int_linked_list** root, int index, int new_data
 
 }
 
-void unshift(int_linked_list** root,int data){
+void int_linked_list_unshift(int_linked_list** root,int data){
 
-        int_linked_list* new_root = create_int_node(data);
+        int_linked_list* new_root = int_linked_list_create_node(data);
         new_root->next = *root;
         *root = new_root;
 }
 
-void free_node(int_linked_list** root, int_linked_list* node){
+void int_linked_list_free_node(int_linked_list** root, int_linked_list* node){
 
 
         if(*root == NULL){
-                free_int_list(root);
+                int_linked_list_free(root);
                 return;
         }
 
@@ -620,7 +679,7 @@ void free_node(int_linked_list** root, int_linked_list* node){
 
 }
 
-void free_int_list(int_linked_list** root){
+void int_linked_list_free(int_linked_list** root){
 
         int_linked_list* cur = *root;
 
@@ -639,7 +698,7 @@ void free_int_list(int_linked_list** root){
 
 }
 
-void push(int_linked_list** root, int_linked_list* node){
+void int_linked_list_push(int_linked_list** root, int_linked_list* node){
 
         
         if(root != NULL && node != NULL){
@@ -658,7 +717,7 @@ void push(int_linked_list** root, int_linked_list* node){
 }
 
 
-void print_linked_list(int_linked_list* root){
+void int_linked_list_print(int_linked_list* root){
 
         if(root == NULL){
                 printf("Empty\n");
@@ -666,6 +725,6 @@ void print_linked_list(int_linked_list* root){
         }
         printf("Data = %d\n", root->data);
         printf("Next node: \n");
-        print_linked_list(root->next);
+        int_linked_list_print(root->next);
 }
 
