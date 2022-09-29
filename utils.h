@@ -469,7 +469,7 @@ void sort_int_linked_list(int_linked_list** root){
                 cur->data = arr[i];
                 cur = cur->next;
         }
-        
+        print_linked_list(*root);
         return;
 }
 
