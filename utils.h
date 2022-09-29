@@ -11,7 +11,7 @@ typedef struct int_linked_list
 
 
 /* freeing memory */
-void free_int_list(int_linked_list* root);
+void free_int_list(int_linked_list** root);
 void free_node(int_linked_list** root, int_linked_list* node);
 
 /* Changing tree size */
@@ -23,6 +23,7 @@ void flip(int_linked_list** root);
 void unshift(int_linked_list** root,int data);
 void change_element_at_index_int(int_linked_list** root, int index, int new_data);
 
+
 /* Utility functions */
 void print_linked_list(int_linked_list* root);
 int int_linked_list_length(int_linked_list* root);
@@ -33,7 +34,8 @@ int find_index(int_linked_list* root, int f());
 int cpy_func (int i);
 void mergeSort(int arr[], int l, int r);
 void merge(int arr[], int l, int m, int r);
-// void sort_int_linked_list(int_linked_list* root);
+void sort_int_linked_list(int_linked_list** root);
+void print_Array(int array[], int size);
 
 /* Creating new trees */
 int_linked_list *create_int_node(int data);
@@ -41,9 +43,8 @@ int_linked_list *create_list_from_int_array(int array[],int size);
 int_linked_list *concat_int_linked_list(int_linked_list* tree_one_root, int_linked_list* tree_two_root);
 int_linked_list *filter(int_linked_list* root, int f());
 int_linked_list *map(int_linked_list* root, int f());
-
 int_linked_list *cpy_tree(int_linked_list* root);
-
+// int_linked_list *int_tree_slice(int_linked_list* root, double index);
 int_linked_list *create_int_node(int data){
         int_linked_list* node = malloc(sizeof(int_linked_list));
         if(node != NULL){
@@ -55,6 +56,7 @@ int_linked_list *create_int_node(int data){
 }
 
 int_linked_list *create_list_from_int_array(int array[],int size){
+
 
         if(size == 0){
                 printf("Error empty array\n");
@@ -164,23 +166,6 @@ int_linked_list *concat_int_linked_list(int_linked_list* tree_one_root, int_link
 }
 
 
-void flip(int_linked_list** root){
-        
-
-        int_linked_list* new;
-        int once = 0;
-        // print_linked_list(*root);
-        for(int i = int_linked_list_length(*root); i > 0; i--){
-                if(once == 0){
-                        new = create_int_node(pop(root));
-                        once = 1;
-                } else {
-                        push(&new,create_int_node(pop(root)));
-                }
-        }
-
-        *root = new;
-}
 
 int_linked_list *cpy_tree(int_linked_list* root){
         if(root == NULL){
@@ -317,7 +302,6 @@ int *int_linked_list_to_array(int_linked_list* root){
                 cur = cur->next;
         };
 
-        
         return arr;
 }
 
@@ -447,14 +431,55 @@ void mergeSort(int arr[], int l, int r)
 }
 
 
+void flip(int_linked_list** root){
+        
 
-// void sort_int_linked_list(int_linked_list* root){
-//         int *arr = int_linked_list_to_array(root);
-//         printf("%d",arr[0]);
-//         mergeSort(arr,0,int_linked_list_length(root)-1);
-//         printf("%d",arr[0]);
-//         root = create_list_from_int_array(arr,int_linked_list_length(root));
-// }
+        int_linked_list* new;
+        int once = 0;
+        // print_linked_list(*root);
+        for(int i = int_linked_list_length(*root); i > 0; i--){
+                if(once == 0){
+                        new = create_int_node(pop(root));
+                        once = 1;
+                } else {
+                        push(&new,create_int_node(pop(root)));
+                }
+        }
+
+        *root = new;
+}
+
+
+
+void sort_int_linked_list(int_linked_list** root){
+
+        if(*root == NULL){
+                return;
+        }
+
+        int *arr = int_linked_list_to_array(*root);
+
+        mergeSort(arr,0,int_linked_list_length(*root)-1);
+
+
+        int_linked_list* cur = *root;
+        *root = cur;
+        
+        for(int i = 0; i < int_linked_list_length(*root);i++){
+                cur->data = arr[i];
+                cur = cur->next;
+        }
+        
+        return;
+}
+
+
+void print_Array(int array[], int size) {
+  for (int i = 0; i < size; ++i) {
+    printf("%d  ", array[i]);
+  }
+  printf("\n");
+}
 
 
 void change_element_at_index_int(int_linked_list** root, int index, int new_data){
@@ -484,7 +509,7 @@ void free_node(int_linked_list** root, int_linked_list* node){
 
 
         if(*root == NULL){
-                free_int_list(*root);
+                free_int_list(root);
                 return;
         }
 
@@ -513,13 +538,15 @@ void free_node(int_linked_list** root, int_linked_list* node){
 
 }
 
-void free_int_list(int_linked_list* root){
-        if(root->next == NULL){
+void free_int_list(int_linked_list** root){
+
+        int_linked_list* cur = *root;
+
+        if(cur->next == NULL){
                 free(root);
         }
 
-        int_linked_list* cur = root;
-        int_linked_list* prev = root;
+        int_linked_list* prev = *root;
 
         while (cur != NULL)
         {
@@ -527,7 +554,6 @@ void free_int_list(int_linked_list* root){
                 free(prev);
                 prev = cur;
         }
-        
 
 }
 
