@@ -18,7 +18,7 @@ void free_node(int_tree* root, int_tree* node);
 void push(int_tree* root, int_tree* node);
 int pop(int_tree* root);
 int remove_index(int_tree* root, int index);
-int shift(int_tree* root);
+void shift(int_tree* root);
 
 /* Utility functions */
 void print_tree(int_tree* root);
@@ -27,7 +27,10 @@ int every(int_tree* root, int f());
 int for_each(int_tree* root, int f());
 int *int_tree_to_array(int_tree* root);
 int find_index(int_tree* root, int f());
-int no_change (int i);
+int cpy_func (int i);
+void mergeSort(int arr[], int l, int r);
+void merge(int arr[], int l, int m, int r);
+// void sort_int_tree(int_tree* root);
 
 /* Creating new trees */
 int_tree *create_node(int data);
@@ -173,35 +176,69 @@ int_tree* flip(int_tree* root){
                 } else {
                         push(new,create_node(pop(root)));
                 }
+                printf("%d",int_tree_length(root));
+                print_tree(new);
         }
 
-        // free_tree(root);
 
         return new;
 }
 
 int_tree *cpy_tree(int_tree* root){
-        return filter(root,no_change);
+        if(root == NULL){
+                return root;
+        }
+
+        return filter(root,cpy_func);
 }
 
-int no_change (int i){
-        return i >= 0;
+
+int_tree *fill(int_tree* root, int length,int value,int new_tree){
+        if(!new_tree){
+                int_tree* cur = root;
+                if(int_tree_length(root) < length){
+                        for(int i = 0; i < int_tree_length(root); i++){
+                                cur->data = value;
+                                cur = cur->next;
+                        }
+                        for (int i = int_tree_length(root); i < length ; i++)
+                        {
+                                push(root,create_node(value));
+                        }
+                } else{
+                        for (int i = 0; i < length; i++)
+                        {
+                                cur->data = value;
+                                cur = cur->next;
+                        }
+                }
+
+        } else {
+                root = create_node(value);
+                for (int i = 1; i < length; i++){
+                        push(root,create_node(value));
+                }
+        }
+
+        return root;
 }
 
 
-int shift(int_tree* root){
-        // if(root == NULL){
-        //         return -1;
-        // }
-        // root = flip(root);
-        // // print_tree(root);
-        // int value = pop(root);
+int cpy_func (int i){
+        i;
+        return true;
+}
+
+
+void shift(int_tree* root){
+        
+        //int_tree *new_array = flip(root);
+        //int value = pop(new_array);
+        // print_tree(new_array);
+        
+        // root = flip(new_array);
+        // print_tree(root);
         // return value;
-
-         /* Works */
-        // test_array = flip(test_array);
-        // int test = pop(test_array);
-        // test_array = flip(test_array);
 }
 
 
@@ -229,9 +266,13 @@ int remove_index(int_tree* root, int index){
                 return -1;
         }
 
+        if(index == 0 || index > int_tree_length(root)){
+                return 0;
+        }
+
         int_tree* cur = root;
         int value;
-
+        
         for(int i = 0; i < index; i++){
                 cur = cur->next;
         }
@@ -239,6 +280,8 @@ int remove_index(int_tree* root, int index){
         value = cur->data;
 
         free_node(root,cur);
+
+       
 
         return (value);
 
@@ -342,62 +385,116 @@ int for_each(int_tree* root, int f()){
         return accumulator;
 }
 
+void merge(int arr[], int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
 
-int_tree *fill(int_tree* root, int length,int value,int new_tree){
-        if(!new_tree){
-                int_tree* cur = root;
-                if(int_tree_length(root) < length){
-                        for(int i = 0; i < int_tree_length(root); i++){
-                                cur->data = value;
-                                cur = cur->next;
-                        }
-                        for (int i = int_tree_length(root); i < length ; i++)
-                        {
-                                push(root,create_node(value));
-                        }
-                } else{
-                        for (int i = 0; i < length; i++)
-                        {
-                                cur->data = value;
-                                cur = cur->next;
-                        }
-                }
+    /* create temp arrays */
+    int L[n1], R[n2];
 
-        } else {
-                root = create_node(value);
-                for (int i = 1; i < length; i++){
-                        push(root,create_node(value));
-                }
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
         }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
 
-        return root;
+    /* Copy the remaining elements of L[], if there
+    are any */
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    /* Copy the remaining elements of R[], if there
+    are any */
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
 }
+
+/* l is for left index and r is right index of the
+sub-array of arr to be sorted */
+void mergeSort(int arr[], int l, int r)
+{
+    if (l < r) {
+        // Same as (l+r)/2, but avoids overflow for
+        // large l and h
+        int m = l + (r - l) / 2;
+
+        // Sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        merge(arr, l, m, r);
+    }
+}
+
+
+
+// void sort_int_tree(int_tree* root){
+//         int *arr = int_tree_to_array(root);
+//         printf("%d",arr[0]);
+//         mergeSort(arr,0,int_tree_length(root)-1);
+//         printf("%d",arr[0]);
+//         root = create_tree_from_int_array(arr,int_tree_length(root));
+// }
+
 
 void free_node(int_tree* root, int_tree* node){
 
 
-        if(root == node){
-                free_tree;
+        if(root == NULL){
+                free_tree(root);
                 return;
         }
 
         int_tree* cur = root;
         int_tree* prev = root;
 
-        for(int i = 0; i < abs(int_tree_length(root)-int_tree_length(node));i++)
-        {
-                prev = cur;
-                cur = cur->next;
+        if(root==node){
+                root = cur->next;
+                prev->next = NULL;
+                free(cur);
+        
+        } else {
+                for(int i = 0; i < abs(int_tree_length(root)-int_tree_length(node));i++)
+                {
+                        prev = cur;
+                        cur = cur->next;
+                }
+                if(cur->next != NULL){
+                        prev->next = cur->next;
+                }else {
+                        prev->next = NULL;
+                }
+        
+                free(cur);
         }
 
-        if(cur->next != NULL){
-                prev->next = cur->next;
-        }else {
-                prev->next = NULL;
-        }
         
-        // free(cur);
-        return;
+       
+
 }
 
 void free_tree(int_tree* root){
@@ -415,7 +512,6 @@ void free_tree(int_tree* root){
                 prev = cur;
         }
         
-        return;
 
 }
 
