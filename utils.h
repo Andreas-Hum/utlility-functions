@@ -10,6 +10,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+/* Redefining some logical  for better readability*/
+
+#define OR ||
+#define AND &&
+#define NOT !
+#define NOT_EQUAL !=
+#define IS ==
+
 typedef struct int_linked_list
 {
         int data;
@@ -36,6 +44,7 @@ int_linked_list *int_linked_list_map(int_linked_list* root, int f());
 int_linked_list *int_linked_list_cpy(int_linked_list* root);
 int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right);
 int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int right);
+int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove);
 
 /* freeing memory */
 
@@ -66,6 +75,7 @@ int int_linked_list_at(int_linked_list* root, int index);
 int int_linked_list_includes(int_linked_list* root, int value);
 int int_linked_list_foldr(int_linked_list* root, int f(), int start_value);
 int int_linked_list_foldl(int_linked_list* root, int f(),int start_value);
+int int_linked_list_some(int_linked_list* root, int f());
 void int_linked_list_print(int_linked_list* root);
 void int_linked_list_sort(int_linked_list** root); /* BROKEN */
 
@@ -81,7 +91,7 @@ void print_Array(int array[], int size);
 int_linked_list *int_linked_list_create_node(int data){
 
         int_linked_list* node = malloc(sizeof(int_linked_list));
-        if(node != NULL){
+        if(node NOT_EQUAL NULL){
                 node->data = data;
                 node->next = NULL;
         }
@@ -92,7 +102,7 @@ int_linked_list *int_linked_list_create_node(int data){
 int_linked_list *int_linked_list_array_to_list(int array[],int size){
 
 
-        if(size == 0){
+        if(size IS 0){
                 printf("Error empty array\n");
                 return int_linked_list_create_node(0);
         }
@@ -109,11 +119,11 @@ int_linked_list *int_linked_list_array_to_list(int array[],int size){
 
 int_linked_list *int_linked_list_concat(int_linked_list* tree_one_root, int_linked_list* tree_two_root){
 
-        if(tree_one_root == NULL){
+        if(tree_one_root IS NULL){
                 return tree_two_root;
         }
 
-        if(tree_two_root == NULL){
+        if(tree_two_root IS NULL){
                 return tree_one_root;
         }
 
@@ -121,7 +131,7 @@ int_linked_list *int_linked_list_concat(int_linked_list* tree_one_root, int_link
 
         int_linked_list* concatinated_tree = int_linked_list_cpy(tree_one_root);
         int_linked_list*cur = concatinated_tree;
-        while(cur->next != NULL ){
+        while(cur->next NOT_EQUAL NULL ){
                 cur = cur->next;
         }
 
@@ -133,7 +143,7 @@ int_linked_list *int_linked_list_concat(int_linked_list* tree_one_root, int_link
 
 int_linked_list *int_linked_list_filter(int_linked_list* root, int f()){
 
-        if(root == NULL){
+        if(root IS NULL){
                 return root;
         }
 
@@ -143,10 +153,10 @@ int_linked_list *int_linked_list_filter(int_linked_list* root, int f()){
 
         for (int i = 0; i < int_linked_list_length(root); i++)
         {
-                if(f(cur->data) && once == 0){
+                if(f(cur->data) AND once IS 0){
                         filtered_array = int_linked_list_create_node(cur->data);
                         once = 1;
-                } else if(f(cur->data) && once == 1){
+                } else if(f(cur->data) AND once IS 1){
                         int_linked_list_push(&filtered_array,int_linked_list_create_node(cur->data));
                 }
                 cur = cur->next;
@@ -188,7 +198,7 @@ int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int valu
 
 int_linked_list *int_linked_list_map(int_linked_list* root, int f()){
 
-        if(root == NULL){
+        if(root IS NULL){
                 return root;
         }
 
@@ -198,10 +208,10 @@ int_linked_list *int_linked_list_map(int_linked_list* root, int f()){
 
         for (int i = 0; i < int_linked_list_length(root); i++)
         {
-                if(once == 0){
+                if(once IS 0){
                         filtered_array = int_linked_list_create_node(f(cur->data));
                         once = 1;
-                } else if(once == 1){
+                } else if(once IS 1){
                         int_linked_list_push(&filtered_array,int_linked_list_create_node(f(cur->data)));
                 }
                 cur = cur->next;
@@ -212,7 +222,7 @@ int_linked_list *int_linked_list_map(int_linked_list* root, int f()){
 }
 
 int_linked_list *int_linked_list_cpy(int_linked_list* root){
-        if(root == NULL){
+        if(root IS NULL){
                 return root;
         }
 
@@ -220,7 +230,7 @@ int_linked_list *int_linked_list_cpy(int_linked_list* root){
 }
 
 int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right){
-        if(root == NULL){
+        if(root IS NULL){
                 return int_linked_list_create_node(-1);
         }
 
@@ -229,7 +239,7 @@ int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int
                 return int_linked_list_create_node(-1);
         } else if (right > int_linked_list_length(root)){
                 return int_linked_list_create_node(-1);
-        } else if(left < 0 || right < 0){
+        } else if(left < 0 OR right < 0){
                 return int_linked_list_create_node(-1);
         }
 
@@ -238,7 +248,7 @@ int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int
 
         for (int i = left; i < right + 1 ; i++)
         {
-                if(once == 0){
+                if(once IS 0){
                         copied = int_linked_list_create_node(int_linked_list_at(root,i));
                         once = 1;
                 } else {
@@ -251,7 +261,7 @@ int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int
 
 int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int right){
         
-        if(root == NULL){
+        if(root IS NULL){
                 return int_linked_list_create_node(-1);
         }
 
@@ -260,7 +270,7 @@ int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int righ
                 return int_linked_list_create_node(-1);
         } else if (right > int_linked_list_length(root)){
                 return int_linked_list_create_node(-1);
-        } else if(left < 0 || right < 0){
+        } else if(left < 0 OR right < 0){
                 return int_linked_list_create_node(-1);
         }
 
@@ -269,7 +279,7 @@ int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int righ
 
         for (int i = left; i < right + 1 ; i++)
         {
-                if(once == 0){
+                if(once IS 0){
                         sliced = int_linked_list_create_node(int_linked_list_at(root,i));
                         once = 1;
                 } else {
@@ -280,18 +290,28 @@ int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int righ
         return sliced;
 }
 
+int_linked_list* int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove){
+        if(*root IS NULL){
+                return add_remove;
+        } else if(add_remove IS NULL){
+                return root;
+        }else if(*root IS NULL ){
+
+        }
+}
+
 
 void int_linked_list_free(int_linked_list** root){
 
         int_linked_list* cur = *root;
 
-        if(cur->next == NULL){
+        if(cur->next IS NULL){
                 free(root);
         }
 
         int_linked_list* prev = *root;
 
-        while (cur != NULL)
+        while (cur NOT_EQUAL NULL)
         {
                 cur = cur->next;
                 free(prev);
@@ -303,7 +323,7 @@ void int_linked_list_free(int_linked_list** root){
 void int_linked_list_free_node(int_linked_list** root, int_linked_list* node){
 
 
-        if(*root == NULL){
+        if(*root IS NULL){
                 int_linked_list_free(root);
                 return;
         }
@@ -311,7 +331,7 @@ void int_linked_list_free_node(int_linked_list** root, int_linked_list* node){
         int_linked_list* cur = *root;
         int_linked_list* prev = *root;
 
-        if(*root==node){
+        if(*root IS node){
                 *root = cur->next;
                 prev->next = NULL;
                 free(cur);
@@ -322,7 +342,7 @@ void int_linked_list_free_node(int_linked_list** root, int_linked_list* node){
                         prev = cur;
                         cur = cur->next;
                 }
-                if(cur->next != NULL){
+                if(cur->next NOT_EQUAL NULL){
                         prev->next = cur->next;
                 }else {
                         prev->next = NULL;
@@ -337,14 +357,14 @@ void int_linked_list_free_node(int_linked_list** root, int_linked_list* node){
 
 int int_linked_list_pop(int_linked_list** root){
 
-        if(*root == NULL){
+        if(*root IS NULL){
                 return -1;
         }
 
         int value;
         int_linked_list* cur = *root;
 
-        while (cur->next != NULL){
+        while (cur->next NOT_EQUAL NULL){
                 cur = cur->next;
         }
 
@@ -356,11 +376,11 @@ int int_linked_list_pop(int_linked_list** root){
 }
 
 int int_linked_list_remove_index(int_linked_list** root, int index){
-        if(root == NULL){
+        if(root IS NULL){
                 return -1;
         }
 
-        if(index == 0 || index > int_linked_list_length(*root)){
+        if(index IS 0 OR index > int_linked_list_length(*root)){
                 return -1;
         }
 
@@ -390,7 +410,7 @@ int int_linked_list_shift(int_linked_list** root){
 }
 
 void int_linked_list_change_element(int_linked_list** root, int index, int new_data){
-        if(*root== NULL){
+        if(*root IS NULL){
                 return;
         }
 
@@ -411,7 +431,7 @@ void int_linked_list_flip(int_linked_list** root){
         int_linked_list* new;
         int once = 0;
         for(int i = int_linked_list_length(*root); i > 0; i--){
-                if(once == 0){
+                if(once IS 0){
                         new = int_linked_list_create_node(int_linked_list_pop(root));
                         once = 1;
                 } else {
@@ -425,12 +445,12 @@ void int_linked_list_flip(int_linked_list** root){
 void int_linked_list_push(int_linked_list** root, int_linked_list* node){
 
         
-        if(root != NULL && node != NULL){
+        if(root NOT_EQUAL NULL AND node NOT_EQUAL NULL){
                 int_linked_list* cur = *root;
                 *root = cur;
 
-                if(cur->next != NULL){
-                        while(cur->next != NULL){
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
                                 cur = cur->next;
                         }
                         cur->next = node;
@@ -451,12 +471,12 @@ void int_linked_list_unshift(int_linked_list** root,int data){
 
 int int_linked_list_length(int_linked_list* root){
         int length = 0;
-        if(root == NULL){
+        if(root IS NULL){
                 return length;
         }
 
         int_linked_list* cur = root;
-        while (cur != NULL)
+        while (cur NOT_EQUAL NULL)
         {
                 cur = cur->next;
                 length++;
@@ -469,13 +489,13 @@ int int_linked_list_length(int_linked_list* root){
 
 int int_linked_list_every(int_linked_list* root, int f()){
 
-        if(root == NULL){
+        if(root IS NULL){
                 return -1;
         }
 
         int_linked_list* cur = root;
 
-        while (cur->next != NULL){
+        while (cur->next NOT_EQUAL NULL){
                 if(!f(cur->data)){
                         return false;
                 }
@@ -487,7 +507,7 @@ int int_linked_list_every(int_linked_list* root, int f()){
 }
 
 int int_linked_list_for_each(int_linked_list* root, int f()){
-        if (root == NULL){
+        if (root IS NULL){
                 return -1;
         }
 
@@ -496,10 +516,10 @@ int int_linked_list_for_each(int_linked_list* root, int f()){
         int once = 0;
 
         for(int i = 0; i < int_linked_list_length(root) + 1; i++){
-                if(i == 2){
+                if(i IS 2){
                         accumulator += f(arr[i-2],arr[i-1]);
                         once = 1;
-                } else if(once == 1){
+                } else if(once IS 1){
                         accumulator = f(accumulator,arr[i-1]);
                 }
         }
@@ -510,7 +530,7 @@ int int_linked_list_for_each(int_linked_list* root, int f()){
 
 int *int_linked_list_to_array(int_linked_list* root){
 
-        if(root == NULL){
+        if(root IS NULL){
                 return (int*)-1;
         }
 
@@ -527,7 +547,7 @@ int *int_linked_list_to_array(int_linked_list* root){
 }
 
 int int_linked_list_find_index(int_linked_list* root, int f()){
-        if(root== NULL){
+        if(root IS NULL){
                 return -2;
         }
 
@@ -546,7 +566,7 @@ int int_linked_list_find_index(int_linked_list* root, int f()){
 }
 
 int int_linked_list_find(int_linked_list* root, int f()){
-        if(root== NULL){
+        if(root IS NULL){
                 return -2;
         }
 
@@ -564,7 +584,7 @@ int int_linked_list_find(int_linked_list* root, int f()){
 }
 
 int int_linked_list_find_last(int_linked_list* root, int f()){
-        if(root== NULL){
+        if(root IS NULL){
                 return -2;
         }
 
@@ -584,7 +604,7 @@ int int_linked_list_find_last(int_linked_list* root, int f()){
 
 int int_linked_list_find_last_index(int_linked_list* root, int f()){
         
-        if(root== NULL){
+        if(root IS NULL){
                 return -2;
         }
 
@@ -603,11 +623,11 @@ int int_linked_list_find_last_index(int_linked_list* root, int f()){
 }
 
 int int_linked_list_at(int_linked_list* root, int index){
-        if (root == NULL){
+        if (root IS NULL){
                 return -1;
         }
 
-        if(index == 0){
+        if(index IS 0){
                 return root->data;
         }
 
@@ -627,7 +647,7 @@ int int_linked_list_at(int_linked_list* root, int index){
 }
 
 int int_linked_list_includes(int_linked_list* root, int value){
-        if(root == NULL){
+        if(root IS NULL){
                 return -1;
         }
 
@@ -635,7 +655,7 @@ int int_linked_list_includes(int_linked_list* root, int value){
 
         for (int i = 0; i < int_linked_list_length(root); i++)
         {
-                if(cur->data == value){
+                if(cur->data IS value){
                         return 1;
                 }
         }
@@ -647,7 +667,7 @@ int int_linked_list_includes(int_linked_list* root, int value){
 }
 
 int int_linked_list_foldr(int_linked_list* root, int f(),int start_value){
-        if(root == NULL){
+        if(root IS NULL){
                 return int_linked_list_at(root,0);
         }
 
@@ -659,7 +679,7 @@ int int_linked_list_foldr(int_linked_list* root, int f(),int start_value){
                 return int_linked_list_at(root,0);
         }
 
-        if(int_linked_list_length(root) == 2){
+        if(int_linked_list_length(root) IS 2){
                 return f(int_linked_list_at(root,0), int_linked_list_at(root,1));
         }
 
@@ -674,7 +694,7 @@ int int_linked_list_foldr(int_linked_list* root, int f(),int start_value){
 }
 
 int int_linked_list_foldl(int_linked_list* root, int f(),int start_value){
-        if(root == NULL){
+        if(root IS NULL){
                 return int_linked_list_at(root,0);
         }
 
@@ -686,7 +706,7 @@ int int_linked_list_foldl(int_linked_list* root, int f(),int start_value){
                 return int_linked_list_at(root,0);
         }
 
-        if(int_linked_list_length(root) == 2){
+        if(int_linked_list_length(root) IS 2){
                 return f(int_linked_list_at(root,1), int_linked_list_at(root,0));
         }
 
@@ -701,9 +721,34 @@ int int_linked_list_foldl(int_linked_list* root, int f(),int start_value){
 }
 
 
+int int_linked_list_some(int_linked_list* root, int f()){
+        if(root IS NULL){
+                return -2;
+        }
+
+        int_linked_list* cur = root;
+        int count = 0;
+
+        for (int i = 0; i < int_linked_list_length(root); i++)
+        {
+                if(f(cur->data)){
+                        count++;
+                }
+                cur = cur->next;
+        }
+
+        if(count IS 0){
+                return -1;
+        } else {
+                return count;
+        }
+
+}
+
+
 void int_linked_list_print(int_linked_list* root){
 
-        if(root == NULL){
+        if(root IS NULL){
                 printf("Empty\n");
                 return;
         }
@@ -714,7 +759,7 @@ void int_linked_list_print(int_linked_list* root){
 
 void int_linked_list_sort(int_linked_list** root){ /* BROKEn*/
 
-        // if(*root == NULL){
+        // if(*root IS NULL){
         //         return;
         // }
 
@@ -761,7 +806,7 @@ void merge(int arr[], int l, int m, int r)
     i = 0; // Initial index of first subarray
     j = 0; // Initial index of second subarray
     k = l; // Initial index of merged subarray
-    while (i < n1 && j < n2) {
+    while (i < n1 AND j < n2) {
         if (L[i] <= R[j]) {
             arr[k] = L[i];
             i++;
