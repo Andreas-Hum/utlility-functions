@@ -35,6 +35,7 @@ int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int valu
 int_linked_list *int_linked_list_map(int_linked_list* root, int f());
 int_linked_list *int_linked_list_cpy(int_linked_list* root);
 int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right);
+int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int right);
 
 /* freeing memory */
 
@@ -246,11 +247,38 @@ int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int
         }
 
         return copied;
-        
-
-
 }
 
+int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int right){
+        
+        if(root == NULL){
+                return int_linked_list_create_node(-1);
+        }
+
+
+        if(left > right){
+                return int_linked_list_create_node(-1);
+        } else if (right > int_linked_list_length(root)){
+                return int_linked_list_create_node(-1);
+        } else if(left < 0 || right < 0){
+                return int_linked_list_create_node(-1);
+        }
+
+        int_linked_list* sliced;
+        int once = 0;
+
+        for (int i = left; i < right + 1 ; i++)
+        {
+                if(once == 0){
+                        sliced = int_linked_list_create_node(int_linked_list_at(root,i));
+                        once = 1;
+                } else {
+                        int_linked_list_push(&sliced,int_linked_list_create_node(int_linked_list_at(root,i)));
+                }
+        }
+
+        return sliced;
+}
 
 
 void int_linked_list_free(int_linked_list** root){
