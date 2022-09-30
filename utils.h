@@ -61,6 +61,9 @@ int double_linked_list_length(double_linked_list* root);
 int double_linked_list_every(double_linked_list* root, int f());
 int double_linked_list_find_index(double_linked_list* root, int f());
 int double_linked_list_find_last_index(double_linked_list* root, int f());
+int double_linked_list_includes(double_linked_list* root, double value);
+double double_linked_list_foldr(double_linked_list* root, double f(), double  start_value);
+double double_linked_list_foldl(double_linked_list* root, double f(),double  start_value);
 double double_linked_list_find(double_linked_list* root, int f());
 double double_linked_list_find_last(double_linked_list* root, int f());
 double double_linked_list_at(double_linked_list* root, int index);
@@ -212,6 +215,77 @@ int double_linked_list_find_last_index(double_linked_list* root, int f()){
         }
 
         return index;
+}
+
+int double_linked_list_includes(double_linked_list* root, double value){
+        if(root IS NULL){
+                return -1;
+        }
+
+        double_linked_list* cur = root;
+
+        for (int i = 0; i < double_linked_list_length(root); i++)
+        {
+                if(cur->data IS value){
+                        return 1;
+                }
+        }
+
+        return 0;
+
+
+}
+
+double  double_linked_list_foldr(double_linked_list* root, double f(),double  start_value){
+        if(root IS NULL){
+                return double_linked_list_at(root,0);
+        }
+
+        if(start_value < 0){
+                return double_linked_list_at(root,0);
+        }
+
+        if(double_linked_list_length(root) < 2){
+                return double_linked_list_at(root,0);
+        }
+
+        if(double_linked_list_length(root) IS 2){
+                return f(double_linked_list_at(root,0), double_linked_list_at(root,1));
+        }
+
+        double  accumulator = start_value;
+
+        for (int i = 0; i < double_linked_list_length(root); i++){
+                accumulator = f(accumulator,double_linked_list_at(root,i));
+        }
+
+        return accumulator;
+}
+
+double double_linked_list_foldl(double_linked_list* root, double f(),double start_value){
+        if(root IS NULL){
+                return double_linked_list_at(root,0);
+        }
+
+        if(start_value < 0){
+                return double_linked_list_at(root,0);
+        }
+
+        if(double_linked_list_length(root) < 2){
+                return double_linked_list_at(root,0);
+        }
+
+        if(double_linked_list_length(root) IS 2){
+                return f(double_linked_list_at(root,1), double_linked_list_at(root,0));
+        }
+
+        double  accumulator = start_value;
+
+        for (int i = double_linked_list_length(root)-1; i >= 0; i--){
+                accumulator = f(accumulator,double_linked_list_at(root,i));
+        }
+
+        return accumulator;
 }
 
 double double_linked_list_find(double_linked_list* root, int f()){
