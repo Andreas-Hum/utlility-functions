@@ -33,8 +33,14 @@ typedef struct double_linked_list{
 
 typedef struct char_linked_list{
         char* data;
-        struct char_linked_list *next;
+        struct char_linked_list* next;
 } char_linked_list;
+
+typedef struct key_value{
+        struct char_linked_list* key;
+        struct double_linked_list* value;
+        struct key_value* next;
+} key_value;
 
 /* All functions are in order of return type:*/
 
