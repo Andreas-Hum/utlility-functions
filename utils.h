@@ -21,19 +21,21 @@
 #define NOT_EQUAL !=
 #define IS ==
 
-typedef struct int_linked_list
-{
+typedef struct int_linked_list{
         int data;
         struct int_linked_list *next;
 } int_linked_list;
 
 
-typedef struct double_linked_list
-{
+typedef struct double_linked_list{
         double data;
         struct double_linked_list *next;
 } double_linked_list;
 
+typedef struct char_linked_list{
+        char* data;
+        struct char_linked_list *next;
+} char_linked_list;
 
 /* All functions are in order of return type:*/
 
@@ -370,7 +372,7 @@ double_linked_list *double_linked_list_slice(double_linked_list* root, int left,
         return sliced;
 }
 
-double_linked_list* double_linked_list_splice(double_linked_list** root, int start, int delete_count, double_linked_list* add_remove,int remove){
+double_linked_list *double_linked_list_splice(double_linked_list** root, int start, int delete_count, double_linked_list* add_remove,int remove){
         
         double_linked_list* cur = *root;
         double_linked_list* deleted;
@@ -423,7 +425,7 @@ double_linked_list* double_linked_list_splice(double_linked_list** root, int sta
 }
 
 
-double  double_linked_list_pop(double_linked_list** root){
+double double_linked_list_pop(double_linked_list** root){
 
         if(*root IS NULL){
                 return -1;
@@ -443,7 +445,7 @@ double  double_linked_list_pop(double_linked_list** root){
 
 }
 
-double  double_linked_list_remove_index(double_linked_list** root, int index){
+double double_linked_list_remove_index(double_linked_list** root, int index){
         if(root IS NULL){
                 return -1;
         }
@@ -469,7 +471,7 @@ double  double_linked_list_remove_index(double_linked_list** root, int index){
 
 }
 
-double  double_linked_list_shift(double_linked_list** root){
+double double_linked_list_shift(double_linked_list** root){
         
         double_linked_list_flip(root);
         double  value = double_linked_list_pop(root);
@@ -737,7 +739,7 @@ int double_linked_list_some(double_linked_list* root, int f()){
 
 }
 
-double  double_linked_list_foldr(double_linked_list* root, double f(),double  start_value){
+double double_linked_list_foldr(double_linked_list* root, double f(),double  start_value){
         if(root IS NULL){
                 return double_linked_list_at(root,0);
         }
@@ -851,7 +853,7 @@ double double_linked_list_at(double_linked_list* root, int index){
 
 }
 
-double  double_linked_list_for_each(double_linked_list* root, double f()){
+double double_linked_list_for_each(double_linked_list* root, double f()){
         if (root IS NULL){
                 return -1;
         }
@@ -873,7 +875,7 @@ double  double_linked_list_for_each(double_linked_list* root, double f()){
         return accumulator;
 }
 
-double  *double_linked_list_to_array(double_linked_list* root){
+double *double_linked_list_to_array(double_linked_list* root){
 
         if(root IS NULL){
                 return (double *)-1;
@@ -1127,7 +1129,7 @@ int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int righ
         return sliced;
 }
 
-int_linked_list* int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove){
+int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove){
         
         int_linked_list* cur = *root;
         int_linked_list* deleted;
@@ -1891,3 +1893,13 @@ void convert_int_list_to_double(int_linked_list** root){
         *root = cur;
         return;
 }
+
+
+/* All functions are in order of return type:*/
+
+
+/*
+*       type char linked list
+*/
+
+
