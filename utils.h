@@ -64,6 +64,8 @@ int double_linked_list_find_last_index(double_linked_list* root, int f());
 double double_linked_list_find(double_linked_list* root, int f());
 double double_linked_list_find_last(double_linked_list* root, int f());
 double double_linked_list_at(double_linked_list* root, int index);
+double double_linked_list_for_each(double_linked_list* root, double f());
+double *double_linked_list_to_array(double_linked_list* root);
 void double_linked_list_print(double_linked_list* root);
 
 
@@ -272,6 +274,46 @@ double double_linked_list_at(double_linked_list* root, int index){
 
         return cur->data;
 
+}
+
+double  double_linked_list_for_each(double_linked_list* root, double f()){
+        if (root IS NULL){
+                return -1;
+        }
+
+        double  *arr = double_linked_list_to_array(root);
+        double  accumulator = 0;
+        int once = 0;
+
+        for(int i = 0; i < double_linked_list_length(root) + 1; i++){
+                if(i IS 2){
+                        accumulator += f(arr[i-2],arr[i-1]);
+                        once = 1;
+                } else if(once IS 1){
+                        accumulator = f(accumulator,arr[i-1]);
+                }
+        }
+
+        free(arr);
+        return accumulator;
+}
+
+double  *double_linked_list_to_array(double_linked_list* root){
+
+        if(root IS NULL){
+                return (double *)-1;
+        }
+
+        int length = double_linked_list_length(root);
+        double  *arr = malloc(sizeof(double_linked_list));
+
+        double_linked_list* cur = root;
+        for(int i = 0; i < length; i++){
+                arr[i] = cur->data;
+                cur = cur->next;
+        };
+
+        return arr;
 }
 
 void double_linked_list_print(double_linked_list* root){
