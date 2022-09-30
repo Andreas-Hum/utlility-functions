@@ -62,6 +62,7 @@ int double_linked_list_every(double_linked_list* root, int f());
 int double_linked_list_find_index(double_linked_list* root, int f());
 int double_linked_list_find_last_index(double_linked_list* root, int f());
 int double_linked_list_includes(double_linked_list* root, double value);
+int double_linked_list_some(double_linked_list* root, int f());
 double double_linked_list_foldr(double_linked_list* root, double f(), double  start_value);
 double double_linked_list_foldl(double_linked_list* root, double f(),double  start_value);
 double double_linked_list_find(double_linked_list* root, int f());
@@ -70,7 +71,14 @@ double double_linked_list_at(double_linked_list* root, int index);
 double double_linked_list_for_each(double_linked_list* root, double f());
 double *double_linked_list_to_array(double_linked_list* root);
 void double_linked_list_print(double_linked_list* root);
+void double_linked_list_sort(double_linked_list** root);
 
+/* Non specific utility functions */
+
+void double_mergeSort(double arr[], int l, int r);
+void double_merge(double arr[], int l, int m, int r);
+
+void double_linked_list_sort(double_linked_list** root);
 
 double_linked_list *double_linked_list_create_node(double data){
 
@@ -233,6 +241,30 @@ int double_linked_list_includes(double_linked_list* root, double value){
 
         return 0;
 
+
+}
+
+int double_linked_list_some(double_linked_list* root, int f()){
+        if(root IS NULL){
+                return -2;
+        }
+
+        double_linked_list* cur = root;
+        int count = 0;
+
+        for (int i = 0; i < double_linked_list_length(root); i++)
+        {
+                if(f(cur->data)){
+                        count++;
+                }
+                cur = cur->next;
+        }
+
+        if(count IS 0){
+                return -1;
+        } else {
+                return count;
+        }
 
 }
 
@@ -401,6 +433,90 @@ void double_linked_list_print(double_linked_list* root){
         double_linked_list_print(root->next);
 }
 
+void double_linked_list_sort(double_linked_list** root){ /* BROKEn*/
+
+        if(*root IS NULL){
+                return;
+        }
+
+
+        double_linked_list* cur = *root;
+
+        double *arr = double_linked_list_to_array(cur);
+
+        double_mergeSort(arr,0,double_linked_list_length(cur)-1);
+
+        *root = cur;
+        for(int i = 0; i < double_linked_list_length(*root);i++){
+                cur->data = arr[i];
+                cur = cur->next;
+        }
+        double_linked_list_print(*root);
+        return;
+}
+
+
+void double_merge(double arr[], int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    /* create temp arrays */
+    double L[n1], R[n2];
+
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 AND j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    /* Copy the remaining elements of L[], if there
+    are any */
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    /* Copy the remaining elements of R[], if there
+    are any */
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void double_mergeSort(double arr[], int l, int r)
+{
+    if (l < r) {
+
+        int m = l + (r - l) / 2;
+
+        double_mergeSort(arr, l, m);
+        double_mergeSort(arr, m + 1, r);
+
+        double_merge(arr, l, m, r);
+    }
+}
+
 
 /* All functions are in order of return type:*/
 
@@ -461,8 +577,8 @@ void int_linked_list_sort(int_linked_list** root);
 /* Non specific utility functions */
 
 int cpy_func (int i);
-void mergeSort(int arr[], int l, int r);
-void merge(int arr[], int l, int m, int r);
+void int_mergeSort(int arr[], int l, int r);
+void int_merge(int arr[], int l, int m, int r);
 void print_Array(int array[], int size);
 
 
@@ -1214,7 +1330,7 @@ void int_linked_list_sort(int_linked_list** root){ /* BROKEn*/
 
         int *arr = int_linked_list_to_array(cur);
 
-        mergeSort(arr,0,int_linked_list_length(cur)-1);
+        int_mergeSort(arr,0,int_linked_list_length(cur)-1);
 
         *root = cur;
         for(int i = 0; i < int_linked_list_length(*root);i++){
@@ -1231,7 +1347,7 @@ int cpy_func (int i){
         return true;
 }
 
-void merge(int arr[], int l, int m, int r)
+void int_merge(int arr[], int l, int m, int r)
 {
     int i, j, k;
     int n1 = m - l + 1;
@@ -1279,16 +1395,16 @@ void merge(int arr[], int l, int m, int r)
     }
 }
 
-void mergeSort(int arr[], int l, int r)
+void int_mergeSort(int arr[], int l, int r)
 {
     if (l < r) {
 
         int m = l + (r - l) / 2;
 
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
+        int_mergeSort(arr, l, m);
+        int_mergeSort(arr, m + 1, r);
 
-        merge(arr, l, m, r);
+        int_merge(arr, l, m, r);
     }
 }
 
