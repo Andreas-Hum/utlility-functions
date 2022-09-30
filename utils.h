@@ -175,9 +175,9 @@ void char_linked_list_free_node(char_linked_list** root, char_linked_list* node)
 
 // /* Mutating list */
 
-void char_linked_list_pop(char_linked_list** root, char **holder);
-void char_linked_list_remove_index(char_linked_list** root, int index, char **holder);
-void char_linked_list_shift(char_linked_list** root, char **holder);
+char *char_linked_list_pop(char_linked_list** root);
+char *char_linked_list_shift(char_linked_list** root);
+char *char_linked_list_remove_index(char_linked_list** root, int index);
 void char_linked_list_change_element(char_linked_list** root, int index, char *new_data);
 void char_linked_list_flip(char_linked_list** root);
 void char_linked_list_push(char_linked_list** root, char_linked_list* node);
@@ -195,7 +195,7 @@ int char_linked_list_every(char_linked_list* root, int f());
 // int char_linked_list_for_each(char_linked_list* root, int f()); TODO
 int char_linked_list_find_index(char_linked_list* root, int f());
 int char_linked_list_find_last_index(char_linked_list* root, int f());
-int char_linked_list_includes(char_linked_list* root, int value);
+int char_linked_list_includes(char_linked_list* root, char *value);
 // int int_linked_list_foldr(int_linked_list* root, int f(), int start_value);
 // int int_linked_list_foldl(int_linked_list* root, int f(),int start_value);
 int char_linked_list_some(char_linked_list* root, int f());
@@ -2163,7 +2163,6 @@ char_linked_list *char_linked_list_splice(char_linked_list** root, int start, in
 
         char_linked_list* cur = *root;
         char_linked_list* deleted;
-        char *hold[1];
 
         if(*root IS NULL){
                 return add_remove;
@@ -2183,11 +2182,11 @@ char_linked_list *char_linked_list_splice(char_linked_list** root, int start, in
                         if (once IS 0){
                                
                                 deleted = char_linked_list_create_node(char_linked_list_at(*root,start));
-                                char_linked_list_remove_index(root,start,&hold[0]);
+                                char_linked_list_remove_index(root,start);
                                 once = 1;
                         } else {
                                 char_linked_list_push(&deleted,char_linked_list_create_node(char_linked_list_at(*root,start)));
-                                char_linked_list_remove_index(root,start,&hold[0]);
+                                char_linked_list_remove_index(root,start);
                         }
                 }
 
@@ -2265,12 +2264,14 @@ void char_linked_list_free_node(char_linked_list** root, char_linked_list* node)
 }
 
 
-void char_linked_list_pop(char_linked_list** root, char **holder){
+char *char_linked_list_pop(char_linked_list** root){
 
         if(*root IS NULL){
-                return;
+                return "ERROR";
         }
 
+
+        char *value;
 
         char_linked_list* cur = *root;
 
@@ -2278,20 +2279,28 @@ void char_linked_list_pop(char_linked_list** root, char **holder){
                 cur = cur->next;
         }
 
-        *holder = cur->data;
+        value = cur->data;
         char_linked_list_free_node(root,cur);
 
-        return;
+        return value;
 
 }
 
-void char_linked_list_remove_index(char_linked_list** root, int index, char **holder){
+char *char_linked_list_shift(char_linked_list** root){
+
+        char_linked_list_flip(root);
+        char *value = char_linked_list_pop(root);
+        char_linked_list_flip(root);
+        return value;
+}
+
+char *char_linked_list_remove_index(char_linked_list** root, int index){
         if(root IS NULL){
-                return;
+                return "ERROR";
         }
 
         if(index IS 0 OR index > char_linked_list_length(*root)){
-                return;
+                return "ERROR";
         }
 
         char_linked_list* cur = *root;
@@ -2301,20 +2310,12 @@ void char_linked_list_remove_index(char_linked_list** root, int index, char **ho
                 cur = cur->next;
         }
 
-        *holder = cur->data;
+        char *value = cur->data;
 
         char_linked_list_free_node(root,cur);
 
-        return;
+        return value;
 
-}
-
-void char_linked_list_shift(char_linked_list** root, char **holder){
-
-        char_linked_list_flip(root);
-        char_linked_list_pop(root,holder);
-        char_linked_list_flip(root);
-        return;
 }
 
 void char_linked_list_change_element(char_linked_list** root, int index, char *new_data){
@@ -2335,18 +2336,15 @@ void char_linked_list_change_element(char_linked_list** root, int index, char *n
 
 void char_linked_list_flip(char_linked_list** root){
 
-        char *new[1];
         char_linked_list* flipped;
         int once = 0;
 
         for(int i = char_linked_list_length(*root); i > 0; i--){
                 if(once IS 0){
-                        char_linked_list_pop(root,&new[0]);
-                        flipped = char_linked_list_create_node(new[0]);
+                        flipped = char_linked_list_create_node( char_linked_list_pop(root));
                         once = 1;
                 } else {
-                        char_linked_list_pop(root, &new[0]);
-                        char_linked_list_push(&flipped,char_linked_list_create_node(new[0]));
+                        char_linked_list_push(&flipped,char_linked_list_create_node( char_linked_list_pop(root)));
                 }
         }
 
@@ -2585,7 +2583,7 @@ int char_linked_list_find_last_index(char_linked_list* root, int f()){
         return index;
 }
 
-int char_linked_list_includes(char_linked_list* root, int value){
+int char_linked_list_includes(char_linked_list* root, char* value){
         if(root IS NULL){
                 return -1;
         }
