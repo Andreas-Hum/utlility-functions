@@ -59,6 +59,10 @@ void double_linked_list_push(double_linked_list** root, double_linked_list* node
 
 int double_linked_list_length(double_linked_list* root);
 int double_linked_list_every(double_linked_list* root, int f());
+int double_linked_list_find_index(double_linked_list* root, int f());
+int double_linked_list_find_last_index(double_linked_list* root, int f());
+double double_linked_list_find(double_linked_list* root, int f());
+double double_linked_list_find_last(double_linked_list* root, int f());
 double double_linked_list_at(double_linked_list* root, int index);
 void double_linked_list_print(double_linked_list* root);
 
@@ -169,7 +173,84 @@ int double_linked_list_every(double_linked_list* root, int f()){
 
 }
 
-double  double_linked_list_at(double_linked_list* root, int index){
+int double_linked_list_find_index(double_linked_list* root, int f()){
+        if(root IS NULL){
+                return -2;
+        }
+
+        double_linked_list* cur = root;
+
+        for (int i = 0; i < double_linked_list_length(root); i++)
+        {
+                if(f(cur->data)){
+                        return i;
+                }
+                cur = cur->next;
+        }
+
+        return -1;
+
+}
+
+int double_linked_list_find_last_index(double_linked_list* root, int f()){
+
+        if(root IS NULL){
+                return -2;
+        }
+
+        double_linked_list* cur = root;
+        int index = -1;
+
+        for (int i = 0; i < double_linked_list_length(root); i++)
+        {
+                if(f(cur->data)){
+                        index = i;
+                }
+                cur = cur->next;
+        }
+
+        return index;
+}
+
+double double_linked_list_find(double_linked_list* root, int f()){
+
+        if(root IS NULL){
+                return -1.0;
+        }
+
+        double_linked_list* cur = root;
+
+        for (int i = 0; i < double_linked_list_length(root); i++)
+        {
+                if(f(cur->data)){
+                        return cur->data;
+                }
+                cur = cur->next;
+        }
+
+        return -1.0;
+}
+
+double double_linked_list_find_last(double_linked_list* root, int f()){
+        if(root IS NULL){
+                return -2;
+        }
+
+        double_linked_list* cur = root;
+        double value = -1;
+
+        for (int i = 0; i < double_linked_list_length(root); i++)
+        {
+                if(f(cur->data)){
+                        value = cur->data;
+                }
+                cur = cur->next;
+        }
+
+        return value;
+}
+
+double double_linked_list_at(double_linked_list* root, int index){
         if (root IS NULL){
                 return -1;
         }
