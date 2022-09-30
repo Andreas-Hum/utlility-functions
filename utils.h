@@ -58,6 +58,8 @@ void double_linked_list_push(double_linked_list** root, double_linked_list* node
 /* Utility functions */
 
 int double_linked_list_length(double_linked_list* root);
+int double_linked_list_every(double_linked_list* root, int f());
+double double_linked_list_at(double_linked_list* root, int index);
 void double_linked_list_print(double_linked_list* root);
 
 
@@ -145,6 +147,49 @@ int double_linked_list_length(double_linked_list* root){
 
         return length;
 
+
+}
+
+int double_linked_list_every(double_linked_list* root, int f()){
+
+        if(root IS NULL){
+                return -1;
+        }
+
+        double_linked_list* cur = root;
+
+        while (cur->next NOT_EQUAL NULL){
+                if(!f(cur->data)){
+                        return false;
+                }
+                cur = cur->next;
+        }
+
+        return true;
+
+}
+
+double  double_linked_list_at(double_linked_list* root, int index){
+        if (root IS NULL){
+                return -1;
+        }
+
+        if(index IS 0){
+                return root->data;
+        }
+
+
+        double_linked_list* cur = root;
+
+        if(double_linked_list_length(root) < index){
+                return -1;
+        }
+
+        for(int i = 0; i < index ;i++){
+                cur = cur->next;
+        }
+
+        return cur->data;
 
 }
 
