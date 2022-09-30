@@ -6,6 +6,9 @@
 * Updated: 29-09-2022
 */
 
+#pragma warn -rvl /* return value */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -108,6 +111,7 @@ int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int
 int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int right);
 int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove);
 
+
 /* freeing memory */
 
 void int_linked_list_free(int_linked_list** root);
@@ -143,7 +147,10 @@ void int_linked_list_print(int_linked_list* root);
 void int_linked_list_sort(int_linked_list** root); 
 
 
-/* Non specific utility functions */
+/*
+*       Non specific functions
+*/
+
 
 int cpy_func (int i);
 void int_mergeSort(int arr[], int l, int r);
@@ -152,7 +159,14 @@ void double_mergeSort(double arr[], int l, int r);
 void double_merge(double arr[], int l, int m, int r);
 void print_Array(int array[], int size);
 
+/*
+*       Conversions
+*/
 
+int_linked_list *cpy_double_list_to_int(double_linked_list* root);
+double_linked_list *cpy_int_list_to_double(int_linked_list* root);
+void convert_double_list_to_int(double_linked_list** root);
+void convert_int_list_to_double(int_linked_list** root);
 
 
 double_linked_list *double_linked_list_create_node(double data){
@@ -183,7 +197,6 @@ double_linked_list *double_linked_list_array_to_list(double  array[],int size){
 
         return root;
 }
-
 
 double_linked_list *double_linked_list_concat(double_linked_list* tree_one_root, double_linked_list* tree_two_root){
 
@@ -515,7 +528,6 @@ void double_linked_list_push(double_linked_list** root, double_linked_list* node
         }
 }
 
-
 void double_linked_list_unshift(double_linked_list** root,double  data){
 
 
@@ -551,6 +563,7 @@ void double_linked_list_insert_at(double_linked_list** root, int index, double  
         return;
 
 }
+
 
 void double_linked_list_free(double_linked_list** root){
 
@@ -1808,3 +1821,73 @@ void print_Array(int array[], int size) {
 
 
 
+int_linked_list *cpy_double_list_to_int(double_linked_list* root) {
+        if(root IS NULL){
+                return int_linked_list_create_node(0);
+        }
+
+        int_linked_list* cur = int_linked_list_create_node(0);
+        cur->data = (int)double_linked_list_at(root, 0);
+
+        for (int i = 1; i < double_linked_list_length(root); i++)
+        {
+                int_linked_list_push(&cur,int_linked_list_create_node((int)double_linked_list_at(root,i)));
+        }
+
+        return cur;
+}
+
+double_linked_list *cpy_int_list_to_double(int_linked_list* root) {
+
+        if(root IS NULL){
+                return double_linked_list_create_node(0);
+        }
+
+        double_linked_list* cur = double_linked_list_create_node(0);
+        cur->data = (double)int_linked_list_at(root, 0);
+
+        for (int i = 1; i < int_linked_list_length(root); i++)
+        {
+                double_linked_list_push(&cur,double_linked_list_create_node((double)int_linked_list_at(root,i)));
+        }
+
+        return cur;
+}
+
+/* A warning will appear when this functions is used, you can ingore it */
+void convert_double_list_to_int(double_linked_list** root){
+
+        if(root IS NULL){
+                return;
+        }
+
+        int_linked_list* cur = int_linked_list_create_node(0);
+        cur->data = (int)double_linked_list_at(*root, 0);
+
+        for (int i = 1; i < double_linked_list_length(*root); i++)
+        {
+                int_linked_list_push(&cur,int_linked_list_create_node((int)double_linked_list_at(*root,i)));
+        }
+
+        *root = cur;
+        return;
+}
+
+/* A warning will appear when this functions is used, you can ingore it */
+void convert_int_list_to_double(int_linked_list** root){
+
+        if(root IS NULL){
+                return;
+        }
+
+        double_linked_list* cur = double_linked_list_create_node(0);
+        cur->data = (double)int_linked_list_at(*root, 0);
+
+        for (int i = 1; i < int_linked_list_length(*root); i++)
+        {
+                double_linked_list_push(&cur,double_linked_list_create_node((double)int_linked_list_at(*root,i)));
+        }
+
+        *root = cur;
+        return;
+}
