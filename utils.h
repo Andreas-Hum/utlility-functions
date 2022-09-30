@@ -43,11 +43,15 @@ typedef struct double_linked_list
 /* Creating new linked lists  */
 
 double_linked_list *double_linked_list_create_node(double data);
+double_linked_list *double_linked_list_array_to_list(double  array[],int size);
 
 /* Utility functions */
 
 void double_linked_list_print(double_linked_list* root);
 
+/* Mutating list */
+
+void double_linked_list_push(double_linked_list** root, double_linked_list* node);
 
 
 double_linked_list *double_linked_list_create_node(double data){
@@ -61,6 +65,42 @@ double_linked_list *double_linked_list_create_node(double data){
         return node;
 }
 
+double_linked_list *double_linked_list_array_to_list(double  array[],int size){
+
+
+        if(size IS 0){
+                printf("Error empty array\n");
+                return double_linked_list_create_node(0);
+        }
+
+
+        double_linked_list *root = double_linked_list_create_node(array[0]);
+
+       for(int i = 1; i < size;i++){
+                double_linked_list_push(&root,double_linked_list_create_node(array[i]));
+       }
+
+        return root;
+}
+
+
+void double_linked_list_push(double_linked_list** root, double_linked_list* node){
+
+        
+        if(root NOT_EQUAL NULL AND node NOT_EQUAL NULL){
+                double_linked_list* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = node;
+                } else {
+                        cur->next = node;
+                }
+        }
+}
 
 void double_linked_list_print(double_linked_list* root){
 
