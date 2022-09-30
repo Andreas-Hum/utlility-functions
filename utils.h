@@ -45,13 +45,20 @@ typedef struct double_linked_list
 double_linked_list *double_linked_list_create_node(double data);
 double_linked_list *double_linked_list_array_to_list(double  array[],int size);
 
-/* Utility functions */
+/* freeing memory */
 
-void double_linked_list_print(double_linked_list* root);
+void double_linked_list_free(double_linked_list** root);
+void double_linked_list_free_node(double_linked_list** root, double_linked_list* node);
 
 /* Mutating list */
 
+
 void double_linked_list_push(double_linked_list** root, double_linked_list* node);
+
+/* Utility functions */
+
+int double_linked_list_length(double_linked_list* root);
+void double_linked_list_print(double_linked_list* root);
 
 
 double_linked_list *double_linked_list_create_node(double data){
@@ -100,6 +107,45 @@ void double_linked_list_push(double_linked_list** root, double_linked_list* node
                         cur->next = node;
                 }
         }
+}
+
+
+void double_linked_list_free(double_linked_list** root){
+
+        double_linked_list* cur = *root;
+
+        if(cur->next IS NULL){
+                free(root);
+        }
+
+        double_linked_list* prev = *root;
+
+        while (cur NOT_EQUAL NULL)
+        {
+                cur = cur->next;
+                free(prev);
+                prev = cur;
+        }
+
+}
+
+
+int double_linked_list_length(double_linked_list* root){
+        int length = 0;
+        if(root IS NULL){
+                return length;
+        }
+
+        double_linked_list* cur = root;
+        while (cur NOT_EQUAL NULL)
+        {
+                cur = cur->next;
+                length++;
+        }
+
+        return length;
+
+
 }
 
 void double_linked_list_print(double_linked_list* root){
