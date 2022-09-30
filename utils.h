@@ -26,7 +26,6 @@ typedef struct int_linked_list{
         struct int_linked_list *next;
 } int_linked_list;
 
-
 typedef struct double_linked_list{
         double data;
         struct double_linked_list *next;
@@ -148,11 +147,9 @@ int int_linked_list_some(int_linked_list* root, int f());
 void int_linked_list_print(int_linked_list* root);
 void int_linked_list_sort(int_linked_list** root); 
 
-
 /*
 *       Non specific functions
 */
-
 
 int cpy_func (int i);
 void int_mergeSort(int arr[], int l, int r);
@@ -1182,6 +1179,7 @@ int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int d
 }
 
 
+
 void int_linked_list_free(int_linked_list** root){
 
         int_linked_list* cur = *root;
@@ -1233,7 +1231,6 @@ void int_linked_list_free_node(int_linked_list** root, int_linked_list* node){
         }
 
 }
-
 
 
 int int_linked_list_pop(int_linked_list** root){
@@ -1902,4 +1899,192 @@ void convert_int_list_to_double(int_linked_list** root){
 *       type char linked list
 */
 
+
+// /* Creating new linked lists  */
+
+char_linked_list *char_linked_list_create_node(char *data);
+char_linked_list *char_linked_list_array_to_list(char *array[],int size);
+// int_linked_list *int_linked_list_concat(int_linked_list* tree_one_root, int_linked_list* tree_two_root);
+// int_linked_list *int_linked_list_filter(int_linked_list* root, int f());
+// int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int value,int new_list);
+// int_linked_list *int_linked_list_map(int_linked_list* root, int f());
+// int_linked_list *int_linked_list_cpy(int_linked_list* root);
+// int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right);
+// int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int right);
+// int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove);
+
+
+// /* freeing memory */
+
+void char_linked_list_free(char_linked_list** root);
+void char_linked_list_free_node(char_linked_list** root, char_linked_list* node);
+
+// /* Mutating list */
+
+// int int_linked_list_pop(int_linked_list** root);
+// int int_linked_list_remove_index(int_linked_list** root, int index);
+// int int_linked_list_shift(int_linked_list** root);
+// void int_linked_list_change_element(int_linked_list** root, int index, int new_data);
+// void int_linked_list_flip(int_linked_list** root);
+void char_linked_list_push(char_linked_list** root, char_linked_list* node);
+// void int_linked_list_unshift(int_linked_list** root,int data);
+// void int_linked_list_insert_at(int_linked_list** root, int index, int new_data);
+
+// /* Utility functions */
+
+int char_linked_list_length(char_linked_list* root);
+// int int_linked_list_every(int_linked_list* root, int f());
+// int int_linked_list_for_each(int_linked_list* root, int f());
+// int *int_linked_list_to_array(int_linked_list* root);
+// int int_linked_list_find_index(int_linked_list* root, int f());
+// int int_linked_list_find(int_linked_list* root, int f());
+// int int_linked_list_find_last(int_linked_list* root, int f());
+// int int_linked_list_find_last_index(int_linked_list* root, int f());
+// int int_linked_list_at(int_linked_list* root, int index);
+// int int_linked_list_includes(int_linked_list* root, int value);
+// int int_linked_list_foldr(int_linked_list* root, int f(), int start_value);
+// int int_linked_list_foldl(int_linked_list* root, int f(),int start_value);
+// int int_linked_list_some(int_linked_list* root, int f());
+// void int_linked_list_print(int_linked_list* root);
+// void int_linked_list_sort(int_linked_list** root); 
+
+// /*
+// *       Non specific functions
+// */
+
+// int cpy_func (int i);
+// void int_mergeSort(int arr[], int l, int r);
+// void int_merge(int arr[], int l, int m, int r);
+// void double_mergeSort(double arr[], int l, int r);
+// void double_merge(double arr[], int l, int m, int r);
+// void print_Array(int array[], int size);
+
+char_linked_list *char_linked_list_create_node(char *data){
+
+        char_linked_list* node = malloc(sizeof(char_linked_list));
+        if(node NOT_EQUAL NULL){
+                node->data = data;
+                node->next = NULL;
+        }
+
+        return node;
+}
+
+char_linked_list *char_linked_list_array_to_list(char *array[],int size){
+
+
+        if(size IS 0){
+                printf("Error empty array\n");
+                return char_linked_list_create_node("ERROR");
+        }
+
+
+        char_linked_list *root = char_linked_list_create_node(array[0]);
+
+       for(int i = 1; i < size;i++){
+                char_linked_list_push(&root,char_linked_list_create_node(array[i]));
+       }
+
+        return root;
+}
+
+
+void char_linked_list_free(char_linked_list** root){
+
+        char_linked_list* cur = *root;
+
+        if(cur->next IS NULL){
+                free(root);
+        }
+
+        char_linked_list* prev = *root;
+
+        while (cur NOT_EQUAL NULL)
+        {
+                cur = cur->next;
+                free(prev);
+                prev = cur;
+        }
+
+}
+
+void char_linked_list_free_node(char_linked_list** root, char_linked_list* node){
+
+
+        if(*root IS NULL){
+                char_linked_list_free(root);
+                return;
+        }
+
+        char_linked_list* cur = *root;
+        char_linked_list* prev = *root;
+
+        if(*root IS node){
+                *root = cur->next;
+                prev->next = NULL;
+                free(cur);
+        
+        } else {
+                for(int i = 0; i < abs(char_linked_list_length(*root)-char_linked_list_length(node));i++)
+                {
+                        prev = cur;
+                        cur = cur->next;
+                }
+                if(cur->next NOT_EQUAL NULL){
+                        prev->next = cur->next;
+                }else {
+                        prev->next = NULL;
+                }
+        
+                free(cur);
+        }
+
+}
+
+
+void char_linked_list_push(char_linked_list** root, char_linked_list* node){
+
+        if(root NOT_EQUAL NULL AND node NOT_EQUAL NULL){
+                char_linked_list* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = node;
+                } else {
+                        cur->next = node;
+                }
+        }
+}
+
+
+int char_linked_list_length(char_linked_list* root){
+        int length = 0;
+        if(root IS NULL){
+                return length;
+        }
+
+        char_linked_list* cur = root;
+        while (cur NOT_EQUAL NULL)
+        {
+                cur = cur->next;
+                length++;
+        }
+
+        return length;
+
+}
+
+void char_linked_list_print(char_linked_list* root){
+
+        if(root IS NULL){
+                printf("Empty\n");
+                return;
+        }
+        printf("Data = %s\n", root->data);
+        printf("Next node: \n");
+        char_linked_list_print(root->next);
+}
 
