@@ -36,11 +36,11 @@ typedef struct char_linked_list{
         struct char_linked_list* next;
 } char_linked_list;
 
-typedef struct key_value{
-        struct char_linked_list* key;
-        struct double_linked_list* value;
-        struct key_value* next;
-} key_value;
+typedef struct key_value_double{
+        char *key;
+        double value;
+        struct key_value_double* next;
+} key_value_double;
 
 /* All functions are in order of return type:*/
 
@@ -2721,5 +2721,55 @@ void char_linked_list_print(char_linked_list* root){
 // }
 
 
+key_value_double *create_key_value_pair(char *key, double value);
 
 
+void add_key_value_double_pair(key_value_double** root, key_value_double* new_pair );
+
+
+void key_value_double_print(key_value_double* pairs);
+
+key_value_double *create_key_value_pair(char *key, double value){
+
+        key_value_double* pair = malloc(sizeof(key_value_double));
+
+        if(pair NOT_EQUAL NULL){
+                pair->key = key;
+                pair->value = value;
+                pair->next = NULL;
+        }
+
+        return pair;
+}
+
+
+void add_key_value_double_pair(key_value_double** root, key_value_double* new_pair ){
+
+       if(root NOT_EQUAL NULL AND new_pair NOT_EQUAL NULL){
+                key_value_double* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = new_pair;
+                } else {
+                        cur->next = new_pair;
+                }
+        }
+
+
+}
+
+
+void key_value_double_print(key_value_double* pairs){
+        if(pairs IS NULL){
+                printf("Empty\n");
+                return;
+        }
+
+        printf("Pair: {%s, %f}\n", pairs->key,pairs->value);
+        printf("Next pair: \n");
+        key_value_double_print(pairs->next);
+}
