@@ -25,11 +25,60 @@ typedef struct int_linked_list
 } int_linked_list;
 
 
+typedef struct double_linked_list
+{
+        double data;
+        struct double_linked_list *next;
+} double_linked_list;
+
+
 /* All functions are in order of return type:*/
 
 
 /*
-*       integer linked list
+*       type double linked list
+*/
+
+
+/* Creating new linked lists  */
+
+double_linked_list *double_linked_list_create_node(double data);
+
+/* Utility functions */
+
+void double_linked_list_print(double_linked_list* root);
+
+
+
+double_linked_list *double_linked_list_create_node(double data){
+
+        double_linked_list* node = malloc(sizeof(double_linked_list));
+        if(node NOT_EQUAL NULL){
+                node->data = data;
+                node->next = NULL;
+        }
+
+        return node;
+}
+
+
+void double_linked_list_print(double_linked_list* root){
+
+        if(root IS NULL){
+                printf("Empty\n");
+                return;
+        }
+        printf("Data = %f\n", root->data);
+        printf("Next node: \n");
+        double_linked_list_print(root->next);
+}
+
+
+/* All functions are in order of return type:*/
+
+
+/*
+*       type integer linked list
 */
 
 
@@ -39,7 +88,7 @@ int_linked_list *int_linked_list_create_node(int data);
 int_linked_list *int_linked_list_array_to_list(int array[],int size);
 int_linked_list *int_linked_list_concat(int_linked_list* tree_one_root, int_linked_list* tree_two_root);
 int_linked_list *int_linked_list_filter(int_linked_list* root, int f());
-int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int value,int new_tree);
+int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int value,int new_list);
 int_linked_list *int_linked_list_map(int_linked_list* root, int f());
 int_linked_list *int_linked_list_cpy(int_linked_list* root);
 int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right);
@@ -80,13 +129,13 @@ int int_linked_list_some(int_linked_list* root, int f());
 void int_linked_list_print(int_linked_list* root);
 void int_linked_list_sort(int_linked_list** root); 
 
+
 /* Non specific utility functions */
 
 int cpy_func (int i);
 void mergeSort(int arr[], int l, int r);
 void merge(int arr[], int l, int m, int r);
 void print_Array(int array[], int size);
-
 
 
 int_linked_list *int_linked_list_create_node(int data){
@@ -98,7 +147,7 @@ int_linked_list *int_linked_list_create_node(int data){
         }
 
         return node;
-} 
+}
 
 int_linked_list *int_linked_list_array_to_list(int array[],int size){
 
@@ -167,8 +216,8 @@ int_linked_list *int_linked_list_filter(int_linked_list* root, int f()){
 
 }
 
-int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int value,int new_tree){
-        if(!new_tree){
+int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int value,int new_list){
+        if(!new_list){
                 int_linked_list* cur = root;
                 if(int_linked_list_length(root) < length){
                         for(int i = 0; i < int_linked_list_length(root); i++){
@@ -791,7 +840,6 @@ int int_linked_list_foldl(int_linked_list* root, int f(),int start_value){
         return accumulator;
 }
 
-
 int int_linked_list_some(int_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
@@ -815,7 +863,6 @@ int int_linked_list_some(int_linked_list* root, int f()){
         }
 
 }
-
 
 void int_linked_list_print(int_linked_list* root){
 
@@ -851,12 +898,10 @@ void int_linked_list_sort(int_linked_list** root){ /* BROKEn*/
 }
 
 
-
 int cpy_func (int i){
         i;
         return true;
 }
-
 
 void merge(int arr[], int l, int m, int r)
 {
