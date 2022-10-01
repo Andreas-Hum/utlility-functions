@@ -75,7 +75,7 @@ double double_linked_list_remove_index(double_linked_list** root, int index);
 double double_linked_list_shift(double_linked_list** root);
 void double_linked_list_change_element(double_linked_list** root, int index, double  new_data);
 void double_linked_list_flip(double_linked_list** root);
-void double_linked_list_push(double_linked_list** root, double_linked_list* node);
+void double_linked_list_push(double_linked_list** root, double data);
 void double_linked_list_unshift(double_linked_list** root,double  data);
 void double_linked_list_insert_at(double_linked_list** root, int index, double  new_data);
 
@@ -131,7 +131,7 @@ int int_linked_list_remove_index(int_linked_list** root, int index);
 int int_linked_list_shift(int_linked_list** root);
 void int_linked_list_change_element(int_linked_list** root, int index, int new_data);
 void int_linked_list_flip(int_linked_list** root);
-void int_linked_list_push(int_linked_list** root, int_linked_list* node);
+void int_linked_list_push(int_linked_list** root, int data);
 void int_linked_list_unshift(int_linked_list** root,int data);
 void int_linked_list_insert_at(int_linked_list** root, int index, int new_data);
 
@@ -186,7 +186,7 @@ char *char_linked_list_shift(char_linked_list** root);
 char *char_linked_list_remove_index(char_linked_list** root, int index);
 void char_linked_list_change_element(char_linked_list** root, int index, char *new_data);
 void char_linked_list_flip(char_linked_list** root);
-void char_linked_list_push(char_linked_list** root, char_linked_list* node);
+void char_linked_list_push(char_linked_list** root, char* data);
 void char_linked_list_unshift(char_linked_list** root,char *data);
 void char_linked_list_insert_at(char_linked_list** root, char index, char *new_data);
 
@@ -264,7 +264,7 @@ double_linked_list *double_linked_list_array_to_list(double  array[],int size){
         double_linked_list *root = double_linked_list_create_node(array[0]);
 
        for(int i = 1; i < size;i++){
-                double_linked_list_push(&root,double_linked_list_create_node(array[i]));
+                double_linked_list_push(&root,array[i]);
        }
 
         return root;
@@ -310,7 +310,7 @@ double_linked_list *double_linked_list_filter(double_linked_list* root, int  f()
                         filtered_array = double_linked_list_create_node(cur->data);
                         once = 1;
                 } else if(f(cur->data) AND once IS 1){
-                        double_linked_list_push(&filtered_array,double_linked_list_create_node(cur->data));
+                        double_linked_list_push(&filtered_array,cur->data);
                 }
                 cur = cur->next;
         }
@@ -329,7 +329,7 @@ double_linked_list *double_linked_list_fill(double_linked_list* root, int length
                         }
                         for (int i = double_linked_list_length(root); i < length ; i++)
                         {
-                                double_linked_list_push(&root,double_linked_list_create_node(value));
+                                double_linked_list_push(&root,value);
                         }
                 } else{
                         for (int i = 0; i < length; i++)
@@ -342,7 +342,7 @@ double_linked_list *double_linked_list_fill(double_linked_list* root, int length
         } else {
                 root = double_linked_list_create_node(value);
                 for (int i = 1; i < length; i++){
-                        double_linked_list_push(&root,double_linked_list_create_node(value));
+                        double_linked_list_push(&root,value);
                 }
         }
 
@@ -365,7 +365,7 @@ double_linked_list *double_linked_list_map(double_linked_list* root, double f())
                         filtered_array = double_linked_list_create_node(f(cur->data));
                         once = 1;
                 } else if(once IS 1){
-                        double_linked_list_push(&filtered_array,double_linked_list_create_node(f(cur->data)));
+                        double_linked_list_push(&filtered_array,f(cur->data));
                 }
                 cur = cur->next;
         }
@@ -404,7 +404,7 @@ double_linked_list *double_linked_list_cpy_within(double_linked_list* root, int 
                         copied = double_linked_list_create_node(double_linked_list_at(root,i));
                         once = 1;
                 } else {
-                        double_linked_list_push(&copied,double_linked_list_create_node(double_linked_list_at(root,i)));
+                        double_linked_list_push(&copied,double_linked_list_at(root,i));
                 }
         }
 
@@ -435,7 +435,7 @@ double_linked_list *double_linked_list_slice(double_linked_list* root, int left,
                         sliced = double_linked_list_create_node(double_linked_list_at(root,i));
                         once = 1;
                 } else {
-                        double_linked_list_push(&sliced,double_linked_list_create_node(double_linked_list_at(root,i)));
+                        double_linked_list_push(&sliced,double_linked_list_at(root,i));
                 }
         }
 
@@ -467,7 +467,7 @@ double_linked_list *double_linked_list_splice(double_linked_list** root, int sta
                                 double_linked_list_remove_index(root,start);
                                 once = 1;
                         } else {
-                                double_linked_list_push(&deleted,double_linked_list_create_node(double_linked_list_at(*root,start)));
+                                double_linked_list_push(&deleted,double_linked_list_at(*root,start));
                                 double_linked_list_remove_index(root,start);
                         }
                 }
@@ -573,17 +573,18 @@ void double_linked_list_flip(double_linked_list** root){
                         new = double_linked_list_create_node(double_linked_list_pop(root));
                         once = 1;
                 } else {
-                        double_linked_list_push(&new,double_linked_list_create_node(double_linked_list_pop(root)));
+                        double_linked_list_push(&new,double_linked_list_pop(root));
                 }
         }
 
         *root = new;
 }
 
-void double_linked_list_push(double_linked_list** root, double_linked_list* node){
+void double_linked_list_push(double_linked_list** root, double data){
 
         
-        if(root NOT_EQUAL NULL AND node NOT_EQUAL NULL){
+        if(root NOT_EQUAL NULL){
+                double_linked_list* node = double_linked_list_create_node(data);
                 double_linked_list* cur = *root;
                 *root = cur;
 
@@ -626,7 +627,7 @@ void double_linked_list_insert_at(double_linked_list** root, int index, double  
         } else {
                 double_linked_list* temp_first_part = double_linked_list_slice(*root,0,index);
                 double_linked_list* temp_last_part = double_linked_list_slice(*root,index,double_linked_list_length(*root));
-                double_linked_list_push(&temp_first_part,double_linked_list_create_node(new_data));
+                double_linked_list_push(&temp_first_part,new_data);
                 *root = double_linked_list_concat(temp_first_part,temp_last_part);
         }
 
@@ -1018,7 +1019,7 @@ int_linked_list *int_linked_list_array_to_list(int array[],int size){
         int_linked_list *root = int_linked_list_create_node(array[0]);
 
        for(int i = 1; i < size;i++){
-                int_linked_list_push(&root,int_linked_list_create_node(array[i]));
+                int_linked_list_push(&root,array[i]);
        }
 
         return root;
@@ -1064,7 +1065,7 @@ int_linked_list *int_linked_list_filter(int_linked_list* root, int f()){
                         filtered_array = int_linked_list_create_node(cur->data);
                         once = 1;
                 } else if(f(cur->data) AND once IS 1){
-                        int_linked_list_push(&filtered_array,int_linked_list_create_node(cur->data));
+                        int_linked_list_push(&filtered_array,cur->data);
                 }
                 cur = cur->next;
         }
@@ -1083,7 +1084,7 @@ int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int valu
                         }
                         for (int i = int_linked_list_length(root); i < length ; i++)
                         {
-                                int_linked_list_push(&root,int_linked_list_create_node(value));
+                                int_linked_list_push(&root,value);
                         }
                 } else{
                         for (int i = 0; i < length; i++)
@@ -1096,7 +1097,7 @@ int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int valu
         } else {
                 root = int_linked_list_create_node(value);
                 for (int i = 1; i < length; i++){
-                        int_linked_list_push(&root,int_linked_list_create_node(value));
+                        int_linked_list_push(&root,value);
                 }
         }
 
@@ -1119,7 +1120,7 @@ int_linked_list *int_linked_list_map(int_linked_list* root, int f()){
                         filtered_array = int_linked_list_create_node(f(cur->data));
                         once = 1;
                 } else if(once IS 1){
-                        int_linked_list_push(&filtered_array,int_linked_list_create_node(f(cur->data)));
+                        int_linked_list_push(&filtered_array,f(cur->data));
                 }
                 cur = cur->next;
         }
@@ -1159,7 +1160,7 @@ int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int
                         copied = int_linked_list_create_node(int_linked_list_at(root,i));
                         once = 1;
                 } else {
-                        int_linked_list_push(&copied,int_linked_list_create_node(int_linked_list_at(root,i)));
+                        int_linked_list_push(&copied,int_linked_list_at(root,i));
                 }
         }
 
@@ -1190,7 +1191,7 @@ int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int righ
                         sliced = int_linked_list_create_node(int_linked_list_at(root,i));
                         once = 1;
                 } else {
-                        int_linked_list_push(&sliced,int_linked_list_create_node(int_linked_list_at(root,i)));
+                        int_linked_list_push(&sliced,int_linked_list_at(root,i));
                 }
         }
 
@@ -1224,7 +1225,7 @@ int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int d
                                 int_linked_list_remove_index(root,start);
                                 once = 1;
                         } else {
-                                int_linked_list_push(&deleted,int_linked_list_create_node(int_linked_list_at(*root,start)));
+                                int_linked_list_push(&deleted,int_linked_list_at(*root,start));
                                 int_linked_list_remove_index(root,start);
                         }
                 }
@@ -1384,17 +1385,18 @@ void int_linked_list_flip(int_linked_list** root){
                         new = int_linked_list_create_node(int_linked_list_pop(root));
                         once = 1;
                 } else {
-                        int_linked_list_push(&new,int_linked_list_create_node(int_linked_list_pop(root)));
+                        int_linked_list_push(&new,int_linked_list_pop(root));
                 }
         }
 
         *root = new;
 }
 
-void int_linked_list_push(int_linked_list** root, int_linked_list* node){
+void int_linked_list_push(int_linked_list** root, int data){
 
         
-        if(root NOT_EQUAL NULL AND node NOT_EQUAL NULL){
+        if(root NOT_EQUAL NULL){
+                int_linked_list* node = int_linked_list_create_node(data);
                 int_linked_list* cur = *root;
                 *root = cur;
 
@@ -1437,7 +1439,7 @@ void int_linked_list_insert_at(int_linked_list** root, int index, int new_data){
         } else {
                 int_linked_list* temp_first_part = int_linked_list_slice(*root,0,index);
                 int_linked_list* temp_last_part = int_linked_list_slice(*root,index,int_linked_list_length(*root));
-                int_linked_list_push(&temp_first_part,int_linked_list_create_node(new_data));
+                int_linked_list_push(&temp_first_part,new_data);
                 *root = int_linked_list_concat(temp_first_part,temp_last_part);
         }
 
@@ -1900,7 +1902,7 @@ int_linked_list *cpy_double_list_to_int(double_linked_list* root) {
 
         for (int i = 1; i < double_linked_list_length(root); i++)
         {
-                int_linked_list_push(&cur,int_linked_list_create_node((int)double_linked_list_at(root,i)));
+                int_linked_list_push(&cur,(int)double_linked_list_at(root,i));
         }
 
         return cur;
@@ -1917,7 +1919,7 @@ double_linked_list *cpy_int_list_to_double(int_linked_list* root) {
 
         for (int i = 1; i < int_linked_list_length(root); i++)
         {
-                double_linked_list_push(&cur,double_linked_list_create_node((double)int_linked_list_at(root,i)));
+                double_linked_list_push(&cur,(double)int_linked_list_at(root,i));
         }
 
         return cur;
@@ -1935,7 +1937,7 @@ void convert_double_list_to_int(double_linked_list** root){
 
         for (int i = 1; i < double_linked_list_length(*root); i++)
         {
-                int_linked_list_push(&cur,int_linked_list_create_node((int)double_linked_list_at(*root,i)));
+                int_linked_list_push(&cur,(int)double_linked_list_at(*root,i));
         }
 
         *root = cur;
@@ -1954,7 +1956,7 @@ void convert_int_list_to_double(int_linked_list** root){
 
         for (int i = 1; i < int_linked_list_length(*root); i++)
         {
-                double_linked_list_push(&cur,double_linked_list_create_node((double)int_linked_list_at(*root,i)));
+                double_linked_list_push(&cur,(double)int_linked_list_at(*root,i));
         }
 
         *root = cur;
@@ -1986,7 +1988,7 @@ char_linked_list *char_linked_list_array_to_list(char *array[],int size){
         char_linked_list *root = char_linked_list_create_node(array[0]);
 
        for(int i = 1; i < size;i++){
-                char_linked_list_push(&root,char_linked_list_create_node(array[i]));
+                char_linked_list_push(&root,array[i]);
        }
 
         return root;
@@ -2032,7 +2034,7 @@ char_linked_list *char_linked_list_filter(char_linked_list* root, int  f()){
                         filtered_array = char_linked_list_create_node(cur->data);
                         once = 1;
                 } else if(f(cur->data) AND once IS 1){
-                        char_linked_list_push(&filtered_array,char_linked_list_create_node(cur->data));
+                        char_linked_list_push(&filtered_array,cur->data);
                 }
                 cur = cur->next;
         }
@@ -2051,7 +2053,7 @@ char_linked_list *char_linked_list_fill(char_linked_list* root, int length, char
                         }
                         for (int i = char_linked_list_length(root); i < length ; i++)
                         {
-                                char_linked_list_push(&root,char_linked_list_create_node(value));
+                                char_linked_list_push(&root,value);
                         }
                 } else{
                         for (int i = 0; i < length; i++)
@@ -2064,7 +2066,7 @@ char_linked_list *char_linked_list_fill(char_linked_list* root, int length, char
         } else {
                 root = char_linked_list_create_node(value);
                 for (int i = 1; i < length; i++){
-                        char_linked_list_push(&root,char_linked_list_create_node(value));
+                        char_linked_list_push(&root,value);
                 }
         }
 
@@ -2127,7 +2129,7 @@ char_linked_list *char_linked_list_cpy_within(char_linked_list* root, int left, 
                         copied = char_linked_list_create_node(char_linked_list_at(root,i));
                         once = 1;
                 } else {
-                        char_linked_list_push(&copied,char_linked_list_create_node(char_linked_list_at(root,i)));
+                        char_linked_list_push(&copied,char_linked_list_at(root,i));
                 }
         }
 
@@ -2158,7 +2160,7 @@ char_linked_list *char_linked_list_slice(char_linked_list* root, int left, int r
                         sliced = char_linked_list_create_node(char_linked_list_at(root,i));
                         once = 1;
                 } else {
-                        char_linked_list_push(&sliced,char_linked_list_create_node(char_linked_list_at(root,i)));
+                        char_linked_list_push(&sliced,char_linked_list_at(root,i));
                 }
         }
 
@@ -2191,7 +2193,7 @@ char_linked_list *char_linked_list_splice(char_linked_list** root, int start, in
                                 char_linked_list_remove_index(root,start);
                                 once = 1;
                         } else {
-                                char_linked_list_push(&deleted,char_linked_list_create_node(char_linked_list_at(*root,start)));
+                                char_linked_list_push(&deleted,char_linked_list_at(*root,start));
                                 char_linked_list_remove_index(root,start);
                         }
                 }
@@ -2350,7 +2352,7 @@ void char_linked_list_flip(char_linked_list** root){
                         flipped = char_linked_list_create_node( char_linked_list_pop(root));
                         once = 1;
                 } else {
-                        char_linked_list_push(&flipped,char_linked_list_create_node( char_linked_list_pop(root)));
+                        char_linked_list_push(&flipped,char_linked_list_pop(root));
                 }
         }
 
@@ -2358,9 +2360,10 @@ void char_linked_list_flip(char_linked_list** root){
         return;
 }
 
-void char_linked_list_push(char_linked_list** root, char_linked_list* node){
+void char_linked_list_push(char_linked_list** root,char* data){
 
-        if(root NOT_EQUAL NULL AND node NOT_EQUAL NULL){
+        if(root NOT_EQUAL NULL){
+                char_linked_list* node = char_linked_list_create_node(data);
                 char_linked_list* cur = *root;
                 *root = cur;
 
@@ -2403,7 +2406,7 @@ void char_linked_list_insert_at(char_linked_list** root, char index, char *new_d
         } else {
                 char_linked_list* temp_first_part = char_linked_list_slice(*root,0,index);
                 char_linked_list* temp_last_part = char_linked_list_slice(*root,index,char_linked_list_length(*root));
-                char_linked_list_push(&temp_first_part,char_linked_list_create_node(new_data));
+                char_linked_list_push(&temp_first_part,new_data);
                 *root = char_linked_list_concat(temp_first_part,temp_last_part);
         }
 
@@ -2724,10 +2727,11 @@ void char_linked_list_print(char_linked_list* root){
 key_value_double *create_key_value_pair(char *key, double value);
 
 
-void add_key_value_double_pair(key_value_double** root, key_value_double* new_pair );
+void add_key_value_double_pair(key_value_double** root,char* key, double value );
 
 
 void key_value_double_print(key_value_double* pairs);
+
 
 key_value_double *create_key_value_pair(char *key, double value){
 
@@ -2743,9 +2747,10 @@ key_value_double *create_key_value_pair(char *key, double value){
 }
 
 
-void add_key_value_double_pair(key_value_double** root, key_value_double* new_pair ){
+void add_key_value_double_pair(key_value_double** root,char* key, double value ){
 
-       if(root NOT_EQUAL NULL AND new_pair NOT_EQUAL NULL){
+       if(root NOT_EQUAL NULL){
+                key_value_double* new_pair = create_key_value_pair(key,value);
                 key_value_double* cur = *root;
                 *root = cur;
 
