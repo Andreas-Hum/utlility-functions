@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <errno.h>
 
 /* Redefining some logical  for better readability*/
 
@@ -37,8 +38,9 @@ typedef struct char_linked_list{
 } char_linked_list;
 
 typedef struct key_value_double{
-        char *key;
-        double value;
+        char *identifier;
+        char_linked_list *keys;
+        double_linked_list *values;
         struct key_value_double* next;
 } key_value_double;
 
@@ -2724,22 +2726,38 @@ void char_linked_list_print(char_linked_list* root){
 // }
 
 
-key_value_double *create_key_value_pair(char *key, double value);
+key_value_double *create_key_value_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
 
 
-void add_key_value_double_pair(key_value_double** root,char* key, double value );
+void add_key_value_double_pair(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
 
 
-void key_value_double_print(key_value_double* pairs);
+key_value_double *key_value_double_at(key_value_double* root, int index );
+int change_identifer_double(key_value_double** root, char* key, char* new_key);
+int kvd_index_of_identifier(key_value_double* root, char* id);
+int key_value_double_length(key_value_double* root);
+int kvd_length_of_keys_at(key_value_double* root,int index);
+int kvd_length_of_values_at(key_value_double* root,int index);
+void key_value_double_print(key_value_double* root);
 
 
-key_value_double *create_key_value_pair(char *key, double value){
+
+
+
+
+
+key_value_double *create_key_value_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
         key_value_double* pair = malloc(sizeof(key_value_double));
 
+        if(char_linked_list_length(new_keys) NOT_EQUAL double_linked_list_length(new_values)){
+                return NULL;
+        }
+
         if(pair NOT_EQUAL NULL){
-                pair->key = key;
-                pair->value = value;
+                pair->identifier = id;
+                pair->keys = new_keys;
+                pair->values = new_values;
                 pair->next = NULL;
         }
 
@@ -2747,10 +2765,10 @@ key_value_double *create_key_value_pair(char *key, double value){
 }
 
 
-void add_key_value_double_pair(key_value_double** root,char* key, double value ){
+void add_key_value_double_pair(key_value_double** root, char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
        if(root NOT_EQUAL NULL){
-                key_value_double* new_pair = create_key_value_pair(key,value);
+                key_value_double* new_pair = create_key_value_pair(id, new_keys,new_values);
                 key_value_double* cur = *root;
                 *root = cur;
 
@@ -2768,13 +2786,112 @@ void add_key_value_double_pair(key_value_double** root,char* key, double value )
 }
 
 
-void key_value_double_print(key_value_double* pairs){
-        if(pairs IS NULL){
+key_value_double *key_value_double_at(key_value_double* root, int index){
+
+        if(root IS NULL){
+                return create_key_value_pair("ERROR",char_linked_list_create_node("ERROR"),double_linked_list_create_node(-1));
+        }
+
+        key_value_double* cur = root;
+
+        if(index == 0){
+                return create_key_value_pair(cur->identifier,cur->keys,cur->values);
+        } else if (index > key_value_double_length(root)){
+                return create_key_value_pair(cur->identifier,cur->keys,cur->values);
+        }
+
+
+        for (int i = 0; i < index; i++)
+        {
+                cur = cur->next;
+        }
+
+        return create_key_value_pair(cur->identifier,cur->keys,cur->values);
+
+}
+
+int kvd_index_of_identifier(key_value_double* root, char* id){
+
+        if(root IS NULL){
+                return -2;
+        }
+
+        key_value_double* cur = root;
+
+        for (int i = 0; i < key_value_double_length(root); i++){
+                if(cur->identifier == id){
+                        return i;
+                }
+                cur = cur->next;
+        }
+
+        return -1;
+
+
+}
+
+int key_value_double_length(key_value_double* root){
+
+        int length = 0;
+        if(root IS NULL){
+                return length;
+        }
+
+        key_value_double* cur = root;
+        while (cur NOT_EQUAL NULL)
+        {
+                cur = cur->next;
+                length++;
+        }
+
+        return length;
+
+}
+
+int kvd_length_of_keys_at(key_value_double* root,int index){
+        if(root IS NULL){
+                return -1;
+        }
+
+        if (index > key_value_double_length(root)){
+                return -1;
+        }
+
+
+        return char_linked_list_length(key_value_double_at(root,index)->keys);
+
+}
+
+int kvd_length_of_values_at(key_value_double* root,int index){
+        if(root IS NULL){
+                return -1;
+        }
+
+        if (index > key_value_double_length(root)){
+                return -1;
+        }
+
+
+        return char_linked_list_length(key_value_double_at(root,index)->keys);
+}
+
+void key_value_double_print(key_value_double* root){
+
+        if(root IS NULL){
                 printf("Empty\n");
                 return;
         }
 
-        printf("Pair: {%s, %f}\n", pairs->key,pairs->value);
+        char_linked_list* cur_key = root->keys;
+        double_linked_list* cur_values = root->values;
+        printf("Identifer: %s \n", root->identifier);
+        printf("---- Key value pairs: { ");
+
+        for (int i = 0; i < double_linked_list_length(cur_values); i++){
+                printf("{Key: %s, Value: %f}, ",char_linked_list_at(cur_key,i), double_linked_list_at(cur_values,i));
+        }
+        printf("}\n");
+
         printf("Next pair: \n");
-        key_value_double_print(pairs->next);
+        key_value_double_print(root->next);
 }
