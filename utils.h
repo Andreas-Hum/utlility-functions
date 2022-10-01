@@ -65,6 +65,8 @@ double_linked_list *double_linked_list_cpy_within(double_linked_list* root, int 
 double_linked_list *double_linked_list_slice(double_linked_list* root, int left, int right);
 double_linked_list *double_linked_list_splice(double_linked_list** root, int start, int delete_count, double_linked_list* add_remove,int remove);
 
+
+
 /* freeing memory */
 
 void double_linked_list_free(double_linked_list** root);
@@ -80,12 +82,14 @@ void double_linked_list_flip(double_linked_list** root);
 void double_linked_list_push(double_linked_list** root, double data);
 void double_linked_list_unshift(double_linked_list** root,double  data);
 void double_linked_list_insert_at(double_linked_list** root, int index, double  new_data);
+// void *double_linked_list_remove_duplicates(double_linked_list** root);
 
 /* Utility functions */
 
 int double_linked_list_length(double_linked_list* root);
 int double_linked_list_every(double_linked_list* root, int f());
 int double_linked_list_find_index(double_linked_list* root, int f());
+int double_linked_list_find_index_by_value(double_linked_list* root, int value);
 int double_linked_list_find_last_index(double_linked_list* root, int f());
 int double_linked_list_includes(double_linked_list* root, double value);
 int double_linked_list_some(double_linked_list* root, int f());
@@ -144,6 +148,7 @@ int int_linked_list_every(int_linked_list* root, int f());
 int int_linked_list_for_each(int_linked_list* root, int f());
 int *int_linked_list_to_array(int_linked_list* root);
 int int_linked_list_find_index(int_linked_list* root, int f());
+int int_linked_list_find_index_by_value(int_linked_list* root, int value);
 int int_linked_list_find(int_linked_list* root, int f());
 int int_linked_list_find_last(int_linked_list* root, int f());
 int int_linked_list_find_last_index(int_linked_list* root, int f());
@@ -495,6 +500,7 @@ double_linked_list *double_linked_list_splice(double_linked_list** root, int sta
 }
 
 
+
 double double_linked_list_pop(double_linked_list** root){
 
         if(*root IS NULL){
@@ -637,6 +643,51 @@ void double_linked_list_insert_at(double_linked_list** root, int index, double  
 
 }
 
+// void *double_linked_list_remove_duplicates(double_linked_list** root){
+//         if(root == NULL){
+//                 return root;
+//         }
+
+
+//         double_linked_list* dupes = double_linked_list_cpy(*root);
+//         double_linked_list* not_dupes;
+//         int length = double_linked_list_length(*root);
+//         int once = 0;
+//         int index;
+//         double temp;
+
+
+//         for (int i = 0; i < length; i++)
+//         {
+
+//                 temp = double_linked_list_shift(&dupes);
+//                 if(once IS 0 ){
+//                         not_dupes = double_linked_list_create_node(temp);
+//                         once = 1;
+//                 } else if (once IS 1)
+//                 {
+//                         double_linked_list_push(&not_dupes,temp);
+//                 }
+
+//                 for (int j = 0; i < length; j++){
+//                         index = double_linked_list_find_index_by_value(dupes,temp);
+//                         if(index >= 0){
+//                                 double_linked_list_remove_index(&dupes,index);
+//                         } else {
+//                                 break;
+//                         }
+//                 }
+
+
+//         }
+
+
+//         *root = not_dupes;
+
+// }
+
+
+
 
 void double_linked_list_free(double_linked_list** root){
 
@@ -746,6 +797,27 @@ int double_linked_list_find_index(double_linked_list* root, int f()){
         return -1;
 
 }
+
+int double_linked_list_find_index_by_value(double_linked_list* root, int value){
+        if(root IS NULL){
+                return -2;
+        }
+
+        double_linked_list* cur = root;
+
+        for (int i = 0; i < double_linked_list_length(root); i++)
+        {
+                if(cur->data IS value){
+                        return i;
+                }
+                cur = cur->next;
+        }
+
+        return -1;
+
+}
+
+
 
 int double_linked_list_find_last_index(double_linked_list* root, int f()){
 
@@ -1546,6 +1618,25 @@ int int_linked_list_find_index(int_linked_list* root, int f()){
 
 }
 
+int int_linked_list_find_index_by_value(int_linked_list* root, int value){
+        if(root IS NULL){
+                return -2;
+        }
+
+        int_linked_list* cur = root;
+
+        for (int i = 0; i < int_linked_list_length(root); i++)
+        {
+                if(cur->data IS value){
+                        return i;
+                }
+                cur = cur->next;
+        }
+
+        return -1;
+
+}
+
 int int_linked_list_find(int_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
@@ -1764,6 +1855,7 @@ int cpy_func (int i){
         return true;
 }
 
+
 void int_merge(int arr[], int l, int m, int r)
 {
     int i, j, k;
@@ -1831,16 +1923,16 @@ void double_merge(double arr[], int l, int m, int r)
     int n1 = m - l + 1;
     int n2 = r - m;
 
-    /* create temp arrays */
+
     double L[n1], R[n2];
 
-    /* Copy data to temp arrays L[] and R[] */
+
     for (i = 0; i < n1; i++)
         L[i] = arr[l + i];
     for (j = 0; j < n2; j++)
         R[j] = arr[m + 1 + j];
 
-    /* Merge the temp arrays back into arr[l..r]*/
+
     i = 0; // Initial index of first subarray
     j = 0; // Initial index of second subarray
     k = l; // Initial index of merged subarray
@@ -1856,16 +1948,14 @@ void double_merge(double arr[], int l, int m, int r)
         k++;
     }
 
-    /* Copy the remaining elements of L[], if there
-    are any */
+
     while (i < n1) {
         arr[k] = L[i];
         i++;
         k++;
     }
 
-    /* Copy the remaining elements of R[], if there
-    are any */
+
     while (j < n2) {
         arr[k] = R[j];
         j++;
@@ -2726,12 +2816,15 @@ void char_linked_list_print(char_linked_list* root){
 // }
 
 
-key_value_double *create_key_value_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
+key_value_double *kvd_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
+char_linked_list *kvd_keys_to_linked_list(key_value_double* root, char* id);
+double_linked_list *kvd_values_to_linked_list(key_value_double* root, char* id);
 
 void kvd_add(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
 void kvd_change_identifer(key_value_double** root, char* id, char* new_id);
 void kvd_change_some_identifers(key_value_double** root, char* id, char* new_id);
 void kvd_change_all_identifers(key_value_double** root, char* new_id);
+
 
 key_value_double *kvd_at(key_value_double* root, int index );
 int kvd_index_of_identifier(key_value_double* root, char* id);
@@ -2742,12 +2835,56 @@ void kvd_print(key_value_double* root);
 
 
 
+key_value_double *kvd_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
+        key_value_double* pair = malloc(sizeof(key_value_double));
+
+        if(char_linked_list_length(new_keys) NOT_EQUAL double_linked_list_length(new_values)){
+                return NULL;
+        }
+
+        if(pair NOT_EQUAL NULL){
+                pair->identifier = id;
+                pair->keys = new_keys;
+                pair->values = new_values;
+                pair->next = NULL;
+        }
+
+        return pair;
+}
+
+char_linked_list *kvd_keys_to_linked_list(key_value_double* root, char* id){
+        if(root IS NULL){
+                return char_linked_list_create_node("ERROR");
+        }
+
+        int index = kvd_index_of_identifier(root, id);
+
+        if(index < 0){
+                return char_linked_list_create_node("ERROR");
+        }
+
+        return kvd_at(root,index)->keys;
+}
+
+double_linked_list *kvd_values_to_linked_list(key_value_double* root, char* id){
+        if(root IS NULL){
+                return char_linked_list_create_node("ERROR");
+        }
+
+        int index = kvd_index_of_identifier(root, id);
+
+        if(index < 0){
+                return char_linked_list_create_node("ERROR");
+        }
+
+        return kvd_at(root,index)->values;
+}
 
 void kvd_add(key_value_double** root, char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
        if(root NOT_EQUAL NULL){
-                key_value_double* new_pair = create_key_value_pair(id, new_keys,new_values);
+                key_value_double* new_pair = kvd_create_pair(id, new_keys,new_values);
                 key_value_double* cur = *root;
                 *root = cur;
 
@@ -2818,40 +2955,21 @@ void kvd_change_all_identifers(key_value_double** root, char* new_id){
         return;
 }
 
-key_value_double *create_key_value_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values){
-
-        key_value_double* pair = malloc(sizeof(key_value_double));
-
-        if(char_linked_list_length(new_keys) NOT_EQUAL double_linked_list_length(new_values)){
-                return NULL;
-        }
-
-        if(pair NOT_EQUAL NULL){
-                pair->identifier = id;
-                pair->keys = new_keys;
-                pair->values = new_values;
-                pair->next = NULL;
-        }
-
-        return pair;
-}
-
-
 
 
 
 key_value_double *kvd_at(key_value_double* root, int index){
 
         if(root IS NULL){
-                return create_key_value_pair("ERROR",char_linked_list_create_node("ERROR"),double_linked_list_create_node(-1));
+                return kvd_create_pair("ERROR",char_linked_list_create_node("ERROR"),double_linked_list_create_node(-1));
         }
 
         key_value_double* cur = root;
 
         if(index == 0){
-                return create_key_value_pair(cur->identifier,cur->keys,cur->values);
+                return kvd_create_pair(cur->identifier,cur->keys,cur->values);
         } else if (index > kvd_length(root)){
-                return create_key_value_pair(cur->identifier,cur->keys,cur->values);
+                return kvd_create_pair(cur->identifier,cur->keys,cur->values);
         }
 
 
@@ -2860,7 +2978,7 @@ key_value_double *kvd_at(key_value_double* root, int index){
                 cur = cur->next;
         }
 
-        return create_key_value_pair(cur->identifier,cur->keys,cur->values);
+        return kvd_create_pair(cur->identifier,cur->keys,cur->values);
 
 }
 
