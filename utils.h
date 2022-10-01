@@ -2728,23 +2728,95 @@ void char_linked_list_print(char_linked_list* root){
 
 key_value_double *create_key_value_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
 
+void kvd_add(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
+void kvd_change_identifer(key_value_double** root, char* id, char* new_id);
+void kvd_change_some_identifers(key_value_double** root, char* id, char* new_id);
+void kvd_change_all_identifers(key_value_double** root, char* new_id);
 
-void add_key_value_double_pair(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
-
-
-key_value_double *key_value_double_at(key_value_double* root, int index );
-int change_identifer_double(key_value_double** root, char* key, char* new_key);
+key_value_double *kvd_at(key_value_double* root, int index );
 int kvd_index_of_identifier(key_value_double* root, char* id);
-int key_value_double_length(key_value_double* root);
+int kvd_length(key_value_double* root);
 int kvd_length_of_keys_at(key_value_double* root,int index);
 int kvd_length_of_values_at(key_value_double* root,int index);
-void key_value_double_print(key_value_double* root);
+void kvd_print(key_value_double* root);
 
 
 
 
 
+void kvd_add(key_value_double** root, char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
+       if(root NOT_EQUAL NULL){
+                key_value_double* new_pair = create_key_value_pair(id, new_keys,new_values);
+                key_value_double* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = new_pair;
+                } else {
+                        cur->next = new_pair;
+                }
+        }
+
+
+}
+
+void kvd_change_identifer(key_value_double** root, char* id, char* new_id){
+        if(*root IS NULL){
+                return;
+        }
+
+        key_value_double* cur = *root;
+        *root = cur;
+
+        for (int i = 0; i < kvd_index_of_identifier(*root,id); i++)
+        {
+                cur = cur->next;
+        }
+
+        cur->identifier = new_id;
+
+        return;
+}
+
+void kvd_change_some_identifers(key_value_double** root, char* id, char* new_id){
+        if(*root IS NULL){
+                return;
+        }
+
+        key_value_double* cur = *root;
+        *root = cur;
+
+        for (int i = 0; i < kvd_length(*root); i++)
+        {
+                if(cur->identifier IS id){
+                        cur->identifier = new_id;
+                }
+                cur = cur->next;
+        }
+
+        return;
+}
+
+void kvd_change_all_identifers(key_value_double** root, char* new_id){
+        if(*root IS NULL){
+                return;
+        }
+
+        key_value_double* cur = *root;
+        *root = cur;
+
+        for (int i = 0; i < kvd_length(*root); i++)
+        {
+                cur->identifier = new_id;
+                cur = cur->next;
+        }
+
+        return;
+}
 
 key_value_double *create_key_value_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
@@ -2765,28 +2837,10 @@ key_value_double *create_key_value_pair(char* id, char_linked_list *new_keys, do
 }
 
 
-void add_key_value_double_pair(key_value_double** root, char* id, char_linked_list *new_keys, double_linked_list *new_values){
-
-       if(root NOT_EQUAL NULL){
-                key_value_double* new_pair = create_key_value_pair(id, new_keys,new_values);
-                key_value_double* cur = *root;
-                *root = cur;
-
-                if(cur->next NOT_EQUAL NULL){
-                        while(cur->next NOT_EQUAL NULL){
-                                cur = cur->next;
-                        }
-                        cur->next = new_pair;
-                } else {
-                        cur->next = new_pair;
-                }
-        }
 
 
-}
 
-
-key_value_double *key_value_double_at(key_value_double* root, int index){
+key_value_double *kvd_at(key_value_double* root, int index){
 
         if(root IS NULL){
                 return create_key_value_pair("ERROR",char_linked_list_create_node("ERROR"),double_linked_list_create_node(-1));
@@ -2796,7 +2850,7 @@ key_value_double *key_value_double_at(key_value_double* root, int index){
 
         if(index == 0){
                 return create_key_value_pair(cur->identifier,cur->keys,cur->values);
-        } else if (index > key_value_double_length(root)){
+        } else if (index > kvd_length(root)){
                 return create_key_value_pair(cur->identifier,cur->keys,cur->values);
         }
 
@@ -2818,7 +2872,7 @@ int kvd_index_of_identifier(key_value_double* root, char* id){
 
         key_value_double* cur = root;
 
-        for (int i = 0; i < key_value_double_length(root); i++){
+        for (int i = 0; i < kvd_length(root); i++){
                 if(cur->identifier == id){
                         return i;
                 }
@@ -2830,7 +2884,7 @@ int kvd_index_of_identifier(key_value_double* root, char* id){
 
 }
 
-int key_value_double_length(key_value_double* root){
+int kvd_length(key_value_double* root){
 
         int length = 0;
         if(root IS NULL){
@@ -2853,12 +2907,12 @@ int kvd_length_of_keys_at(key_value_double* root,int index){
                 return -1;
         }
 
-        if (index > key_value_double_length(root)){
+        if (index > kvd_length(root)){
                 return -1;
         }
 
 
-        return char_linked_list_length(key_value_double_at(root,index)->keys);
+        return char_linked_list_length(kvd_at(root,index)->keys);
 
 }
 
@@ -2867,15 +2921,15 @@ int kvd_length_of_values_at(key_value_double* root,int index){
                 return -1;
         }
 
-        if (index > key_value_double_length(root)){
+        if (index > kvd_length(root)){
                 return -1;
         }
 
 
-        return char_linked_list_length(key_value_double_at(root,index)->keys);
+        return char_linked_list_length(kvd_at(root,index)->keys);
 }
 
-void key_value_double_print(key_value_double* root){
+void kvd_print(key_value_double* root){
 
         if(root IS NULL){
                 printf("Empty\n");
@@ -2893,5 +2947,5 @@ void key_value_double_print(key_value_double* root){
         printf("}\n");
 
         printf("Next pair: \n");
-        key_value_double_print(root->next);
+        kvd_print(root->next);
 }
