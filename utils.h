@@ -8,7 +8,6 @@
 
 #pragma warn -rvl /* return value */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -54,54 +53,54 @@ typedef struct key_value_double{
 
 /* Creating new linked lists  */
 
-double_linked_list *double_linked_list_create_node(double data);
-double_linked_list *double_linked_list_array_to_list(double  array[],int size);
-double_linked_list *double_linked_list_concat(double_linked_list* list_one_root, double_linked_list* list_two_root);
-double_linked_list *double_linked_list_filter(double_linked_list* root, int f());
-double_linked_list *double_linked_list_fill(double_linked_list* root, int length,double value,double new_list);
-double_linked_list *double_linked_list_map(double_linked_list* root, double f());
-double_linked_list *double_linked_list_cpy(double_linked_list* root);
-double_linked_list *double_linked_list_cpy_within(double_linked_list* root, int left, int right);
-double_linked_list *double_linked_list_slice(double_linked_list* root, int left, int right);
-double_linked_list *double_linked_list_splice(double_linked_list** root, int start, int delete_count, double_linked_list* add_remove,int remove);
+double_linked_list *DLL_create_node(double data);
+double_linked_list *DLL_array_to_list(double  array[],int size);
+double_linked_list *DLL_concat(double_linked_list* list_one_root, double_linked_list* list_two_root);
+double_linked_list *DLL_filter(double_linked_list* root, int f());
+double_linked_list *DLL_fill(double_linked_list* root, int length,double value,double new_list);
+double_linked_list *DLL_map(double_linked_list* root, double f());
+double_linked_list *DLL_cpy(double_linked_list* root);
+double_linked_list *DLL_cpy_within(double_linked_list* root, int left, int right);
+double_linked_list *DLL_slice(double_linked_list* root, int left, int right);
+double_linked_list *DLL_splice(double_linked_list** root, int start, int delete_count, double_linked_list* add_remove,int remove);
 
 
 
 /* freeing memory */
 
-void double_linked_list_free(double_linked_list** root);
-void double_linked_list_free_node(double_linked_list** root, double_linked_list* node);
+void DLL_free(double_linked_list** root);
+void DLL_free_node(double_linked_list** root, double_linked_list* node);
 
 /* Mutating list */
 
-double double_linked_list_pop(double_linked_list** root);
-double double_linked_list_remove_index(double_linked_list** root, int index);
-double double_linked_list_shift(double_linked_list** root);
-void double_linked_list_change_element(double_linked_list** root, int index, double  new_data);
-void double_linked_list_flip(double_linked_list** root);
-void double_linked_list_push(double_linked_list** root, double data);
-void double_linked_list_unshift(double_linked_list** root,double  data);
-void double_linked_list_insert_at(double_linked_list** root, int index, double  new_data);
-// void *double_linked_list_remove_duplicates(double_linked_list** root);
+double DLL_pop(double_linked_list** root);
+double DLL_remove_index(double_linked_list** root, int index);
+double DLL_shift(double_linked_list** root);
+void DLL_change_element(double_linked_list** root, int index, double  new_data);
+void DLL_flip(double_linked_list** root);
+void DLL_push(double_linked_list** root, double data);
+void DLL_unshift(double_linked_list** root,double  data);
+void DLL_insert_at(double_linked_list** root, int index, double  new_data);
+// void *DLL_remove_duplicates(double_linked_list** root);
 
 /* Utility functions */
 
-int double_linked_list_length(double_linked_list* root);
-int double_linked_list_every(double_linked_list* root, int f());
-int double_linked_list_find_index(double_linked_list* root, int f());
-int double_linked_list_find_index_by_value(double_linked_list* root, int value);
-int double_linked_list_find_last_index(double_linked_list* root, int f());
-int double_linked_list_includes(double_linked_list* root, double value);
-int double_linked_list_some(double_linked_list* root, int f());
-double double_linked_list_foldr(double_linked_list* root, double f(), double  start_value);
-double double_linked_list_foldl(double_linked_list* root, double f(),double  start_value);
-double double_linked_list_find(double_linked_list* root, int f());
-double double_linked_list_find_last(double_linked_list* root, int f());
-double double_linked_list_at(double_linked_list* root, int index);
-double double_linked_list_for_each(double_linked_list* root, double f());
-double *double_linked_list_to_array(double_linked_list* root);
-void double_linked_list_print(double_linked_list* root);
-void double_linked_list_sort(double_linked_list** root);
+int DLL_length(double_linked_list* root);
+int DLL_every(double_linked_list* root, int f());
+int DLL_find_index(double_linked_list* root, int f());
+int DLL_find_index_by_value(double_linked_list* root, int value);
+int DLL_find_last_index(double_linked_list* root, int f());
+int DLL_includes(double_linked_list* root, double value);
+int DLL_some(double_linked_list* root, int f());
+double DLL_foldr(double_linked_list* root, double f(), double  start_value);
+double DLL_foldl(double_linked_list* root, double f(),double  start_value);
+double DLL_find(double_linked_list* root, int f());
+double DLL_find_last(double_linked_list* root, int f());
+double DLL_at(double_linked_list* root, int index);
+double DLL_for_each(double_linked_list* root, double f());
+double *DLL_to_array(double_linked_list* root);
+void DLL_print(double_linked_list* root);
+void DLL_sort(double_linked_list** root);
 
 /* All functions are in order of return type:*/
 
@@ -113,52 +112,52 @@ void double_linked_list_sort(double_linked_list** root);
 
 /* Creating new linked lists  */
 
-int_linked_list *int_linked_list_create_node(int data);
-int_linked_list *int_linked_list_array_to_list(int array[],int size);
-int_linked_list *int_linked_list_concat(int_linked_list* list_one_root, int_linked_list* list_two_root);
-int_linked_list *int_linked_list_filter(int_linked_list* root, int f());
-int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int value,int new_list);
-int_linked_list *int_linked_list_map(int_linked_list* root, int f());
-int_linked_list *int_linked_list_cpy(int_linked_list* root);
-int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right);
-int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int right);
-int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove);
+int_linked_list *ILL_create_node(int data);
+int_linked_list *ILL_array_to_list(int array[],int size);
+int_linked_list *ILL_concat(int_linked_list* list_one_root, int_linked_list* list_two_root);
+int_linked_list *ILL_filter(int_linked_list* root, int f());
+int_linked_list *ILL_fill(int_linked_list* root, int length,int value,int new_list);
+int_linked_list *ILL_map(int_linked_list* root, int f());
+int_linked_list *ILL_cpy(int_linked_list* root);
+int_linked_list *ILL_cpy_within(int_linked_list* root, int left, int right);
+int_linked_list *ILL_slice(int_linked_list* root, int left, int right);
+int_linked_list *ILL_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove);
 
 
 /* freeing memory */
 
-void int_linked_list_free(int_linked_list** root);
-void int_linked_list_free_node(int_linked_list** root, int_linked_list* node);
+void ILL_free(int_linked_list** root);
+void ILL_free_node(int_linked_list** root, int_linked_list* node);
 
 /* Mutating list */
 
-int int_linked_list_pop(int_linked_list** root);
-int int_linked_list_remove_index(int_linked_list** root, int index);
-int int_linked_list_shift(int_linked_list** root);
-void int_linked_list_change_element(int_linked_list** root, int index, int new_data);
-void int_linked_list_flip(int_linked_list** root);
-void int_linked_list_push(int_linked_list** root, int data);
-void int_linked_list_unshift(int_linked_list** root,int data);
-void int_linked_list_insert_at(int_linked_list** root, int index, int new_data);
+int ILL_pop(int_linked_list** root);
+int ILL_remove_index(int_linked_list** root, int index);
+int ILL_shift(int_linked_list** root);
+void ILL_change_element(int_linked_list** root, int index, int new_data);
+void ILL_flip(int_linked_list** root);
+void ILL_push(int_linked_list** root, int data);
+void ILL_unshift(int_linked_list** root,int data);
+void ILL_insert_at(int_linked_list** root, int index, int new_data);
 
 /* Utility functions */
 
-int int_linked_list_length(int_linked_list* root);
-int int_linked_list_every(int_linked_list* root, int f());
-int int_linked_list_for_each(int_linked_list* root, int f());
-int *int_linked_list_to_array(int_linked_list* root);
-int int_linked_list_find_index(int_linked_list* root, int f());
-int int_linked_list_find_index_by_value(int_linked_list* root, int value);
-int int_linked_list_find(int_linked_list* root, int f());
-int int_linked_list_find_last(int_linked_list* root, int f());
-int int_linked_list_find_last_index(int_linked_list* root, int f());
-int int_linked_list_at(int_linked_list* root, int index);
-int int_linked_list_includes(int_linked_list* root, int value);
-int int_linked_list_foldr(int_linked_list* root, int f(), int start_value);
-int int_linked_list_foldl(int_linked_list* root, int f(),int start_value);
-int int_linked_list_some(int_linked_list* root, int f());
-void int_linked_list_print(int_linked_list* root);
-void int_linked_list_sort(int_linked_list** root);
+int ILL_length(int_linked_list* root);
+int ILL_every(int_linked_list* root, int f());
+int ILL_for_each(int_linked_list* root, int f());
+int *ILL_to_array(int_linked_list* root);
+int ILL_find_index(int_linked_list* root, int f());
+int ILL_find_index_by_value(int_linked_list* root, int value);
+int ILL_find(int_linked_list* root, int f());
+int ILL_find_last(int_linked_list* root, int f());
+int ILL_find_last_index(int_linked_list* root, int f());
+int ILL_at(int_linked_list* root, int index);
+int ILL_includes(int_linked_list* root, int value);
+int ILL_foldr(int_linked_list* root, int f(), int start_value);
+int ILL_foldl(int_linked_list* root, int f(),int start_value);
+int ILL_some(int_linked_list* root, int f());
+void ILL_print(int_linked_list* root);
+void ILL_sort(int_linked_list** root);
 
 /* All functions are in order of return type:*/
 
@@ -170,50 +169,51 @@ void int_linked_list_sort(int_linked_list** root);
 
 // /* Creating new linked lists  */
 
-char_linked_list *char_linked_list_create_node(char *data);
-char_linked_list *char_linked_list_array_to_list(char *array[],int size);
-char_linked_list *char_linked_list_concat(char_linked_list* list_one_root, char_linked_list* list_two_root);
-char_linked_list *char_linked_list_filter(char_linked_list* root, int  f());
-char_linked_list *char_linked_list_fill(char_linked_list* root, int length, char *value,int new_list);
-// char_linked_list *char_linked_list_map(char_linked_list* root, char f());
-char_linked_list *char_linked_list_cpy(char_linked_list* root);
-char_linked_list *char_linked_list_cpy_within(char_linked_list* root, int left, int right);
-char_linked_list *char_linked_list_slice(char_linked_list* root, int left, int right);
-char_linked_list *char_linked_list_splice(char_linked_list** root, int start, int delete_count, char_linked_list* add_remove,int remove);
+char_linked_list *CLL_create_node(char *data);
+char_linked_list *CLL_array_to_list(char *array[],int size);
+char_linked_list *CLL_concat(char_linked_list* list_one_root, char_linked_list* list_two_root);
+char_linked_list *CLL_filter(char_linked_list* root, int  f());
+char_linked_list *CLL_fill(char_linked_list* root, int length, char *value,int new_list);
+// char_linked_list *CLL_map(char_linked_list* root, char f());
+char_linked_list *CLL_cpy(char_linked_list* root);
+char_linked_list *CLL_cpy_within(char_linked_list* root, int left, int right);
+char_linked_list *CLL_slice(char_linked_list* root, int left, int right);
+char_linked_list *CLL_splice(char_linked_list** root, int start, int delete_count, char_linked_list* add_remove,int remove);
 
 // /* freeing memory */
 
-void char_linked_list_free(char_linked_list** root);
-void char_linked_list_free_node(char_linked_list** root, char_linked_list* node);
+void CLL_free(char_linked_list** root);
+void CLL_free_node(char_linked_list** root, char_linked_list* node);
 
 // /* Mutating list */
 
-char *char_linked_list_pop(char_linked_list** root);
-char *char_linked_list_shift(char_linked_list** root);
-char *char_linked_list_remove_index(char_linked_list** root, int index);
-void char_linked_list_change_element(char_linked_list** root, int index, char *new_data);
-void char_linked_list_flip(char_linked_list** root);
-void char_linked_list_push(char_linked_list** root, char* data);
-void char_linked_list_unshift(char_linked_list** root,char *data);
-void char_linked_list_insert_at(char_linked_list** root, char index, char *new_data);
+char *CLL_pop(char_linked_list** root);
+char *CLL_shift(char_linked_list** root);
+char *CLL_remove_index(char_linked_list** root, int index);
+void CLL_change_element(char_linked_list** root, int index, char *new_data);
+void CLL_flip(char_linked_list** root);
+void CLL_push(char_linked_list** root, char* data);
+void CLL_unshift(char_linked_list** root,char *data);
+void CLL_insert_at(char_linked_list** root, char index, char *new_data);
 
 // /* Utility functions */
 
-char *char_linked_list_to_array(char_linked_list* root);
-char *char_linked_list_at(char_linked_list* root, int index);
-char *char_linked_list_find(char_linked_list* root, int f());
-char *char_linked_list_find_last(char_linked_list* root, int f());
-int char_linked_list_length(char_linked_list* root);
-int char_linked_list_every(char_linked_list* root, int f());
-// int char_linked_list_for_each(char_linked_list* root, int f()); TODO
-int char_linked_list_find_index(char_linked_list* root, int f());
-int char_linked_list_find_last_index(char_linked_list* root, int f());
-int char_linked_list_includes(char_linked_list* root, char *value);
-// int int_linked_list_foldr(int_linked_list* root, int f(), int start_value);
-// int int_linked_list_foldl(int_linked_list* root, int f(),int start_value);
-int char_linked_list_some(char_linked_list* root, int f());
-void char_linked_list_print(char_linked_list* root);
-// void int_linked_list_sort(int_linked_list** root);
+char *CLL_to_array(char_linked_list* root);
+char *CLL_at(char_linked_list* root, int index);
+char *CLL_find(char_linked_list* root, int f());
+char *CLL_find_last(char_linked_list* root, int f());
+int CLL_length(char_linked_list* root);
+int CLL_every(char_linked_list* root, int f());
+// int CLL_for_each(char_linked_list* root, int f()); TODO
+int CLL_find_index(char_linked_list* root, int f());
+int CLL_find_index_by_value(char_linked_list* root, char* value);
+int CLL_find_last_index(char_linked_list* root, int f());
+int CLL_includes(char_linked_list* root, char *value);
+// int ILL_foldr(int_linked_list* root, int f(), int start_value);
+// int ILL_foldl(int_linked_list* root, int f(),int start_value);
+int CLL_some(char_linked_list* root, int f());
+void CLL_print(char_linked_list* root);
+// void ILL_sort(int_linked_list** root);
 
 // /*
 // *       Non specific functions
@@ -248,7 +248,7 @@ void convert_int_list_to_double(int_linked_list** root);
 
 
 
-double_linked_list *double_linked_list_create_node(double data){
+double_linked_list *DLL_create_node(double data){
 
         double_linked_list* node = malloc(sizeof(double_linked_list));
         if(node NOT_EQUAL NULL){
@@ -259,25 +259,25 @@ double_linked_list *double_linked_list_create_node(double data){
         return node;
 }
 
-double_linked_list *double_linked_list_array_to_list(double  array[],int size){
+double_linked_list *DLL_array_to_list(double  array[],int size){
 
 
         if(size IS 0){
                 printf("Error empty array\n");
-                return double_linked_list_create_node(0);
+                return DLL_create_node(0);
         }
 
 
-        double_linked_list *root = double_linked_list_create_node(array[0]);
+        double_linked_list *root = DLL_create_node(array[0]);
 
        for(int i = 1; i < size;i++){
-                double_linked_list_push(&root,array[i]);
+                DLL_push(&root,array[i]);
        }
 
         return root;
 }
 
-double_linked_list *double_linked_list_concat(double_linked_list* list_one_root, double_linked_list* list_two_root){
+double_linked_list *DLL_concat(double_linked_list* list_one_root, double_linked_list* list_two_root){
 
         if(list_one_root IS NULL){
                 return list_two_root;
@@ -287,21 +287,21 @@ double_linked_list *double_linked_list_concat(double_linked_list* list_one_root,
                 return list_one_root;
         }
 
-        int length = double_linked_list_length(list_one_root)+double_linked_list_length(list_two_root);
+        int length = DLL_length(list_one_root)+DLL_length(list_two_root);
 
-        double_linked_list* concatinated_tree = double_linked_list_cpy(list_one_root);
+        double_linked_list* concatinated_tree = DLL_cpy(list_one_root);
         double_linked_list*cur = concatinated_tree;
         while(cur->next NOT_EQUAL NULL ){
                 cur = cur->next;
         }
 
-        cur->next = double_linked_list_cpy(list_two_root);
+        cur->next = DLL_cpy(list_two_root);
 
         return concatinated_tree;
 
 }
 
-double_linked_list *double_linked_list_filter(double_linked_list* root, int  f()){
+double_linked_list *DLL_filter(double_linked_list* root, int  f()){
 
         if(root IS NULL){
                 return root;
@@ -311,13 +311,13 @@ double_linked_list *double_linked_list_filter(double_linked_list* root, int  f()
         double_linked_list* filtered_array;
         double_linked_list* cur = root;
 
-        for (int i = 0; i < double_linked_list_length(root); i++)
+        for (int i = 0; i < DLL_length(root); i++)
         {
                 if(f(cur->data) AND once IS 0){
-                        filtered_array = double_linked_list_create_node(cur->data);
+                        filtered_array = DLL_create_node(cur->data);
                         once = 1;
                 } else if(f(cur->data) AND once IS 1){
-                        double_linked_list_push(&filtered_array,cur->data);
+                        DLL_push(&filtered_array,cur->data);
                 }
                 cur = cur->next;
         }
@@ -326,17 +326,17 @@ double_linked_list *double_linked_list_filter(double_linked_list* root, int  f()
 
 }
 
-double_linked_list *double_linked_list_fill(double_linked_list* root, int length,double value,double new_list){
+double_linked_list *DLL_fill(double_linked_list* root, int length,double value,double new_list){
         if(!new_list){
                 double_linked_list* cur = root;
-                if(double_linked_list_length(root) < length){
-                        for(int i = 0; i < double_linked_list_length(root); i++){
+                if(DLL_length(root) < length){
+                        for(int i = 0; i < DLL_length(root); i++){
                                 cur->data = value;
                                 cur = cur->next;
                         }
-                        for (int i = double_linked_list_length(root); i < length ; i++)
+                        for (int i = DLL_length(root); i < length ; i++)
                         {
-                                double_linked_list_push(&root,value);
+                                DLL_push(&root,value);
                         }
                 } else{
                         for (int i = 0; i < length; i++)
@@ -347,16 +347,16 @@ double_linked_list *double_linked_list_fill(double_linked_list* root, int length
                 }
 
         } else {
-                root = double_linked_list_create_node(value);
+                root = DLL_create_node(value);
                 for (int i = 1; i < length; i++){
-                        double_linked_list_push(&root,value);
+                        DLL_push(&root,value);
                 }
         }
 
         return root;
 }
 
-double_linked_list *double_linked_list_map(double_linked_list* root, double f()){
+double_linked_list *DLL_map(double_linked_list* root, double f()){
 
         if(root IS NULL){
                 return root;
@@ -366,13 +366,13 @@ double_linked_list *double_linked_list_map(double_linked_list* root, double f())
         double_linked_list* filtered_array;
         double_linked_list* cur = root;
 
-        for (int i = 0; i < double_linked_list_length(root); i++)
+        for (int i = 0; i < DLL_length(root); i++)
         {
                 if(once IS 0){
-                        filtered_array = double_linked_list_create_node(f(cur->data));
+                        filtered_array = DLL_create_node(f(cur->data));
                         once = 1;
                 } else if(once IS 1){
-                        double_linked_list_push(&filtered_array,f(cur->data));
+                        DLL_push(&filtered_array,f(cur->data));
                 }
                 cur = cur->next;
         }
@@ -381,25 +381,25 @@ double_linked_list *double_linked_list_map(double_linked_list* root, double f())
 
 }
 
-double_linked_list *double_linked_list_cpy(double_linked_list* root){
+double_linked_list *DLL_cpy(double_linked_list* root){
         if(root IS NULL){
                 return root;
         }
 
-        return double_linked_list_filter(root,cpy_func);
+        return DLL_filter(root,cpy_func);
 }
 
-double_linked_list *double_linked_list_cpy_within(double_linked_list* root, int left, int right){
+double_linked_list *DLL_cpy_within(double_linked_list* root, int left, int right){
         if(root IS NULL){
-                return double_linked_list_create_node(-1);
+                return DLL_create_node(-1);
         }
 
         if(left > right){
-                return double_linked_list_create_node(-1);
-        } else if (right > double_linked_list_length(root)){
-                return double_linked_list_create_node(-1);
+                return DLL_create_node(-1);
+        } else if (right > DLL_length(root)){
+                return DLL_create_node(-1);
         } else if(left < 0 OR right < 0){
-                return double_linked_list_create_node(-1);
+                return DLL_create_node(-1);
         }
 
         double_linked_list* copied;
@@ -408,29 +408,29 @@ double_linked_list *double_linked_list_cpy_within(double_linked_list* root, int 
         for (int i = left; i < right + 1 ; i++)
         {
                 if(once IS 0){
-                        copied = double_linked_list_create_node(double_linked_list_at(root,i));
+                        copied = DLL_create_node(DLL_at(root,i));
                         once = 1;
                 } else {
-                        double_linked_list_push(&copied,double_linked_list_at(root,i));
+                        DLL_push(&copied,DLL_at(root,i));
                 }
         }
 
         return copied;
 }
 
-double_linked_list *double_linked_list_slice(double_linked_list* root, int left, int right){
+double_linked_list *DLL_slice(double_linked_list* root, int left, int right){
         
         if(root IS NULL){
-                return double_linked_list_create_node(-1);
+                return DLL_create_node(-1);
         }
 
 
         if(left > right){
-                return double_linked_list_create_node(-1);
-        } else if (right > double_linked_list_length(root)){
-                return double_linked_list_create_node(-1);
+                return DLL_create_node(-1);
+        } else if (right > DLL_length(root)){
+                return DLL_create_node(-1);
         } else if(left < 0 OR right < 0){
-                return double_linked_list_create_node(-1);
+                return DLL_create_node(-1);
         }
 
         double_linked_list* sliced;
@@ -439,17 +439,17 @@ double_linked_list *double_linked_list_slice(double_linked_list* root, int left,
         for (int i = left; i < right ; i++)
         {
                 if(once IS 0){
-                        sliced = double_linked_list_create_node(double_linked_list_at(root,i));
+                        sliced = DLL_create_node(DLL_at(root,i));
                         once = 1;
                 } else {
-                        double_linked_list_push(&sliced,double_linked_list_at(root,i));
+                        DLL_push(&sliced,DLL_at(root,i));
                 }
         }
 
         return sliced;
 }
 
-double_linked_list *double_linked_list_splice(double_linked_list** root, int start, int delete_count, double_linked_list* add_remove,int remove){
+double_linked_list *DLL_splice(double_linked_list** root, int start, int delete_count, double_linked_list* add_remove,int remove){
 
         double_linked_list* cur = *root;
         double_linked_list* deleted;
@@ -459,9 +459,9 @@ double_linked_list *double_linked_list_splice(double_linked_list** root, int sta
         } else if(add_remove IS NULL AND remove IS 0){
                 return cur;
         }else if(*root IS NULL AND add_remove IS NULL){
-                return double_linked_list_create_node(-1);
-        } else if(delete_count > double_linked_list_length(*root)){
-                return double_linked_list_create_node(-1);
+                return DLL_create_node(-1);
+        } else if(delete_count > DLL_length(*root)){
+                return DLL_create_node(-1);
         }
 
 
@@ -470,18 +470,18 @@ double_linked_list *double_linked_list_splice(double_linked_list** root, int sta
                 int once = 0;
                 for(int i = 0; i < delete_count; i++){
                         if (once IS 0){
-                                deleted = double_linked_list_create_node(double_linked_list_at(*root,start));
-                                double_linked_list_remove_index(root,start);
+                                deleted = DLL_create_node(DLL_at(*root,start));
+                                DLL_remove_index(root,start);
                                 once = 1;
                         } else {
-                                double_linked_list_push(&deleted,double_linked_list_at(*root,start));
-                                double_linked_list_remove_index(root,start);
+                                DLL_push(&deleted,DLL_at(*root,start));
+                                DLL_remove_index(root,start);
                         }
                 }
 
                 if(remove IS 0){
-                        for(int i = 0; i < double_linked_list_length(add_remove); i++){
-                                double_linked_list_insert_at(root,start,double_linked_list_at(add_remove,i));
+                        for(int i = 0; i < DLL_length(add_remove); i++){
+                                DLL_insert_at(root,start,DLL_at(add_remove,i));
                                 start++;
                         }
                 }
@@ -489,11 +489,11 @@ double_linked_list *double_linked_list_splice(double_linked_list** root, int sta
                 return deleted;
 
         } else {
-                for(int i = 0; i < double_linked_list_length(add_remove); i++){
-                        double_linked_list_insert_at(root,start,double_linked_list_at(add_remove,i));
+                for(int i = 0; i < DLL_length(add_remove); i++){
+                        DLL_insert_at(root,start,DLL_at(add_remove,i));
                         start++;
                 }
-                return double_linked_list_create_node(0);
+                return DLL_create_node(0);
         }
 
 
@@ -501,7 +501,7 @@ double_linked_list *double_linked_list_splice(double_linked_list** root, int sta
 
 
 
-double double_linked_list_pop(double_linked_list** root){
+double DLL_pop(double_linked_list** root){
 
         if(*root IS NULL){
                 return -1;
@@ -515,18 +515,18 @@ double double_linked_list_pop(double_linked_list** root){
         }
 
         value = cur->data;
-        double_linked_list_free_node(root,cur);
+        DLL_free_node(root,cur);
 
         return value;
 
 }
 
-double double_linked_list_remove_index(double_linked_list** root, int index){
+double DLL_remove_index(double_linked_list** root, int index){
         if(root IS NULL){
                 return -1;
         }
 
-        if(index IS 0 OR index > double_linked_list_length(*root)){
+        if(index IS 0 OR index > DLL_length(*root)){
                 return -1;
         }
 
@@ -541,21 +541,21 @@ double double_linked_list_remove_index(double_linked_list** root, int index){
 
         value = cur->data;
 
-        double_linked_list_free_node(root,cur);
+        DLL_free_node(root,cur);
 
         return (value);
 
 }
 
-double double_linked_list_shift(double_linked_list** root){
+double DLL_shift(double_linked_list** root){
         
-        double_linked_list_flip(root);
-        double  value = double_linked_list_pop(root);
-        double_linked_list_flip(root);
+        DLL_flip(root);
+        double  value = DLL_pop(root);
+        DLL_flip(root);
         return value;
 }
 
-void double_linked_list_change_element(double_linked_list** root, int index, double  new_data){
+void DLL_change_element(double_linked_list** root, int index, double  new_data){
         if(*root IS NULL){
                 return;
         }
@@ -571,28 +571,28 @@ void double_linked_list_change_element(double_linked_list** root, int index, dou
 
 }
 
-void double_linked_list_flip(double_linked_list** root){
+void DLL_flip(double_linked_list** root){
         
 
         double_linked_list* new;
         int once = 0;
-        for(int i = double_linked_list_length(*root); i > 0; i--){
+        for(int i = DLL_length(*root); i > 0; i--){
                 if(once IS 0){
-                        new = double_linked_list_create_node(double_linked_list_pop(root));
+                        new = DLL_create_node(DLL_pop(root));
                         once = 1;
                 } else {
-                        double_linked_list_push(&new,double_linked_list_pop(root));
+                        DLL_push(&new,DLL_pop(root));
                 }
         }
 
         *root = new;
 }
 
-void double_linked_list_push(double_linked_list** root, double data){
+void DLL_push(double_linked_list** root, double data){
 
         
         if(root NOT_EQUAL NULL){
-                double_linked_list* node = double_linked_list_create_node(data);
+                double_linked_list* node = DLL_create_node(data);
                 double_linked_list* cur = *root;
                 *root = cur;
 
@@ -607,51 +607,51 @@ void double_linked_list_push(double_linked_list** root, double data){
         }
 }
 
-void double_linked_list_unshift(double_linked_list** root,double  data){
+void DLL_unshift(double_linked_list** root,double  data){
 
 
         if(*root IS NULL){
                 return;
         }
 
-        double_linked_list* new_root = double_linked_list_create_node(data);
+        double_linked_list* new_root = DLL_create_node(data);
         new_root->next = *root;
         *root = new_root;
 }
 
-void double_linked_list_insert_at(double_linked_list** root, int index, double  new_data){
+void DLL_insert_at(double_linked_list** root, int index, double  new_data){
 
         if(root IS NULL){
                 return;
         }
 
-        if(index > double_linked_list_length(*root)){
+        if(index > DLL_length(*root)){
                 return;
         }
 
 
         if(index IS 0){
-                double_linked_list_unshift(root,new_data);
+                DLL_unshift(root,new_data);
         } else {
-                double_linked_list* temp_first_part = double_linked_list_slice(*root,0,index);
-                double_linked_list* temp_last_part = double_linked_list_slice(*root,index,double_linked_list_length(*root));
-                double_linked_list_push(&temp_first_part,new_data);
-                *root = double_linked_list_concat(temp_first_part,temp_last_part);
+                double_linked_list* temp_first_part = DLL_slice(*root,0,index);
+                double_linked_list* temp_last_part = DLL_slice(*root,index,DLL_length(*root));
+                DLL_push(&temp_first_part,new_data);
+                *root = DLL_concat(temp_first_part,temp_last_part);
         }
 
         return;
 
 }
 
-// void *double_linked_list_remove_duplicates(double_linked_list** root){
+// void *DLL_remove_duplicates(double_linked_list** root){
 //         if(root == NULL){
 //                 return root;
 //         }
 
 
-//         double_linked_list* dupes = double_linked_list_cpy(*root);
+//         double_linked_list* dupes = DLL_cpy(*root);
 //         double_linked_list* not_dupes;
-//         int length = double_linked_list_length(*root);
+//         int length = DLL_length(*root);
 //         int once = 0;
 //         int index;
 //         double temp;
@@ -660,19 +660,19 @@ void double_linked_list_insert_at(double_linked_list** root, int index, double  
 //         for (int i = 0; i < length; i++)
 //         {
 
-//                 temp = double_linked_list_shift(&dupes);
+//                 temp = DLL_shift(&dupes);
 //                 if(once IS 0 ){
-//                         not_dupes = double_linked_list_create_node(temp);
+//                         not_dupes = DLL_create_node(temp);
 //                         once = 1;
 //                 } else if (once IS 1)
 //                 {
-//                         double_linked_list_push(&not_dupes,temp);
+//                         DLL_push(&not_dupes,temp);
 //                 }
 
 //                 for (int j = 0; i < length; j++){
-//                         index = double_linked_list_find_index_by_value(dupes,temp);
+//                         index = DLL_find_index_by_value(dupes,temp);
 //                         if(index >= 0){
-//                                 double_linked_list_remove_index(&dupes,index);
+//                                 DLL_remove_index(&dupes,index);
 //                         } else {
 //                                 break;
 //                         }
@@ -689,7 +689,7 @@ void double_linked_list_insert_at(double_linked_list** root, int index, double  
 
 
 
-void double_linked_list_free(double_linked_list** root){
+void DLL_free(double_linked_list** root){
 
         double_linked_list* cur = *root;
 
@@ -708,11 +708,11 @@ void double_linked_list_free(double_linked_list** root){
 
 }
 
-void double_linked_list_free_node(double_linked_list** root, double_linked_list* node){
+void DLL_free_node(double_linked_list** root, double_linked_list* node){
 
 
         if(*root IS NULL){
-                double_linked_list_free(root);
+                DLL_free(root);
                 return;
         }
 
@@ -725,7 +725,7 @@ void double_linked_list_free_node(double_linked_list** root, double_linked_list*
                 free(cur);
         
         } else {
-                for(int i = 0; i < abs(double_linked_list_length(*root)-double_linked_list_length(node));i++)
+                for(int i = 0; i < abs(DLL_length(*root)-DLL_length(node));i++)
                 {
                         prev = cur;
                         cur = cur->next;
@@ -742,7 +742,7 @@ void double_linked_list_free_node(double_linked_list** root, double_linked_list*
 }
 
 
-int double_linked_list_length(double_linked_list* root){
+int DLL_length(double_linked_list* root){
         int length = 0;
         if(root IS NULL){
                 return length;
@@ -760,7 +760,7 @@ int double_linked_list_length(double_linked_list* root){
 
 }
 
-int double_linked_list_every(double_linked_list* root, int f()){
+int DLL_every(double_linked_list* root, int f()){
 
         if(root IS NULL){
                 return -1;
@@ -779,14 +779,14 @@ int double_linked_list_every(double_linked_list* root, int f()){
 
 }
 
-int double_linked_list_find_index(double_linked_list* root, int f()){
+int DLL_find_index(double_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
         }
 
         double_linked_list* cur = root;
 
-        for (int i = 0; i < double_linked_list_length(root); i++)
+        for (int i = 0; i < DLL_length(root); i++)
         {
                 if(f(cur->data)){
                         return i;
@@ -798,14 +798,14 @@ int double_linked_list_find_index(double_linked_list* root, int f()){
 
 }
 
-int double_linked_list_find_index_by_value(double_linked_list* root, int value){
+int DLL_find_index_by_value(double_linked_list* root, int value){
         if(root IS NULL){
                 return -2;
         }
 
         double_linked_list* cur = root;
 
-        for (int i = 0; i < double_linked_list_length(root); i++)
+        for (int i = 0; i < DLL_length(root); i++)
         {
                 if(cur->data IS value){
                         return i;
@@ -819,7 +819,7 @@ int double_linked_list_find_index_by_value(double_linked_list* root, int value){
 
 
 
-int double_linked_list_find_last_index(double_linked_list* root, int f()){
+int DLL_find_last_index(double_linked_list* root, int f()){
 
         if(root IS NULL){
                 return -2;
@@ -828,7 +828,7 @@ int double_linked_list_find_last_index(double_linked_list* root, int f()){
         double_linked_list* cur = root;
         int index = -1;
 
-        for (int i = 0; i < double_linked_list_length(root); i++)
+        for (int i = 0; i < DLL_length(root); i++)
         {
                 if(f(cur->data)){
                         index = i;
@@ -839,14 +839,14 @@ int double_linked_list_find_last_index(double_linked_list* root, int f()){
         return index;
 }
 
-int double_linked_list_includes(double_linked_list* root, double value){
+int DLL_includes(double_linked_list* root, double value){
         if(root IS NULL){
                 return -1;
         }
 
         double_linked_list* cur = root;
 
-        for (int i = 0; i < double_linked_list_length(root); i++)
+        for (int i = 0; i < DLL_length(root); i++)
         {
                 if(cur->data IS value){
                         return 1;
@@ -858,7 +858,7 @@ int double_linked_list_includes(double_linked_list* root, double value){
 
 }
 
-int double_linked_list_some(double_linked_list* root, int f()){
+int DLL_some(double_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
         }
@@ -866,7 +866,7 @@ int double_linked_list_some(double_linked_list* root, int f()){
         double_linked_list* cur = root;
         int count = 0;
 
-        for (int i = 0; i < double_linked_list_length(root); i++)
+        for (int i = 0; i < DLL_length(root); i++)
         {
                 if(f(cur->data)){
                         count++;
@@ -882,59 +882,59 @@ int double_linked_list_some(double_linked_list* root, int f()){
 
 }
 
-double double_linked_list_foldr(double_linked_list* root, double f(),double  start_value){
+double DLL_foldr(double_linked_list* root, double f(),double  start_value){
         if(root IS NULL){
-                return double_linked_list_at(root,0);
+                return DLL_at(root,0);
         }
 
         if(start_value < 0){
-                return double_linked_list_at(root,0);
+                return DLL_at(root,0);
         }
 
-        if(double_linked_list_length(root) < 2){
-                return double_linked_list_at(root,0);
+        if(DLL_length(root) < 2){
+                return DLL_at(root,0);
         }
 
-        if(double_linked_list_length(root) IS 2){
-                return f(double_linked_list_at(root,0), double_linked_list_at(root,1));
+        if(DLL_length(root) IS 2){
+                return f(DLL_at(root,0), DLL_at(root,1));
         }
 
         double  accumulator = start_value;
 
-        for (int i = 0; i < double_linked_list_length(root); i++){
-                accumulator = f(accumulator,double_linked_list_at(root,i));
+        for (int i = 0; i < DLL_length(root); i++){
+                accumulator = f(accumulator,DLL_at(root,i));
         }
 
         return accumulator;
 }
 
-double double_linked_list_foldl(double_linked_list* root, double f(),double start_value){
+double DLL_foldl(double_linked_list* root, double f(),double start_value){
         if(root IS NULL){
-                return double_linked_list_at(root,0);
+                return DLL_at(root,0);
         }
 
         if(start_value < 0){
-                return double_linked_list_at(root,0);
+                return DLL_at(root,0);
         }
 
-        if(double_linked_list_length(root) < 2){
-                return double_linked_list_at(root,0);
+        if(DLL_length(root) < 2){
+                return DLL_at(root,0);
         }
 
-        if(double_linked_list_length(root) IS 2){
-                return f(double_linked_list_at(root,1), double_linked_list_at(root,0));
+        if(DLL_length(root) IS 2){
+                return f(DLL_at(root,1), DLL_at(root,0));
         }
 
         double  accumulator = start_value;
 
-        for (int i = double_linked_list_length(root)-1; i >= 0; i--){
-                accumulator = f(accumulator,double_linked_list_at(root,i));
+        for (int i = DLL_length(root)-1; i >= 0; i--){
+                accumulator = f(accumulator,DLL_at(root,i));
         }
 
         return accumulator;
 }
 
-double double_linked_list_find(double_linked_list* root, int f()){
+double DLL_find(double_linked_list* root, int f()){
 
         if(root IS NULL){
                 return -1.0;
@@ -942,7 +942,7 @@ double double_linked_list_find(double_linked_list* root, int f()){
 
         double_linked_list* cur = root;
 
-        for (int i = 0; i < double_linked_list_length(root); i++)
+        for (int i = 0; i < DLL_length(root); i++)
         {
                 if(f(cur->data)){
                         return cur->data;
@@ -953,7 +953,7 @@ double double_linked_list_find(double_linked_list* root, int f()){
         return -1.0;
 }
 
-double double_linked_list_find_last(double_linked_list* root, int f()){
+double DLL_find_last(double_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
         }
@@ -961,7 +961,7 @@ double double_linked_list_find_last(double_linked_list* root, int f()){
         double_linked_list* cur = root;
         double value = -1;
 
-        for (int i = 0; i < double_linked_list_length(root); i++)
+        for (int i = 0; i < DLL_length(root); i++)
         {
                 if(f(cur->data)){
                         value = cur->data;
@@ -972,7 +972,7 @@ double double_linked_list_find_last(double_linked_list* root, int f()){
         return value;
 }
 
-double double_linked_list_at(double_linked_list* root, int index){
+double DLL_at(double_linked_list* root, int index){
         if (root IS NULL){
                 return -1;
         }
@@ -984,7 +984,7 @@ double double_linked_list_at(double_linked_list* root, int index){
 
         double_linked_list* cur = root;
 
-        if(double_linked_list_length(root) < index){
+        if(DLL_length(root) < index){
                 return -1;
         }
 
@@ -996,16 +996,16 @@ double double_linked_list_at(double_linked_list* root, int index){
 
 }
 
-double double_linked_list_for_each(double_linked_list* root, double f()){
+double DLL_for_each(double_linked_list* root, double f()){
         if (root IS NULL){
                 return -1;
         }
 
-        double  *arr = double_linked_list_to_array(root);
+        double  *arr = DLL_to_array(root);
         double  accumulator = 0;
         int once = 0;
 
-        for(int i = 0; i < double_linked_list_length(root) + 1; i++){
+        for(int i = 0; i < DLL_length(root) + 1; i++){
                 if(i IS 2){
                         accumulator += f(arr[i-2],arr[i-1]);
                         once = 1;
@@ -1018,13 +1018,13 @@ double double_linked_list_for_each(double_linked_list* root, double f()){
         return accumulator;
 }
 
-double *double_linked_list_to_array(double_linked_list* root){
+double *DLL_to_array(double_linked_list* root){
 
         if(root IS NULL){
                 return (double *)-1;
         }
 
-        int length = double_linked_list_length(root);
+        int length = DLL_length(root);
         double  *arr = malloc(sizeof(double_linked_list));
 
         double_linked_list* cur = root;
@@ -1036,7 +1036,7 @@ double *double_linked_list_to_array(double_linked_list* root){
         return arr;
 }
 
-void double_linked_list_print(double_linked_list* root){
+void DLL_print(double_linked_list* root){
 
         if(root IS NULL){
                 printf("Empty\n");
@@ -1044,10 +1044,10 @@ void double_linked_list_print(double_linked_list* root){
         }
         printf("Data = %f\n", root->data);
         printf("Next node: \n");
-        double_linked_list_print(root->next);
+        DLL_print(root->next);
 }
 
-void double_linked_list_sort(double_linked_list** root){ /* BROKEn*/
+void DLL_sort(double_linked_list** root){ /* BROKEn*/
 
         if(*root IS NULL){
                 return;
@@ -1056,21 +1056,21 @@ void double_linked_list_sort(double_linked_list** root){ /* BROKEn*/
 
         double_linked_list* cur = *root;
 
-        double *arr = double_linked_list_to_array(cur);
+        double *arr = DLL_to_array(cur);
 
-        double_mergeSort(arr,0,double_linked_list_length(cur)-1);
+        double_mergeSort(arr,0,DLL_length(cur)-1);
 
         *root = cur;
-        for(int i = 0; i < double_linked_list_length(*root);i++){
+        for(int i = 0; i < DLL_length(*root);i++){
                 cur->data = arr[i];
                 cur = cur->next;
         }
-        double_linked_list_print(*root);
+        DLL_print(*root);
         return;
 }
 
 
-int_linked_list *int_linked_list_create_node(int data){
+int_linked_list *ILL_create_node(int data){
 
         int_linked_list* node = malloc(sizeof(int_linked_list));
         if(node NOT_EQUAL NULL){
@@ -1081,25 +1081,25 @@ int_linked_list *int_linked_list_create_node(int data){
         return node;
 }
 
-int_linked_list *int_linked_list_array_to_list(int array[],int size){
+int_linked_list *ILL_array_to_list(int array[],int size){
 
 
         if(size IS 0){
                 printf("Error empty array\n");
-                return int_linked_list_create_node(0);
+                return ILL_create_node(0);
         }
 
 
-        int_linked_list *root = int_linked_list_create_node(array[0]);
+        int_linked_list *root = ILL_create_node(array[0]);
 
        for(int i = 1; i < size;i++){
-                int_linked_list_push(&root,array[i]);
+                ILL_push(&root,array[i]);
        }
 
         return root;
 }
 
-int_linked_list *int_linked_list_concat(int_linked_list* list_one_root, int_linked_list* list_two_root){
+int_linked_list *ILL_concat(int_linked_list* list_one_root, int_linked_list* list_two_root){
 
         if(list_one_root IS NULL){
                 return list_two_root;
@@ -1109,21 +1109,21 @@ int_linked_list *int_linked_list_concat(int_linked_list* list_one_root, int_link
                 return list_one_root;
         }
 
-        int length = int_linked_list_length(list_one_root)+int_linked_list_length(list_two_root);
+        int length = ILL_length(list_one_root)+ILL_length(list_two_root);
 
-        int_linked_list* concatinated_tree = int_linked_list_cpy(list_one_root);
+        int_linked_list* concatinated_tree = ILL_cpy(list_one_root);
         int_linked_list*cur = concatinated_tree;
         while(cur->next NOT_EQUAL NULL ){
                 cur = cur->next;
         }
 
-        cur->next = int_linked_list_cpy(list_two_root);
+        cur->next = ILL_cpy(list_two_root);
 
         return concatinated_tree;
 
 }
 
-int_linked_list *int_linked_list_filter(int_linked_list* root, int f()){
+int_linked_list *ILL_filter(int_linked_list* root, int f()){
 
         if(root IS NULL){
                 return root;
@@ -1133,13 +1133,13 @@ int_linked_list *int_linked_list_filter(int_linked_list* root, int f()){
         int_linked_list* filtered_array;
         int_linked_list* cur = root;
 
-        for (int i = 0; i < int_linked_list_length(root); i++)
+        for (int i = 0; i < ILL_length(root); i++)
         {
                 if(f(cur->data) AND once IS 0){
-                        filtered_array = int_linked_list_create_node(cur->data);
+                        filtered_array = ILL_create_node(cur->data);
                         once = 1;
                 } else if(f(cur->data) AND once IS 1){
-                        int_linked_list_push(&filtered_array,cur->data);
+                        ILL_push(&filtered_array,cur->data);
                 }
                 cur = cur->next;
         }
@@ -1148,17 +1148,17 @@ int_linked_list *int_linked_list_filter(int_linked_list* root, int f()){
 
 }
 
-int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int value,int new_list){
+int_linked_list *ILL_fill(int_linked_list* root, int length,int value,int new_list){
         if(!new_list){
                 int_linked_list* cur = root;
-                if(int_linked_list_length(root) < length){
-                        for(int i = 0; i < int_linked_list_length(root); i++){
+                if(ILL_length(root) < length){
+                        for(int i = 0; i < ILL_length(root); i++){
                                 cur->data = value;
                                 cur = cur->next;
                         }
-                        for (int i = int_linked_list_length(root); i < length ; i++)
+                        for (int i = ILL_length(root); i < length ; i++)
                         {
-                                int_linked_list_push(&root,value);
+                                ILL_push(&root,value);
                         }
                 } else{
                         for (int i = 0; i < length; i++)
@@ -1169,16 +1169,16 @@ int_linked_list *int_linked_list_fill(int_linked_list* root, int length,int valu
                 }
 
         } else {
-                root = int_linked_list_create_node(value);
+                root = ILL_create_node(value);
                 for (int i = 1; i < length; i++){
-                        int_linked_list_push(&root,value);
+                        ILL_push(&root,value);
                 }
         }
 
         return root;
 }
 
-int_linked_list *int_linked_list_map(int_linked_list* root, int f()){
+int_linked_list *ILL_map(int_linked_list* root, int f()){
 
         if(root IS NULL){
                 return root;
@@ -1188,13 +1188,13 @@ int_linked_list *int_linked_list_map(int_linked_list* root, int f()){
         int_linked_list* filtered_array;
         int_linked_list* cur = root;
 
-        for (int i = 0; i < int_linked_list_length(root); i++)
+        for (int i = 0; i < ILL_length(root); i++)
         {
                 if(once IS 0){
-                        filtered_array = int_linked_list_create_node(f(cur->data));
+                        filtered_array = ILL_create_node(f(cur->data));
                         once = 1;
                 } else if(once IS 1){
-                        int_linked_list_push(&filtered_array,f(cur->data));
+                        ILL_push(&filtered_array,f(cur->data));
                 }
                 cur = cur->next;
         }
@@ -1203,26 +1203,26 @@ int_linked_list *int_linked_list_map(int_linked_list* root, int f()){
 
 }
 
-int_linked_list *int_linked_list_cpy(int_linked_list* root){
+int_linked_list *ILL_cpy(int_linked_list* root){
         if(root IS NULL){
                 return root;
         }
 
-        return int_linked_list_filter(root,cpy_func);
+        return ILL_filter(root,cpy_func);
 }
 
-int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int right){
+int_linked_list *ILL_cpy_within(int_linked_list* root, int left, int right){
         if(root IS NULL){
-                return int_linked_list_create_node(-1);
+                return ILL_create_node(-1);
         }
 
 
         if(left > right){
-                return int_linked_list_create_node(-1);
-        } else if (right > int_linked_list_length(root)){
-                return int_linked_list_create_node(-1);
+                return ILL_create_node(-1);
+        } else if (right > ILL_length(root)){
+                return ILL_create_node(-1);
         } else if(left < 0 OR right < 0){
-                return int_linked_list_create_node(-1);
+                return ILL_create_node(-1);
         }
 
         int_linked_list* copied;
@@ -1231,29 +1231,29 @@ int_linked_list *int_linked_list_cpy_within(int_linked_list* root, int left, int
         for (int i = left; i < right + 1 ; i++)
         {
                 if(once IS 0){
-                        copied = int_linked_list_create_node(int_linked_list_at(root,i));
+                        copied = ILL_create_node(ILL_at(root,i));
                         once = 1;
                 } else {
-                        int_linked_list_push(&copied,int_linked_list_at(root,i));
+                        ILL_push(&copied,ILL_at(root,i));
                 }
         }
 
         return copied;
 }
 
-int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int right){
+int_linked_list *ILL_slice(int_linked_list* root, int left, int right){
         
         if(root IS NULL){
-                return int_linked_list_create_node(-1);
+                return ILL_create_node(-1);
         }
 
 
         if(left > right){
-                return int_linked_list_create_node(-1);
-        } else if (right > int_linked_list_length(root)){
-                return int_linked_list_create_node(-1);
+                return ILL_create_node(-1);
+        } else if (right > ILL_length(root)){
+                return ILL_create_node(-1);
         } else if(left < 0 OR right < 0){
-                return int_linked_list_create_node(-1);
+                return ILL_create_node(-1);
         }
 
         int_linked_list* sliced;
@@ -1262,17 +1262,17 @@ int_linked_list *int_linked_list_slice(int_linked_list* root, int left, int righ
         for (int i = left; i < right ; i++)
         {
                 if(once IS 0){
-                        sliced = int_linked_list_create_node(int_linked_list_at(root,i));
+                        sliced = ILL_create_node(ILL_at(root,i));
                         once = 1;
                 } else {
-                        int_linked_list_push(&sliced,int_linked_list_at(root,i));
+                        ILL_push(&sliced,ILL_at(root,i));
                 }
         }
 
         return sliced;
 }
 
-int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove){
+int_linked_list *ILL_splice(int_linked_list** root, int start, int delete_count, int_linked_list* add_remove,int remove){
         
         int_linked_list* cur = *root;
         int_linked_list* deleted;
@@ -1282,9 +1282,9 @@ int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int d
         } else if(add_remove IS NULL AND remove IS 0){
                 return cur;
         }else if(*root IS NULL AND add_remove IS NULL){
-                return int_linked_list_create_node(-1);
-        } else if(delete_count > int_linked_list_length(*root)){
-                return int_linked_list_create_node(-1);
+                return ILL_create_node(-1);
+        } else if(delete_count > ILL_length(*root)){
+                return ILL_create_node(-1);
         }
 
 
@@ -1295,18 +1295,18 @@ int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int d
                 int once = 0;
                 for(int i = 0; i < delete_count; i++){
                         if (once IS 0){
-                                deleted = int_linked_list_create_node(int_linked_list_at(*root,start));
-                                int_linked_list_remove_index(root,start);
+                                deleted = ILL_create_node(ILL_at(*root,start));
+                                ILL_remove_index(root,start);
                                 once = 1;
                         } else {
-                                int_linked_list_push(&deleted,int_linked_list_at(*root,start));
-                                int_linked_list_remove_index(root,start);
+                                ILL_push(&deleted,ILL_at(*root,start));
+                                ILL_remove_index(root,start);
                         }
                 }
 
                 if(remove IS 0){
-                        for(int i = 0; i < int_linked_list_length(add_remove); i++){
-                                int_linked_list_insert_at(root,start,int_linked_list_at(add_remove,i));
+                        for(int i = 0; i < ILL_length(add_remove); i++){
+                                ILL_insert_at(root,start,ILL_at(add_remove,i));
                                 start++;
                         }
                 }
@@ -1314,11 +1314,11 @@ int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int d
                 return deleted;
 
         } else {
-                for(int i = 0; i < int_linked_list_length(add_remove); i++){
-                        int_linked_list_insert_at(root,start,int_linked_list_at(add_remove,i));
+                for(int i = 0; i < ILL_length(add_remove); i++){
+                        ILL_insert_at(root,start,ILL_at(add_remove,i));
                         start++;
                 }
-                return int_linked_list_create_node(0);
+                return ILL_create_node(0);
         }
 
 
@@ -1326,7 +1326,7 @@ int_linked_list *int_linked_list_splice(int_linked_list** root, int start, int d
 
 
 
-void int_linked_list_free(int_linked_list** root){
+void ILL_free(int_linked_list** root){
 
         int_linked_list* cur = *root;
 
@@ -1345,11 +1345,11 @@ void int_linked_list_free(int_linked_list** root){
 
 }
 
-void int_linked_list_free_node(int_linked_list** root, int_linked_list* node){
+void ILL_free_node(int_linked_list** root, int_linked_list* node){
 
 
         if(*root IS NULL){
-                int_linked_list_free(root);
+                ILL_free(root);
                 return;
         }
 
@@ -1362,7 +1362,7 @@ void int_linked_list_free_node(int_linked_list** root, int_linked_list* node){
                 free(cur);
         
         } else {
-                for(int i = 0; i < abs(int_linked_list_length(*root)-int_linked_list_length(node));i++)
+                for(int i = 0; i < abs(ILL_length(*root)-ILL_length(node));i++)
                 {
                         prev = cur;
                         cur = cur->next;
@@ -1379,7 +1379,7 @@ void int_linked_list_free_node(int_linked_list** root, int_linked_list* node){
 }
 
 
-int int_linked_list_pop(int_linked_list** root){
+int ILL_pop(int_linked_list** root){
 
         if(*root IS NULL){
                 return -1;
@@ -1393,18 +1393,18 @@ int int_linked_list_pop(int_linked_list** root){
         }
 
         value = cur->data;
-        int_linked_list_free_node(root,cur);
+        ILL_free_node(root,cur);
 
         return value;
 
 }
 
-int int_linked_list_remove_index(int_linked_list** root, int index){
+int ILL_remove_index(int_linked_list** root, int index){
         if(root IS NULL){
                 return -1;
         }
 
-        if(index IS 0 OR index > int_linked_list_length(*root)){
+        if(index IS 0 OR index > ILL_length(*root)){
                 return -1;
         }
 
@@ -1419,21 +1419,21 @@ int int_linked_list_remove_index(int_linked_list** root, int index){
 
         value = cur->data;
 
-        int_linked_list_free_node(root,cur);
+        ILL_free_node(root,cur);
 
         return (value);
 
 }
 
-int int_linked_list_shift(int_linked_list** root){
+int ILL_shift(int_linked_list** root){
         
-        int_linked_list_flip(root);
-        int value = int_linked_list_pop(root);
-        int_linked_list_flip(root);
+        ILL_flip(root);
+        int value = ILL_pop(root);
+        ILL_flip(root);
         return value;
 }
 
-void int_linked_list_change_element(int_linked_list** root, int index, int new_data){
+void ILL_change_element(int_linked_list** root, int index, int new_data){
         if(*root IS NULL){
                 return;
         }
@@ -1449,28 +1449,28 @@ void int_linked_list_change_element(int_linked_list** root, int index, int new_d
 
 }
 
-void int_linked_list_flip(int_linked_list** root){
+void ILL_flip(int_linked_list** root){
         
 
         int_linked_list* new;
         int once = 0;
-        for(int i = int_linked_list_length(*root); i > 0; i--){
+        for(int i = ILL_length(*root); i > 0; i--){
                 if(once IS 0){
-                        new = int_linked_list_create_node(int_linked_list_pop(root));
+                        new = ILL_create_node(ILL_pop(root));
                         once = 1;
                 } else {
-                        int_linked_list_push(&new,int_linked_list_pop(root));
+                        ILL_push(&new,ILL_pop(root));
                 }
         }
 
         *root = new;
 }
 
-void int_linked_list_push(int_linked_list** root, int data){
+void ILL_push(int_linked_list** root, int data){
 
         
         if(root NOT_EQUAL NULL){
-                int_linked_list* node = int_linked_list_create_node(data);
+                int_linked_list* node = ILL_create_node(data);
                 int_linked_list* cur = *root;
                 *root = cur;
 
@@ -1485,36 +1485,36 @@ void int_linked_list_push(int_linked_list** root, int data){
         }
 }
 
-void int_linked_list_unshift(int_linked_list** root,int data){
+void ILL_unshift(int_linked_list** root,int data){
 
 
         if(*root IS NULL){
                 return;
         }
 
-        int_linked_list* new_root = int_linked_list_create_node(data);
+        int_linked_list* new_root = ILL_create_node(data);
         new_root->next = *root;
         *root = new_root;
 }
 
-void int_linked_list_insert_at(int_linked_list** root, int index, int new_data){
+void ILL_insert_at(int_linked_list** root, int index, int new_data){
 
         if(root IS NULL){
                 return;
         }
 
-        if(index > int_linked_list_length(*root)){
+        if(index > ILL_length(*root)){
                 return;
         }
 
 
         if(index IS 0){
-                int_linked_list_unshift(root,new_data);
+                ILL_unshift(root,new_data);
         } else {
-                int_linked_list* temp_first_part = int_linked_list_slice(*root,0,index);
-                int_linked_list* temp_last_part = int_linked_list_slice(*root,index,int_linked_list_length(*root));
-                int_linked_list_push(&temp_first_part,new_data);
-                *root = int_linked_list_concat(temp_first_part,temp_last_part);
+                int_linked_list* temp_first_part = ILL_slice(*root,0,index);
+                int_linked_list* temp_last_part = ILL_slice(*root,index,ILL_length(*root));
+                ILL_push(&temp_first_part,new_data);
+                *root = ILL_concat(temp_first_part,temp_last_part);
         }
 
         return;
@@ -1522,7 +1522,7 @@ void int_linked_list_insert_at(int_linked_list** root, int index, int new_data){
 }
 
 
-int int_linked_list_length(int_linked_list* root){
+int ILL_length(int_linked_list* root){
         int length = 0;
         if(root IS NULL){
                 return length;
@@ -1540,7 +1540,7 @@ int int_linked_list_length(int_linked_list* root){
 
 }
 
-int int_linked_list_every(int_linked_list* root, int f()){
+int ILL_every(int_linked_list* root, int f()){
 
         if(root IS NULL){
                 return -1;
@@ -1559,16 +1559,16 @@ int int_linked_list_every(int_linked_list* root, int f()){
 
 }
 
-int int_linked_list_for_each(int_linked_list* root, int f()){
+int ILL_for_each(int_linked_list* root, int f()){
         if (root IS NULL){
                 return -1;
         }
 
-        int *arr = int_linked_list_to_array(root);
+        int *arr = ILL_to_array(root);
         int accumulator = 0;
         int once = 0;
 
-        for(int i = 0; i < int_linked_list_length(root) + 1; i++){
+        for(int i = 0; i < ILL_length(root) + 1; i++){
                 if(i IS 2){
                         accumulator += f(arr[i-2],arr[i-1]);
                         once = 1;
@@ -1581,13 +1581,13 @@ int int_linked_list_for_each(int_linked_list* root, int f()){
         return accumulator;
 }
 
-int *int_linked_list_to_array(int_linked_list* root){
+int *ILL_to_array(int_linked_list* root){
 
         if(root IS NULL){
                 return (int*)-1;
         }
 
-        int length = int_linked_list_length(root);
+        int length = ILL_length(root);
         int *arr = malloc(sizeof(int_linked_list));
 
         int_linked_list* cur = root;
@@ -1599,14 +1599,14 @@ int *int_linked_list_to_array(int_linked_list* root){
         return arr;
 }
 
-int int_linked_list_find_index(int_linked_list* root, int f()){
+int ILL_find_index(int_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
         }
 
         int_linked_list* cur = root;
 
-        for (int i = 0; i < int_linked_list_length(root); i++)
+        for (int i = 0; i < ILL_length(root); i++)
         {
                 if(f(cur->data)){
                         return i;
@@ -1618,14 +1618,14 @@ int int_linked_list_find_index(int_linked_list* root, int f()){
 
 }
 
-int int_linked_list_find_index_by_value(int_linked_list* root, int value){
+int ILL_find_index_by_value(int_linked_list* root, int value){
         if(root IS NULL){
                 return -2;
         }
 
         int_linked_list* cur = root;
 
-        for (int i = 0; i < int_linked_list_length(root); i++)
+        for (int i = 0; i < ILL_length(root); i++)
         {
                 if(cur->data IS value){
                         return i;
@@ -1637,14 +1637,14 @@ int int_linked_list_find_index_by_value(int_linked_list* root, int value){
 
 }
 
-int int_linked_list_find(int_linked_list* root, int f()){
+int ILL_find(int_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
         }
 
         int_linked_list* cur = root;
 
-        for (int i = 0; i < int_linked_list_length(root); i++)
+        for (int i = 0; i < ILL_length(root); i++)
         {
                 if(f(cur->data)){
                         return cur->data;
@@ -1655,7 +1655,7 @@ int int_linked_list_find(int_linked_list* root, int f()){
         return -1;
 }
 
-int int_linked_list_find_last(int_linked_list* root, int f()){
+int ILL_find_last(int_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
         }
@@ -1663,7 +1663,7 @@ int int_linked_list_find_last(int_linked_list* root, int f()){
         int_linked_list* cur = root;
         int value = -1;
 
-        for (int i = 0; i < int_linked_list_length(root); i++)
+        for (int i = 0; i < ILL_length(root); i++)
         {
                 if(f(cur->data)){
                         value = cur->data;
@@ -1674,7 +1674,7 @@ int int_linked_list_find_last(int_linked_list* root, int f()){
         return value;
 }
 
-int int_linked_list_find_last_index(int_linked_list* root, int f()){
+int ILL_find_last_index(int_linked_list* root, int f()){
         
         if(root IS NULL){
                 return -2;
@@ -1683,7 +1683,7 @@ int int_linked_list_find_last_index(int_linked_list* root, int f()){
         int_linked_list* cur = root;
         int index = -1;
 
-        for (int i = 0; i < int_linked_list_length(root); i++)
+        for (int i = 0; i < ILL_length(root); i++)
         {
                 if(f(cur->data)){
                         index = i;
@@ -1694,7 +1694,7 @@ int int_linked_list_find_last_index(int_linked_list* root, int f()){
         return index;
 }
 
-int int_linked_list_at(int_linked_list* root, int index){
+int ILL_at(int_linked_list* root, int index){
         if (root IS NULL){
                 return -1;
         }
@@ -1706,7 +1706,7 @@ int int_linked_list_at(int_linked_list* root, int index){
 
         int_linked_list* cur = root;
 
-        if(int_linked_list_length(root) < index){
+        if(ILL_length(root) < index){
                 return -1;
         }
 
@@ -1718,14 +1718,14 @@ int int_linked_list_at(int_linked_list* root, int index){
 
 }
 
-int int_linked_list_includes(int_linked_list* root, int value){
+int ILL_includes(int_linked_list* root, int value){
         if(root IS NULL){
                 return -1;
         }
 
         int_linked_list* cur = root;
 
-        for (int i = 0; i < int_linked_list_length(root); i++)
+        for (int i = 0; i < ILL_length(root); i++)
         {
                 if(cur->data IS value){
                         return 1;
@@ -1738,61 +1738,61 @@ int int_linked_list_includes(int_linked_list* root, int value){
 
 }
 
-int int_linked_list_foldr(int_linked_list* root, int f(),int start_value){
+int ILL_foldr(int_linked_list* root, int f(),int start_value){
         if(root IS NULL){
-                return int_linked_list_at(root,0);
+                return ILL_at(root,0);
         }
 
         if(start_value < 0){
-                return int_linked_list_at(root,0);
+                return ILL_at(root,0);
         }
 
-        if(int_linked_list_length(root) < 2){
-                return int_linked_list_at(root,0);
+        if(ILL_length(root) < 2){
+                return ILL_at(root,0);
         }
 
-        if(int_linked_list_length(root) IS 2){
-                return f(int_linked_list_at(root,0), int_linked_list_at(root,1));
+        if(ILL_length(root) IS 2){
+                return f(ILL_at(root,0), ILL_at(root,1));
         }
 
         int accumulator = start_value;
         int once = 0;
 
-        for (int i = 0; i < int_linked_list_length(root); i++){
-                accumulator = f(accumulator,int_linked_list_at(root,i));
+        for (int i = 0; i < ILL_length(root); i++){
+                accumulator = f(accumulator,ILL_at(root,i));
         }
 
         return accumulator;
 }
 
-int int_linked_list_foldl(int_linked_list* root, int f(),int start_value){
+int ILL_foldl(int_linked_list* root, int f(),int start_value){
         if(root IS NULL){
-                return int_linked_list_at(root,0);
+                return ILL_at(root,0);
         }
 
         if(start_value < 0){
-                return int_linked_list_at(root,0);
+                return ILL_at(root,0);
         }
 
-        if(int_linked_list_length(root) < 2){
-                return int_linked_list_at(root,0);
+        if(ILL_length(root) < 2){
+                return ILL_at(root,0);
         }
 
-        if(int_linked_list_length(root) IS 2){
-                return f(int_linked_list_at(root,1), int_linked_list_at(root,0));
+        if(ILL_length(root) IS 2){
+                return f(ILL_at(root,1), ILL_at(root,0));
         }
 
         int accumulator = start_value;
         int once = 0;
 
-        for (int i = int_linked_list_length(root)-1; i >= 0; i--){
-                accumulator = f(accumulator,int_linked_list_at(root,i));
+        for (int i = ILL_length(root)-1; i >= 0; i--){
+                accumulator = f(accumulator,ILL_at(root,i));
         }
 
         return accumulator;
 }
 
-int int_linked_list_some(int_linked_list* root, int f()){
+int ILL_some(int_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
         }
@@ -1800,7 +1800,7 @@ int int_linked_list_some(int_linked_list* root, int f()){
         int_linked_list* cur = root;
         int count = 0;
 
-        for (int i = 0; i < int_linked_list_length(root); i++)
+        for (int i = 0; i < ILL_length(root); i++)
         {
                 if(f(cur->data)){
                         count++;
@@ -1816,7 +1816,7 @@ int int_linked_list_some(int_linked_list* root, int f()){
 
 }
 
-void int_linked_list_print(int_linked_list* root){
+void ILL_print(int_linked_list* root){
 
         if(root IS NULL){
                 printf("Empty\n");
@@ -1824,10 +1824,10 @@ void int_linked_list_print(int_linked_list* root){
         }
         printf("Data = %d\n", root->data);
         printf("Next node: \n");
-        int_linked_list_print(root->next);
+        ILL_print(root->next);
 }
 
-void int_linked_list_sort(int_linked_list** root){ /* BROKEn*/
+void ILL_sort(int_linked_list** root){ /* BROKEn*/
 
         if(*root IS NULL){
                 return;
@@ -1836,16 +1836,16 @@ void int_linked_list_sort(int_linked_list** root){ /* BROKEn*/
 
         int_linked_list* cur = *root;
 
-        int *arr = int_linked_list_to_array(cur);
+        int *arr = ILL_to_array(cur);
 
-        int_mergeSort(arr,0,int_linked_list_length(cur)-1);
+        int_mergeSort(arr,0,ILL_length(cur)-1);
 
         *root = cur;
-        for(int i = 0; i < int_linked_list_length(*root);i++){
+        for(int i = 0; i < ILL_length(*root);i++){
                 cur->data = arr[i];
                 cur = cur->next;
         }
-        int_linked_list_print(*root);
+        ILL_print(*root);
         return;
 }
 
@@ -1986,15 +1986,15 @@ void print_Array(int array[], int size) {
 
 int_linked_list *cpy_double_list_to_int(double_linked_list* root) {
         if(root IS NULL){
-                return int_linked_list_create_node(0);
+                return ILL_create_node(0);
         }
 
-        int_linked_list* cur = int_linked_list_create_node(0);
-        cur->data = (int)double_linked_list_at(root, 0);
+        int_linked_list* cur = ILL_create_node(0);
+        cur->data = (int)DLL_at(root, 0);
 
-        for (int i = 1; i < double_linked_list_length(root); i++)
+        for (int i = 1; i < DLL_length(root); i++)
         {
-                int_linked_list_push(&cur,(int)double_linked_list_at(root,i));
+                ILL_push(&cur,(int)DLL_at(root,i));
         }
 
         return cur;
@@ -2003,15 +2003,15 @@ int_linked_list *cpy_double_list_to_int(double_linked_list* root) {
 double_linked_list *cpy_int_list_to_double(int_linked_list* root) {
 
         if(root IS NULL){
-                return double_linked_list_create_node(0);
+                return DLL_create_node(0);
         }
 
-        double_linked_list* cur = double_linked_list_create_node(0);
-        cur->data = (double)int_linked_list_at(root, 0);
+        double_linked_list* cur = DLL_create_node(0);
+        cur->data = (double)ILL_at(root, 0);
 
-        for (int i = 1; i < int_linked_list_length(root); i++)
+        for (int i = 1; i < ILL_length(root); i++)
         {
-                double_linked_list_push(&cur,(double)int_linked_list_at(root,i));
+                DLL_push(&cur,(double)ILL_at(root,i));
         }
 
         return cur;
@@ -2024,12 +2024,12 @@ void convert_double_list_to_int(double_linked_list** root){
                 return;
         }
 
-        int_linked_list* cur = int_linked_list_create_node(0);
-        cur->data = (int)double_linked_list_at(*root, 0);
+        int_linked_list* cur = ILL_create_node(0);
+        cur->data = (int)DLL_at(*root, 0);
 
-        for (int i = 1; i < double_linked_list_length(*root); i++)
+        for (int i = 1; i < DLL_length(*root); i++)
         {
-                int_linked_list_push(&cur,(int)double_linked_list_at(*root,i));
+                ILL_push(&cur,(int)DLL_at(*root,i));
         }
 
         *root = cur;
@@ -2043,12 +2043,12 @@ void convert_int_list_to_double(int_linked_list** root){
                 return;
         }
 
-        double_linked_list* cur = double_linked_list_create_node(0);
-        cur->data = (double)int_linked_list_at(*root, 0);
+        double_linked_list* cur = DLL_create_node(0);
+        cur->data = (double)ILL_at(*root, 0);
 
-        for (int i = 1; i < int_linked_list_length(*root); i++)
+        for (int i = 1; i < ILL_length(*root); i++)
         {
-                double_linked_list_push(&cur,(double)int_linked_list_at(*root,i));
+                DLL_push(&cur,(double)ILL_at(*root,i));
         }
 
         *root = cur;
@@ -2057,7 +2057,7 @@ void convert_int_list_to_double(int_linked_list** root){
 
 
 
-char_linked_list *char_linked_list_create_node(char *data){
+char_linked_list *CLL_create_node(char *data){
 
         char_linked_list* node = malloc(sizeof(char_linked_list));
         if(node NOT_EQUAL NULL){
@@ -2068,25 +2068,25 @@ char_linked_list *char_linked_list_create_node(char *data){
         return node;
 }
 
-char_linked_list *char_linked_list_array_to_list(char *array[],int size){
+char_linked_list *CLL_array_to_list(char *array[],int size){
 
 
         if(size IS 0){
                 printf("Error empty array\n");
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
         }
 
 
-        char_linked_list *root = char_linked_list_create_node(array[0]);
+        char_linked_list *root = CLL_create_node(array[0]);
 
        for(int i = 1; i < size;i++){
-                char_linked_list_push(&root,array[i]);
+                CLL_push(&root,array[i]);
        }
 
         return root;
 }
 
-char_linked_list *char_linked_list_concat(char_linked_list* list_one_root, char_linked_list* list_two_root){
+char_linked_list *CLL_concat(char_linked_list* list_one_root, char_linked_list* list_two_root){
 
         if(list_one_root IS NULL){
                 return list_two_root;
@@ -2096,21 +2096,21 @@ char_linked_list *char_linked_list_concat(char_linked_list* list_one_root, char_
                 return list_one_root;
         }
 
-        int length = char_linked_list_length(list_one_root)+char_linked_list_length(list_two_root);
+        int length = CLL_length(list_one_root)+CLL_length(list_two_root);
 
-        char_linked_list* concatinated_tree = char_linked_list_cpy(list_one_root);
+        char_linked_list* concatinated_tree = CLL_cpy(list_one_root);
         char_linked_list*cur = concatinated_tree;
         while(cur->next NOT_EQUAL NULL ){
                 cur = cur->next;
         }
 
-        cur->next = char_linked_list_cpy(list_two_root);
+        cur->next = CLL_cpy(list_two_root);
 
         return concatinated_tree;
 
 }
 
-char_linked_list *char_linked_list_filter(char_linked_list* root, int  f()){
+char_linked_list *CLL_filter(char_linked_list* root, int  f()){
 
         if(root IS NULL){
                 return root;
@@ -2120,13 +2120,13 @@ char_linked_list *char_linked_list_filter(char_linked_list* root, int  f()){
         char_linked_list* filtered_array;
         char_linked_list* cur = root;
 
-        for (int i = 0; i < char_linked_list_length(root); i++)
+        for (int i = 0; i < CLL_length(root); i++)
         {
                 if(f(cur->data) AND once IS 0){
-                        filtered_array = char_linked_list_create_node(cur->data);
+                        filtered_array = CLL_create_node(cur->data);
                         once = 1;
                 } else if(f(cur->data) AND once IS 1){
-                        char_linked_list_push(&filtered_array,cur->data);
+                        CLL_push(&filtered_array,cur->data);
                 }
                 cur = cur->next;
         }
@@ -2135,17 +2135,17 @@ char_linked_list *char_linked_list_filter(char_linked_list* root, int  f()){
 
 }
 
-char_linked_list *char_linked_list_fill(char_linked_list* root, int length, char *value,int new_list){
+char_linked_list *CLL_fill(char_linked_list* root, int length, char *value,int new_list){
         if(!new_list){
                 char_linked_list* cur = root;
-                if(char_linked_list_length(root) < length){
-                        for(int i = 0; i < char_linked_list_length(root); i++){
+                if(CLL_length(root) < length){
+                        for(int i = 0; i < CLL_length(root); i++){
                                 cur->data = value;
                                 cur = cur->next;
                         }
-                        for (int i = char_linked_list_length(root); i < length ; i++)
+                        for (int i = CLL_length(root); i < length ; i++)
                         {
-                                char_linked_list_push(&root,value);
+                                CLL_push(&root,value);
                         }
                 } else{
                         for (int i = 0; i < length; i++)
@@ -2156,16 +2156,16 @@ char_linked_list *char_linked_list_fill(char_linked_list* root, int length, char
                 }
 
         } else {
-                root = char_linked_list_create_node(value);
+                root = CLL_create_node(value);
                 for (int i = 1; i < length; i++){
-                        char_linked_list_push(&root,value);
+                        CLL_push(&root,value);
                 }
         }
 
         return root;
 }
 
-// char_linked_list *char_linked_list_map(char_linked_list* root, char f()){
+// char_linked_list *CLL_map(char_linked_list* root, char f()){
 
 //         if(root IS NULL){
 //                 return root;
@@ -2175,13 +2175,13 @@ char_linked_list *char_linked_list_fill(char_linked_list* root, int length, char
 //         char_linked_list* filtered_array;
 //         char_linked_list* cur = root;
 
-//         for (int i = 0; i < char_linked_list_length(root); i++)
+//         for (int i = 0; i < CLL_length(root); i++)
 //         {
 //                 if(once IS 0){
-//                         filtered_array = char_linked_list_create_node(f(cur->data));
+//                         filtered_array = CLL_create_node(f(cur->data));
 //                         once = 1;
 //                 } else if(once IS 1){
-//                         char_linked_list_push(&filtered_array,char_linked_list_create_node(f(cur->data)));
+//                         CLL_push(&filtered_array,CLL_create_node(f(cur->data)));
 //                 }
 //                 cur = cur->next;
 //         }
@@ -2190,26 +2190,26 @@ char_linked_list *char_linked_list_fill(char_linked_list* root, int length, char
 
 // }
 
-char_linked_list *char_linked_list_cpy(char_linked_list* root){
+char_linked_list *CLL_cpy(char_linked_list* root){
         if(root IS NULL){
                 return root;
         }
 
-        return char_linked_list_filter(root,cpy_func);
+        return CLL_filter(root,cpy_func);
 }
 
-char_linked_list *char_linked_list_cpy_within(char_linked_list* root, int left, int right){
+char_linked_list *CLL_cpy_within(char_linked_list* root, int left, int right){
         if(root IS NULL){
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
         }
 
 
         if(left > right){
-                return char_linked_list_create_node("ERROR");
-        } else if (right > char_linked_list_length(root)){
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
+        } else if (right > CLL_length(root)){
+                return CLL_create_node("ERROR");
         } else if(left < 0 OR right < 0){
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
         }
 
         char_linked_list* copied;
@@ -2218,29 +2218,29 @@ char_linked_list *char_linked_list_cpy_within(char_linked_list* root, int left, 
         for (int i = left; i < right + 1 ; i++)
         {
                 if(once IS 0){
-                        copied = char_linked_list_create_node(char_linked_list_at(root,i));
+                        copied = CLL_create_node(CLL_at(root,i));
                         once = 1;
                 } else {
-                        char_linked_list_push(&copied,char_linked_list_at(root,i));
+                        CLL_push(&copied,CLL_at(root,i));
                 }
         }
 
         return copied;
 }
 
-char_linked_list *char_linked_list_slice(char_linked_list* root, int left, int right){
+char_linked_list *CLL_slice(char_linked_list* root, int left, int right){
         
         if(root IS NULL){
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
         }
 
 
         if(left > right){
-                return char_linked_list_create_node("ERROR");
-        } else if (right > char_linked_list_length(root)){
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
+        } else if (right > CLL_length(root)){
+                return CLL_create_node("ERROR");
         } else if(left < 0 OR right < 0){
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
         }
 
         char_linked_list* sliced;
@@ -2249,17 +2249,17 @@ char_linked_list *char_linked_list_slice(char_linked_list* root, int left, int r
         for (int i = left; i < right ; i++)
         {
                 if(once IS 0){
-                        sliced = char_linked_list_create_node(char_linked_list_at(root,i));
+                        sliced = CLL_create_node(CLL_at(root,i));
                         once = 1;
                 } else {
-                        char_linked_list_push(&sliced,char_linked_list_at(root,i));
+                        CLL_push(&sliced,CLL_at(root,i));
                 }
         }
 
         return sliced;
 }
 
-char_linked_list *char_linked_list_splice(char_linked_list** root, int start, int delete_count, char_linked_list* add_remove,int remove){
+char_linked_list *CLL_splice(char_linked_list** root, int start, int delete_count, char_linked_list* add_remove,int remove){
 
         char_linked_list* cur = *root;
         char_linked_list* deleted;
@@ -2269,9 +2269,9 @@ char_linked_list *char_linked_list_splice(char_linked_list** root, int start, in
         } else if(add_remove IS NULL AND remove IS 0){
                 return cur;
         }else if(*root IS NULL AND add_remove IS NULL){
-                return char_linked_list_create_node("ERROR");
-        } else if(delete_count > char_linked_list_length(*root)){
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
+        } else if(delete_count > CLL_length(*root)){
+                return CLL_create_node("ERROR");
         }
 
 
@@ -2281,18 +2281,18 @@ char_linked_list *char_linked_list_splice(char_linked_list** root, int start, in
                 for(int i = 0; i < delete_count; i++){
                         if (once IS 0){
                                
-                                deleted = char_linked_list_create_node(char_linked_list_at(*root,start));
-                                char_linked_list_remove_index(root,start);
+                                deleted = CLL_create_node(CLL_at(*root,start));
+                                CLL_remove_index(root,start);
                                 once = 1;
                         } else {
-                                char_linked_list_push(&deleted,char_linked_list_at(*root,start));
-                                char_linked_list_remove_index(root,start);
+                                CLL_push(&deleted,CLL_at(*root,start));
+                                CLL_remove_index(root,start);
                         }
                 }
 
                 if(remove IS 0){
-                        for(int i = 0; i < char_linked_list_length(add_remove); i++){
-                                char_linked_list_insert_at(root,start,char_linked_list_at(add_remove,i));
+                        for(int i = 0; i < CLL_length(add_remove); i++){
+                                CLL_insert_at(root,start,CLL_at(add_remove,i));
                                 start++;
                         }
                 }
@@ -2300,18 +2300,18 @@ char_linked_list *char_linked_list_splice(char_linked_list** root, int start, in
                 return deleted;
 
         } else {
-                for(int i = 0; i < char_linked_list_length(add_remove); i++){
-                        char_linked_list_insert_at(root,start,char_linked_list_at(add_remove,i));
+                for(int i = 0; i < CLL_length(add_remove); i++){
+                        CLL_insert_at(root,start,CLL_at(add_remove,i));
                         start++;
                 }
-                return char_linked_list_create_node(0);
+                return CLL_create_node(0);
         }
 
 
 }
 
 
-void char_linked_list_free(char_linked_list** root){
+void CLL_free(char_linked_list** root){
 
         char_linked_list* cur = *root;
 
@@ -2330,11 +2330,11 @@ void char_linked_list_free(char_linked_list** root){
 
 }
 
-void char_linked_list_free_node(char_linked_list** root, char_linked_list* node){
+void CLL_free_node(char_linked_list** root, char_linked_list* node){
 
 
         if(*root IS NULL){
-                char_linked_list_free(root);
+                CLL_free(root);
                 return;
         }
 
@@ -2347,7 +2347,7 @@ void char_linked_list_free_node(char_linked_list** root, char_linked_list* node)
                 free(cur);
         
         } else {
-                for(int i = 0; i < abs(char_linked_list_length(*root)-char_linked_list_length(node));i++)
+                for(int i = 0; i < abs(CLL_length(*root)-CLL_length(node));i++)
                 {
                         prev = cur;
                         cur = cur->next;
@@ -2364,7 +2364,7 @@ void char_linked_list_free_node(char_linked_list** root, char_linked_list* node)
 }
 
 
-char *char_linked_list_pop(char_linked_list** root){
+char *CLL_pop(char_linked_list** root){
 
         if(*root IS NULL){
                 return "ERROR";
@@ -2380,26 +2380,26 @@ char *char_linked_list_pop(char_linked_list** root){
         }
 
         value = cur->data;
-        char_linked_list_free_node(root,cur);
+        CLL_free_node(root,cur);
 
         return value;
 
 }
 
-char *char_linked_list_shift(char_linked_list** root){
+char *CLL_shift(char_linked_list** root){
 
-        char_linked_list_flip(root);
-        char *value = char_linked_list_pop(root);
-        char_linked_list_flip(root);
+        CLL_flip(root);
+        char *value = CLL_pop(root);
+        CLL_flip(root);
         return value;
 }
 
-char *char_linked_list_remove_index(char_linked_list** root, int index){
+char *CLL_remove_index(char_linked_list** root, int index){
         if(root IS NULL){
                 return "ERROR";
         }
 
-        if(index IS 0 OR index > char_linked_list_length(*root)){
+        if(index IS 0 OR index > CLL_length(*root)){
                 return "ERROR";
         }
 
@@ -2412,13 +2412,13 @@ char *char_linked_list_remove_index(char_linked_list** root, int index){
 
         char *value = cur->data;
 
-        char_linked_list_free_node(root,cur);
+        CLL_free_node(root,cur);
 
         return value;
 
 }
 
-void char_linked_list_change_element(char_linked_list** root, int index, char *new_data){
+void CLL_change_element(char_linked_list** root, int index, char *new_data){
         if(*root IS NULL){
                 return;
         }
@@ -2434,17 +2434,17 @@ void char_linked_list_change_element(char_linked_list** root, int index, char *n
         return;
 }
 
-void char_linked_list_flip(char_linked_list** root){
+void CLL_flip(char_linked_list** root){
 
         char_linked_list* flipped;
         int once = 0;
 
-        for(int i = char_linked_list_length(*root); i > 0; i--){
+        for(int i = CLL_length(*root); i > 0; i--){
                 if(once IS 0){
-                        flipped = char_linked_list_create_node( char_linked_list_pop(root));
+                        flipped = CLL_create_node( CLL_pop(root));
                         once = 1;
                 } else {
-                        char_linked_list_push(&flipped,char_linked_list_pop(root));
+                        CLL_push(&flipped,CLL_pop(root));
                 }
         }
 
@@ -2452,10 +2452,10 @@ void char_linked_list_flip(char_linked_list** root){
         return;
 }
 
-void char_linked_list_push(char_linked_list** root,char* data){
+void CLL_push(char_linked_list** root,char* data){
 
         if(root NOT_EQUAL NULL){
-                char_linked_list* node = char_linked_list_create_node(data);
+                char_linked_list* node = CLL_create_node(data);
                 char_linked_list* cur = *root;
                 *root = cur;
 
@@ -2470,36 +2470,36 @@ void char_linked_list_push(char_linked_list** root,char* data){
         }
 }
 
-void char_linked_list_unshift(char_linked_list** root,char *data){
+void CLL_unshift(char_linked_list** root,char *data){
 
         if(*root IS NULL){
                 return;
         }
 
-        char_linked_list* new_root = char_linked_list_create_node(data);
+        char_linked_list* new_root = CLL_create_node(data);
         new_root->next = *root;
         *root = new_root;
         return;
 }
 
-void char_linked_list_insert_at(char_linked_list** root, char index, char *new_data){
+void CLL_insert_at(char_linked_list** root, char index, char *new_data){
 
         if(root IS NULL){
                 return;
         }
 
-        if(index > char_linked_list_length(*root)){
+        if(index > CLL_length(*root)){
                 return;
         }
 
 
         if(index IS 0){
-                char_linked_list_unshift(root,new_data);
+                CLL_unshift(root,new_data);
         } else {
-                char_linked_list* temp_first_part = char_linked_list_slice(*root,0,index);
-                char_linked_list* temp_last_part = char_linked_list_slice(*root,index,char_linked_list_length(*root));
-                char_linked_list_push(&temp_first_part,new_data);
-                *root = char_linked_list_concat(temp_first_part,temp_last_part);
+                char_linked_list* temp_first_part = CLL_slice(*root,0,index);
+                char_linked_list* temp_last_part = CLL_slice(*root,index,CLL_length(*root));
+                CLL_push(&temp_first_part,new_data);
+                *root = CLL_concat(temp_first_part,temp_last_part);
         }
 
         return;
@@ -2507,13 +2507,13 @@ void char_linked_list_insert_at(char_linked_list** root, char index, char *new_d
 }
 
 
-// char *char_linked_list_to_array(char_linked_list* root){ /*TODO*/
+// char *CLL_to_array(char_linked_list* root){ /*TODO*/
 
 //         if(root IS NULL){
 //                 return "ERROR";
 //         }
 
-//         int length = char_linked_list_length(root);
+//         int length = CLL_length(root);
 //         char *arr = malloc(sizeof(char_linked_list));
 
 //         char_linked_list* cur = root;
@@ -2525,7 +2525,7 @@ void char_linked_list_insert_at(char_linked_list** root, char index, char *new_d
 //         return arr;
 // }
 
-char* char_linked_list_at(char_linked_list* root, int index){
+char* CLL_at(char_linked_list* root, int index){
         if (root IS NULL){
                 return "ERROR";
         }
@@ -2537,7 +2537,7 @@ char* char_linked_list_at(char_linked_list* root, int index){
 
         char_linked_list* cur = root;
 
-        if(char_linked_list_length(root) < index){
+        if(CLL_length(root) < index){
                 return "ERROR";
         }
 
@@ -2549,7 +2549,7 @@ char* char_linked_list_at(char_linked_list* root, int index){
 
 }
 
-char* char_linked_list_find(char_linked_list* root, int f()){
+char* CLL_find(char_linked_list* root, int f()){
 
         if(root IS NULL){
                 return "ERROR";
@@ -2557,7 +2557,7 @@ char* char_linked_list_find(char_linked_list* root, int f()){
 
         char_linked_list* cur = root;
 
-        for (int i = 0; i < char_linked_list_length(root); i++)
+        for (int i = 0; i < CLL_length(root); i++)
         {
                 if(f(cur->data)){
                         return cur->data;
@@ -2568,7 +2568,7 @@ char* char_linked_list_find(char_linked_list* root, int f()){
         return "ERROR";
 }
 
-char *char_linked_list_find_last(char_linked_list* root, int f()){
+char *CLL_find_last(char_linked_list* root, int f()){
         if(root IS NULL){
                 return "ERROR";
         }
@@ -2576,7 +2576,7 @@ char *char_linked_list_find_last(char_linked_list* root, int f()){
         char_linked_list* cur = root;
         char *value = "ERROR";
 
-        for (int i = 0; i < char_linked_list_length(root); i++)
+        for (int i = 0; i < CLL_length(root); i++)
         {
                 if(f(cur->data)){
                         value = cur->data;
@@ -2587,7 +2587,7 @@ char *char_linked_list_find_last(char_linked_list* root, int f()){
         return value;
 }
 
-int char_linked_list_length(char_linked_list* root){
+int CLL_length(char_linked_list* root){
         int length = 0;
         if(root IS NULL){
                 return length;
@@ -2604,7 +2604,7 @@ int char_linked_list_length(char_linked_list* root){
 
 }
 
-int char_linked_list_every(char_linked_list* root, int f()){
+int CLL_every(char_linked_list* root, int f()){
 
         if(root IS NULL){
                 return -1;
@@ -2623,16 +2623,16 @@ int char_linked_list_every(char_linked_list* root, int f()){
 
 }
 
-// int char_linked_list_for_each(char_linked_list* root, int f()){
+// int CLL_for_each(char_linked_list* root, int f()){
 //         if (root IS NULL){
 //                 return -1;
 //         }
 
-//         char *arr = char_linked_list_to_array(root);
+//         char *arr = CLL_to_array(root);
 //         int accumulator = 0;
 //         int once = 0;
 
-//         for(int i = 0; i < char_linked_list_length(root) + 1; i++){
+//         for(int i = 0; i < CLL_length(root) + 1; i++){
 //                 if(i IS 2){
 //                         accumulator += f(arr[i-2],arr[i-1]);
 //                         once = 1;
@@ -2645,14 +2645,14 @@ int char_linked_list_every(char_linked_list* root, int f()){
 //         return accumulator;
 // }
 
-int char_linked_list_find_index(char_linked_list* root, int f()){
+int CLL_find_index(char_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
         }
 
         char_linked_list* cur = root;
 
-        for (int i = 0; i < char_linked_list_length(root); i++)
+        for (int i = 0; i < CLL_length(root); i++)
         {
                 if(f(cur->data)){
                         return i;
@@ -2664,7 +2664,26 @@ int char_linked_list_find_index(char_linked_list* root, int f()){
 
 }
 
-int char_linked_list_find_last_index(char_linked_list* root, int f()){
+int CLL_find_index_by_value(char_linked_list* root, char* value){
+        if(root IS NULL){
+                return -2;
+        }
+
+        char_linked_list* cur = root;
+
+        for (int i = 0; i < CLL_length(root); i++)
+        {
+                if(cur->data IS value){
+                        return i;
+                }
+                cur = cur->next;
+        }
+
+        return -1;
+}
+
+
+int CLL_find_last_index(char_linked_list* root, int f()){
         
         if(root IS NULL){
                 return -2;
@@ -2673,7 +2692,7 @@ int char_linked_list_find_last_index(char_linked_list* root, int f()){
         char_linked_list* cur = root;
         int index = -1;
 
-        for (int i = 0; i < char_linked_list_length(root); i++)
+        for (int i = 0; i < CLL_length(root); i++)
         {
                 if(f(cur->data)){
                         index = i;
@@ -2684,14 +2703,14 @@ int char_linked_list_find_last_index(char_linked_list* root, int f()){
         return index;
 }
 
-int char_linked_list_includes(char_linked_list* root, char* value){
+int CLL_includes(char_linked_list* root, char* value){
         if(root IS NULL){
                 return -1;
         }
 
         char_linked_list* cur = root;
 
-        for (int i = 0; i < char_linked_list_length(root); i++)
+        for (int i = 0; i < CLL_length(root); i++)
         {
                 if(cur->data IS value){
                         return 1;
@@ -2704,61 +2723,61 @@ int char_linked_list_includes(char_linked_list* root, char* value){
 
 }
 
-// int int_linked_list_foldr(int_linked_list* root, int f(),int start_value){
+// int ILL_foldr(int_linked_list* root, int f(),int start_value){
 //         if(root IS NULL){
-//                 return int_linked_list_at(root,0);
+//                 return ILL_at(root,0);
 //         }
 
 //         if(start_value < 0){
-//                 return int_linked_list_at(root,0);
+//                 return ILL_at(root,0);
 //         }
 
-//         if(int_linked_list_length(root) < 2){
-//                 return int_linked_list_at(root,0);
+//         if(ILL_length(root) < 2){
+//                 return ILL_at(root,0);
 //         }
 
-//         if(int_linked_list_length(root) IS 2){
-//                 return f(int_linked_list_at(root,0), int_linked_list_at(root,1));
+//         if(ILL_length(root) IS 2){
+//                 return f(ILL_at(root,0), ILL_at(root,1));
 //         }
 
 //         int accumulator = start_value;
 //         int once = 0;
 
-//         for (int i = 0; i < int_linked_list_length(root); i++){
-//                 accumulator = f(accumulator,int_linked_list_at(root,i));
+//         for (int i = 0; i < ILL_length(root); i++){
+//                 accumulator = f(accumulator,ILL_at(root,i));
 //         }
 
 //         return accumulator;
 // }
 
-// int int_linked_list_foldl(int_linked_list* root, int f(),int start_value){
+// int ILL_foldl(int_linked_list* root, int f(),int start_value){
 //         if(root IS NULL){
-//                 return int_linked_list_at(root,0);
+//                 return ILL_at(root,0);
 //         }
 
 //         if(start_value < 0){
-//                 return int_linked_list_at(root,0);
+//                 return ILL_at(root,0);
 //         }
 
-//         if(int_linked_list_length(root) < 2){
-//                 return int_linked_list_at(root,0);
+//         if(ILL_length(root) < 2){
+//                 return ILL_at(root,0);
 //         }
 
-//         if(int_linked_list_length(root) IS 2){
-//                 return f(int_linked_list_at(root,1), int_linked_list_at(root,0));
+//         if(ILL_length(root) IS 2){
+//                 return f(ILL_at(root,1), ILL_at(root,0));
 //         }
 
 //         int accumulator = start_value;
 //         int once = 0;
 
-//         for (int i = int_linked_list_length(root)-1; i >= 0; i--){
-//                 accumulator = f(accumulator,int_linked_list_at(root,i));
+//         for (int i = ILL_length(root)-1; i >= 0; i--){
+//                 accumulator = f(accumulator,ILL_at(root,i));
 //         }
 
 //         return accumulator;
 // }
 
-int char_linked_list_some(char_linked_list* root, int f()){
+int CLL_some(char_linked_list* root, int f()){
         if(root IS NULL){
                 return -2;
         }
@@ -2766,7 +2785,7 @@ int char_linked_list_some(char_linked_list* root, int f()){
         char_linked_list* cur = root;
         int count = 0;
 
-        for (int i = 0; i < char_linked_list_length(root); i++)
+        for (int i = 0; i < CLL_length(root); i++)
         {
                 if(f(cur->data)){
                         count++;
@@ -2782,7 +2801,7 @@ int char_linked_list_some(char_linked_list* root, int f()){
 
 }
 
-void char_linked_list_print(char_linked_list* root){
+void CLL_print(char_linked_list* root){
 
         if(root IS NULL){
                 printf("Empty\n");
@@ -2790,10 +2809,10 @@ void char_linked_list_print(char_linked_list* root){
         }
         printf("Data = %s\n", root->data);
         printf("Next node: \n");
-        char_linked_list_print(root->next);
+        CLL_print(root->next);
 }
 
-// void int_linked_list_sort(int_linked_list** root){ /* BROKEn*/
+// void ILL_sort(int_linked_list** root){ /* BROKEn*/
 
 //         if(*root IS NULL){
 //                 return;
@@ -2802,44 +2821,46 @@ void char_linked_list_print(char_linked_list* root){
 
 //         int_linked_list* cur = *root;
 
-//         int *arr = int_linked_list_to_array(cur);
+//         int *arr = ILL_to_array(cur);
 
-//         int_mergeSort(arr,0,int_linked_list_length(cur)-1);
+//         int_mergeSort(arr,0,ILL_length(cur)-1);
 
 //         *root = cur;
-//         for(int i = 0; i < int_linked_list_length(*root);i++){
+//         for(int i = 0; i < ILL_length(*root);i++){
 //                 cur->data = arr[i];
 //                 cur = cur->next;
 //         }
-//         int_linked_list_print(*root);
+//         ILL_print(*root);
 //         return;
 // }
 
 
-key_value_double *kvd_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
-char_linked_list *kvd_keys_to_linked_list(key_value_double* root, char* id);
-double_linked_list *kvd_values_to_linked_list(key_value_double* root, char* id);
+key_value_double *KVD_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
+char_linked_list *KVD_keys_to_linked_list(key_value_double* root, char* id);
+double_linked_list *KVD_values_to_linked_list(key_value_double* root, char* id);
 
-void kvd_add(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
-void kvd_change_identifer(key_value_double** root, char* id, char* new_id);
-void kvd_change_some_identifers(key_value_double** root, char* id, char* new_id);
-void kvd_change_all_identifers(key_value_double** root, char* new_id);
-
-
-key_value_double *kvd_at(key_value_double* root, int index );
-int kvd_index_of_identifier(key_value_double* root, char* id);
-int kvd_length(key_value_double* root);
-int kvd_length_of_keys_at(key_value_double* root,int index);
-int kvd_length_of_values_at(key_value_double* root,int index);
-void kvd_print(key_value_double* root);
+void KVD_add(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
+void KVD_change_identifer(key_value_double** root, char* id, char* new_id);
+void KVD_change_some_identifers(key_value_double** root, char* id, char* new_id);
+void KVD_change_all_identifers(key_value_double** root, char* new_id);
 
 
+key_value_double *KVD_at_identifer_index(key_value_double* root, int index);
+key_value_double *KVD_at(key_value_double* root, int_linked_list* indexes);
+int_linked_list *KVD_index_of_pair(key_value_double* root, char* key, double value);
+int KVD_index_of_identifier(key_value_double* root, char* id);
+int KVD_length(key_value_double* root);
+int KVD_length_of_keys_at(key_value_double* root,int index);
+int KVD_length_of_values_at(key_value_double* root,int index);
+void KVD_print(key_value_double* root);
 
-key_value_double *kvd_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values){
+
+
+key_value_double *KVD_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
         key_value_double* pair = malloc(sizeof(key_value_double));
 
-        if(char_linked_list_length(new_keys) NOT_EQUAL double_linked_list_length(new_values)){
+        if(CLL_length(new_keys) NOT_EQUAL DLL_length(new_values)){
                 return NULL;
         }
 
@@ -2853,38 +2874,38 @@ key_value_double *kvd_create_pair(char* id, char_linked_list *new_keys, double_l
         return pair;
 }
 
-char_linked_list *kvd_keys_to_linked_list(key_value_double* root, char* id){
+char_linked_list *KVD_keys_to_linked_list(key_value_double* root, char* id){
         if(root IS NULL){
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
         }
 
-        int index = kvd_index_of_identifier(root, id);
+        int index = KVD_index_of_identifier(root, id);
 
         if(index < 0){
-                return char_linked_list_create_node("ERROR");
+                return CLL_create_node("ERROR");
         }
 
-        return kvd_at(root,index)->keys;
+        return KVD_at_identifer_index(root,index)->keys;
 }
 
-double_linked_list *kvd_values_to_linked_list(key_value_double* root, char* id){
+double_linked_list *KVD_values_to_linked_list(key_value_double* root, char* id){
         if(root IS NULL){
-                return char_linked_list_create_node("ERROR");
+                return DLL_create_node(-1);
         }
 
-        int index = kvd_index_of_identifier(root, id);
+        int index = KVD_index_of_identifier(root, id);
 
         if(index < 0){
-                return char_linked_list_create_node("ERROR");
+                return DLL_create_node(-1);
         }
 
-        return kvd_at(root,index)->values;
+        return KVD_at_identifer_index(root,index)->values;
 }
 
-void kvd_add(key_value_double** root, char* id, char_linked_list *new_keys, double_linked_list *new_values){
+void KVD_add(key_value_double** root, char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
        if(root NOT_EQUAL NULL){
-                key_value_double* new_pair = kvd_create_pair(id, new_keys,new_values);
+                key_value_double* new_pair = KVD_create_pair(id, new_keys,new_values);
                 key_value_double* cur = *root;
                 *root = cur;
 
@@ -2901,7 +2922,7 @@ void kvd_add(key_value_double** root, char* id, char_linked_list *new_keys, doub
 
 }
 
-void kvd_change_identifer(key_value_double** root, char* id, char* new_id){
+void KVD_change_identifer(key_value_double** root, char* id, char* new_id){
         if(*root IS NULL){
                 return;
         }
@@ -2909,7 +2930,7 @@ void kvd_change_identifer(key_value_double** root, char* id, char* new_id){
         key_value_double* cur = *root;
         *root = cur;
 
-        for (int i = 0; i < kvd_index_of_identifier(*root,id); i++)
+        for (int i = 0; i < KVD_index_of_identifier(*root,id); i++)
         {
                 cur = cur->next;
         }
@@ -2919,7 +2940,7 @@ void kvd_change_identifer(key_value_double** root, char* id, char* new_id){
         return;
 }
 
-void kvd_change_some_identifers(key_value_double** root, char* id, char* new_id){
+void KVD_change_some_identifers(key_value_double** root, char* id, char* new_id){
         if(*root IS NULL){
                 return;
         }
@@ -2927,7 +2948,7 @@ void kvd_change_some_identifers(key_value_double** root, char* id, char* new_id)
         key_value_double* cur = *root;
         *root = cur;
 
-        for (int i = 0; i < kvd_length(*root); i++)
+        for (int i = 0; i < KVD_length(*root); i++)
         {
                 if(cur->identifier IS id){
                         cur->identifier = new_id;
@@ -2938,7 +2959,7 @@ void kvd_change_some_identifers(key_value_double** root, char* id, char* new_id)
         return;
 }
 
-void kvd_change_all_identifers(key_value_double** root, char* new_id){
+void KVD_change_all_identifers(key_value_double** root, char* new_id){
         if(*root IS NULL){
                 return;
         }
@@ -2946,7 +2967,7 @@ void kvd_change_all_identifers(key_value_double** root, char* new_id){
         key_value_double* cur = *root;
         *root = cur;
 
-        for (int i = 0; i < kvd_length(*root); i++)
+        for (int i = 0; i < KVD_length(*root); i++)
         {
                 cur->identifier = new_id;
                 cur = cur->next;
@@ -2958,18 +2979,18 @@ void kvd_change_all_identifers(key_value_double** root, char* new_id){
 
 
 
-key_value_double *kvd_at(key_value_double* root, int index){
+key_value_double *KVD_at_identifer_index(key_value_double* root, int index){
 
         if(root IS NULL){
-                return kvd_create_pair("ERROR",char_linked_list_create_node("ERROR"),double_linked_list_create_node(-1));
+                return KVD_create_pair("ERROR",CLL_create_node("ERROR"),DLL_create_node(-1));
         }
 
         key_value_double* cur = root;
 
         if(index == 0){
-                return kvd_create_pair(cur->identifier,cur->keys,cur->values);
-        } else if (index > kvd_length(root)){
-                return kvd_create_pair(cur->identifier,cur->keys,cur->values);
+                return KVD_create_pair(cur->identifier,cur->keys,cur->values);
+        } else if (index > KVD_length(root)){
+                return KVD_create_pair(cur->identifier,cur->keys,cur->values);
         }
 
 
@@ -2978,11 +2999,68 @@ key_value_double *kvd_at(key_value_double* root, int index){
                 cur = cur->next;
         }
 
-        return kvd_create_pair(cur->identifier,cur->keys,cur->values);
+        return KVD_create_pair(cur->identifier,cur->keys,cur->values);
 
 }
 
-int kvd_index_of_identifier(key_value_double* root, char* id){
+key_value_double *KVD_at(key_value_double* root, int_linked_list* indexes){
+
+        if(root IS NULL){
+                return KVD_create_pair("ERROR",CLL_create_node("ERROR"),DLL_create_node(-2));
+        }
+
+        if(ILL_length(indexes) > 2){
+                return KVD_create_pair("ERROR",CLL_create_node("ERROR"),DLL_create_node(-1));
+        }
+
+        key_value_double* cur = root;
+
+        if(ILL_at(indexes,0) IS 0){
+                return KVD_create_pair("Pair at",CLL_create_node(CLL_at(root->keys,ILL_at(indexes,1))),DLL_create_node(DLL_at(root->values,ILL_at(indexes,1))));
+        }
+
+
+        for (int i = 0; i < ILL_at(indexes,0); i++)
+        {
+                cur = cur->next;
+        }
+
+        return KVD_create_pair("Pair at",CLL_create_node(CLL_at(cur->keys,ILL_at(indexes,1))),DLL_create_node(DLL_at(cur->values,ILL_at(indexes,1))));
+}
+
+
+/* Returns a linked list where the first element is the index of the identifier and the second the index of the pair, else -1 */
+int_linked_list *KVD_index_of_pair(key_value_double* root, char* key, double value){
+        if(root IS NULL){
+                return ILL_create_node(-2);
+        }
+
+        key_value_double* cur = root;
+        int_linked_list* indexes;
+
+
+        int key_index;
+
+
+        for (int i = 0; i < KVD_length(root); i++){
+                key_index = CLL_find_index_by_value(cur->keys,key);
+
+                if(key_index > 0 AND DLL_at(cur->values,key_index) IS value){
+                        indexes = ILL_create_node(KVD_index_of_identifier(root, cur->identifier));
+                        ILL_push(&indexes, key_index);
+                        return indexes;
+                }
+                cur = cur->next;
+                
+        }
+
+
+        return ILL_create_node(-1);
+
+}
+
+
+int KVD_index_of_identifier(key_value_double* root, char* id){
 
         if(root IS NULL){
                 return -2;
@@ -2990,7 +3068,7 @@ int kvd_index_of_identifier(key_value_double* root, char* id){
 
         key_value_double* cur = root;
 
-        for (int i = 0; i < kvd_length(root); i++){
+        for (int i = 0; i < KVD_length(root); i++){
                 if(cur->identifier == id){
                         return i;
                 }
@@ -3002,7 +3080,8 @@ int kvd_index_of_identifier(key_value_double* root, char* id){
 
 }
 
-int kvd_length(key_value_double* root){
+
+int KVD_length(key_value_double* root){
 
         int length = 0;
         if(root IS NULL){
@@ -3020,34 +3099,34 @@ int kvd_length(key_value_double* root){
 
 }
 
-int kvd_length_of_keys_at(key_value_double* root,int index){
+int KVD_length_of_keys_at(key_value_double* root,int index){
         if(root IS NULL){
                 return -1;
         }
 
-        if (index > kvd_length(root)){
+        if (index > KVD_length(root)){
                 return -1;
         }
 
 
-        return char_linked_list_length(kvd_at(root,index)->keys);
+        return CLL_length(KVD_at_identifer_index(root,index)->keys);
 
 }
 
-int kvd_length_of_values_at(key_value_double* root,int index){
+int KVD_length_of_values_at(key_value_double* root,int index){
         if(root IS NULL){
                 return -1;
         }
 
-        if (index > kvd_length(root)){
+        if (index > KVD_length(root)){
                 return -1;
         }
 
 
-        return char_linked_list_length(kvd_at(root,index)->keys);
+        return CLL_length(KVD_at_identifer_index(root,index)->keys);
 }
 
-void kvd_print(key_value_double* root){
+void KVD_print(key_value_double* root){
 
         if(root IS NULL){
                 printf("Empty\n");
@@ -3059,11 +3138,11 @@ void kvd_print(key_value_double* root){
         printf("Identifer: %s \n", root->identifier);
         printf("---- Key value pairs: { ");
 
-        for (int i = 0; i < double_linked_list_length(cur_values); i++){
-                printf("{Key: %s, Value: %f}, ",char_linked_list_at(cur_key,i), double_linked_list_at(cur_values,i));
+        for (int i = 0; i < DLL_length(cur_values); i++){
+                printf("{Key: %s, Value: %f}, ",CLL_at(cur_key,i), DLL_at(cur_values,i));
         }
         printf("}\n");
 
         printf("Next pair: \n");
-        kvd_print(root->next);
+        KVD_print(root->next);
 }
