@@ -8,7 +8,7 @@
 
 /* TODO optimiser alle methods og lav free methods for KVD */
 
-// #pragma warn -rvl /* return value */
+#pragma warn -rvl /* return value */
 
 #include <stdio.h>
 #include <stdlib.h>
