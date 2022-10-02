@@ -3030,6 +3030,7 @@ void convert_int_list_to_double(int_linked_list** root){
 }
 
 key_value_double *KVD_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
+key_value_double *KVD_slice(key_value_double* root, int left, int right);
 char_linked_list *KVD_keys_to_linked_list(key_value_double* root, char* id);
 double_linked_list *KVD_values_to_linked_list(key_value_double* root, char* id);
 
@@ -3037,8 +3038,12 @@ void KVD_free(key_value_double** root);
 void KVD_free_pair(key_value_double** root,key_value_double* node);
 
 key_value_double* KVD_pop(key_value_double** root);
+key_value_double* KVD_shift(key_value_double** root);
+void KVD_flip(key_value_double** root);
 void KVD_add(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
 void KVD_add_pair(key_value_double** root, key_value_double* new_pair);
+void KVD_unshift(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
+void KVD_unshift_node(key_value_double** root,key_value_double* node);
 void KVD_change_identifer(key_value_double** root, char* id, char* new_id);
 void KVD_change_some_identifers(key_value_double** root, char* id, char* new_id);
 void KVD_change_all_identifers(key_value_double** root, char* new_id);
@@ -3046,6 +3051,7 @@ void KVD_change_all_identifers(key_value_double** root, char* new_id);
 
 key_value_double *KVD_at_identifer_index(key_value_double* root, int index);
 key_value_double *KVD_at(key_value_double* root, int_linked_list* indexes);
+key_value_double* KVD_cpy(key_value_double* root);
 int_linked_list *KVD_index_of_pair(key_value_double* root, char* key, double value);
 int KVD_index_of_identifier(key_value_double* root, char* id);
 int KVD_length(key_value_double* root);
@@ -3071,6 +3077,77 @@ key_value_double *KVD_create_pair(char* id, char_linked_list *new_keys, double_l
         }
 
         return pair;
+}
+
+key_value_double *KVD_slice(key_value_double* root, int left, int right){
+
+        if(root IS NULL){
+                return KVD_create_pair("ERROR",CLL_create_node("ERROR"),DLL_create_node(-1));
+        }
+
+
+        if(left > right){
+                return KVD_create_pair("ERROR",CLL_create_node("ERROR"),DLL_create_node(-1));
+        } else if (right > KVD_length(root)){
+                return KVD_create_pair("ERROR",CLL_create_node("ERROR"),DLL_create_node(-1));
+        } else if(left < 0 OR right < 0){
+                return KVD_create_pair("ERROR",CLL_create_node("ERROR"),DLL_create_node(-1));
+        }
+
+        key_value_double* sliced;
+        key_value_double* temp;
+        int once = 0;
+
+        for (int i = left; i < right ; i++)
+        {
+                temp = KVD_at_identifer_index(root,i);
+                if(once IS 0){
+                        sliced = KVD_create_pair(temp->identifier,temp->keys,temp->values);
+                        once = 1;
+                } else {
+                        KVD_add_pair(&sliced,temp);
+                }
+        }
+
+        return sliced;
+}
+
+key_value_double *KVD_concat(key_value_double* pair_one_root, key_value_double* pair_two_root){
+
+        if(pair_one_root IS NULL){
+                return pair_two_root;
+        }
+
+        if(pair_two_root IS NULL){
+                return pair_one_root;
+        }
+
+
+        key_value_double* cur = KVD_cpy(pair_one_root);
+        key_value_double* cur_2 = KVD_cpy(pair_two_root);
+        key_value_double* cpy;
+        int once = 0;
+
+        for (int i = 0; i < KVD_length(pair_one_root); i++)
+        {
+                if(once IS 0){
+                        cpy = KVD_create_pair(cur->identifier,cur->keys,cur->values);
+                        once = 1;
+                } else {
+                        KVD_add_pair(&cpy,cur);
+                }
+                cur=cur->next;
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+
+                KVD_add(&cpy,cur_2->identifier,cur_2->keys,cur_2->values);
+                cur_2=cur_2->next;
+        }
+
+        return cpy;
+
 }
 
 char_linked_list *KVD_keys_to_linked_list(key_value_double* root, char* id){
@@ -3181,6 +3258,14 @@ key_value_double* KVD_pop(key_value_double** root){
 
 }
 
+key_value_double* KVD_shift(key_value_double** root){
+
+        KVD_flip(root);
+        key_value_double *value = KVD_pop(root);
+        KVD_flip(root);
+        return value;
+}
+
 void KVD_flip(key_value_double** root){
 
         key_value_double* new;
@@ -3234,6 +3319,30 @@ void KVD_add_pair(key_value_double** root, key_value_double* new_pair){
         }
 
 
+}
+
+void KVD_unshift(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values){
+
+
+        if(*root IS NULL){
+                return;
+        }
+
+        key_value_double* new_root = KVD_create_pair(id,new_keys,new_values);
+        new_root->next = *root;
+        *root = new_root;
+}
+
+void KVD_unshift_node(key_value_double** root,key_value_double* node){
+
+
+        if(*root IS NULL){
+                return;
+        }
+
+        key_value_double* new_root = node;
+        new_root->next = *root;
+        *root = new_root;
 }
 
 
@@ -3344,6 +3453,29 @@ key_value_double *KVD_at(key_value_double* root, int_linked_list* indexes){
         return KVD_create_pair("Pair at",CLL_create_node(CLL_at(cur->keys,ILL_at(indexes,1))),DLL_create_node(DLL_at(cur->values,ILL_at(indexes,1))));
 }
 
+key_value_double* KVD_cpy(key_value_double* root){
+        if(root IS NULL){
+                return root;
+        }
+
+        key_value_double* cpy;
+        key_value_double* cur = root;
+        int once = 0;
+
+        for(int i = 0; i < KVD_length(root);i++){
+                if(once IS 0){
+                        cpy = KVD_create_pair(cur->identifier,cur->keys,cur->values);
+                        once = 1;
+                } else {
+                        KVD_add_pair(&cpy,cur);
+                }
+                cur = cur->next;
+        }
+
+        return cpy;
+
+}
+
 /* Returns a linked list where the first element is the index of the identifier and the second the index of the pair, else -1 */
 int_linked_list *KVD_index_of_pair(key_value_double* root, char* key, double value){
         if(root IS NULL){
@@ -3393,7 +3525,6 @@ int KVD_index_of_identifier(key_value_double* root, char* id){
 
 
 }
-
 
 int KVD_length(key_value_double* root){
 
