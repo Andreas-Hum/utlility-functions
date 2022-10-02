@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <errno.h>
-
+#include <string.h>
 /* Redefining some logical operators for better readability*/
 
 #define OR ||
@@ -51,8 +51,9 @@ typedef struct single_char_linked_list{
 } single_char_linked_list;
 
 typedef struct JSON_parse{
-        char_linked_list* key;
-        char_linked_list* value;
+        int obj;
+        char_linked_list* keys;
+        char_linked_list* values;
         struct JSON_parse* children;
         struct JSON_parse* next;
 } JSON_parse;
@@ -4348,6 +4349,58 @@ void KVD_print(key_value_double* root){
         KVD_print(root->next);
 }
 
+/* Creates a node */
+JSON_parse *JSON_create_node(char_linked_list* key,char_linked_list* value,int obj){
+
+        JSON_parse* node = malloc(sizeof(JSON_parse));
+        if(node NOT_EQUAL NULL){
+                node->obj = obj;
+                node->keys = key;
+                node->values = value;
+                node->children = NULL;
+                node->next = NULL;
+        }
+
+        return node;
+}
+
+void JSON_add(JSON_parse** root, char_linked_list* key,char_linked_list* value,int obj){
+
+       if(root NOT_EQUAL NULL){
+                JSON_parse* new_pair = JSON_create_node(key,value,obj);
+                JSON_parse* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = new_pair;
+                } else {
+                        cur->next = new_pair;
+                }
+        }
+
+
+}
+
+int JSON_length(JSON_parse* root){
+
+        int length = 0;
+        if(root IS NULL){
+                return length;
+        }
+
+        JSON_parse* cur = root;
+        while (cur NOT_EQUAL NULL)
+        {
+                cur = cur->next;
+                length++;
+        }
+
+        return length;
+
+}
 
 
 single_char_linked_list *file_to_char_list(char* name_of_file){
@@ -4384,6 +4437,26 @@ single_char_linked_list *file_to_char_list(char* name_of_file){
 int cpy_func (int i){
         i;
         return true;
+}
+
+int is_special(char c){
+        
+        switch (c)
+        {
+        case '\n':
+                return 0;
+        case '\t':
+                return 0;
+        case '\b':
+                return 0;
+        case '\v':
+                return 0;
+        case ' ':
+                return 0;
+        default:
+                return 1;
+        }
+
 }
 
 void int_merge(int arr[], int l, int m, int r)
@@ -4513,39 +4586,25 @@ void print_Array(int array[], int size) {
   printf("\n");
 }
 
-char_linked_list* parse_SCLL(single_char_linked_list* container){
 
-        char *buffer[50];
-        char cur_token;
-        int cut = 0;
-        int j;
+char_linked_list* tokenize(single_char_linked_list* list, char *seperator){
 
-        char_linked_list* strings;
-
-        single_char_linked_list* cpy = SCLL_cpy(container);
+        char *test = SCLL_to_array(SCLL_filter(list,is_special));
+        char *token;
+        char_linked_list* token_list;
         int once = 0;
-        for (int i = 0; i < SCLL_length(container);i++)
-        {       
-                cur_token = SCLL_shift(&container);
-                if(cur_token == '"' AND cut IS 1){
-                        if(once IS 0){
-                                strings = CLL_create_node(SCLL_to_array(SCLL_slice(cpy,j-1,i)));
-                                once = 1;
-                        } else if(once IS 1) {
-                                CLL_push_node(&strings,CLL_create_node(SCLL_to_array(SCLL_slice(cpy,j-1,i))));
-                        }
-
-                        cut = 0;
-
-                }
-                if(cur_token == '"' AND cut IS 0){
-                        cut = 1;
-                        j = i;
-                }
-
+        token = strtok(test,seperator);
+        while(token NOT_EQUAL NULL){
                 
+                if(once IS 0){
+                        token_list = CLL_create_node(token);
+                        once = 1;
+                } else {
+                        CLL_push(&token_list,token);
+                }
+                token = strtok(NULL,seperator);
         }
+        return token_list;
 
-        return strings;
+}
 
-};
