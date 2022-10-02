@@ -358,7 +358,7 @@ void convert_double_list_to_int(double_linked_list** root);
 void convert_int_list_to_double(int_linked_list** root);
 
 
-
+/* Creates a node */
 double_linked_list *DLL_create_node(double data){
 
         double_linked_list* node = malloc(sizeof(double_linked_list));
@@ -369,7 +369,7 @@ double_linked_list *DLL_create_node(double data){
 
         return node;
 }
-
+/* Type double array to type double linked list */
 double_linked_list *DLL_array_to_list(double  array[],int size){
 
 
@@ -387,7 +387,7 @@ double_linked_list *DLL_array_to_list(double  array[],int size){
 
         return root;
 }
-
+/* Concats two type double linked lists */
 double_linked_list *DLL_concat(double_linked_list* list_one_root, double_linked_list* list_two_root){
 
         if(list_one_root IS NULL){
@@ -4513,39 +4513,39 @@ void print_Array(int array[], int size) {
   printf("\n");
 }
 
-char_linked_list* parse_SCLL(single_char_linked_list* container){
+// char_linked_list* parse_SCLL(single_char_linked_list* container){
 
-        char *buffer[50];
-        char cur_token;
-        int cut = 0;
-        int j;
+//         char *buffer[50];
+//         char cur_token;
+//         int cut = 0;
+//         int j;
 
-        char_linked_list* strings;
+//         char_linked_list* strings;
 
-        single_char_linked_list* cpy = SCLL_cpy(container);
-        int once = 0;
-        for (int i = 0; i < SCLL_length(container);i++)
-        {       
-                cur_token = SCLL_shift(&container);
-                if(cur_token == '"' AND cut IS 1){
-                        if(once IS 0){
-                                strings = CLL_create_node(SCLL_to_array(SCLL_slice(cpy,j-1,i)));
-                                once = 1;
-                        } else if(once IS 1) {
-                                CLL_push_node(&strings,CLL_create_node(SCLL_to_array(SCLL_slice(cpy,j-1,i))));
-                        }
+//         single_char_linked_list* cpy = SCLL_cpy(container);
+//         int once = 0;
+//         for (int i = 0; i < SCLL_length(container);i++)
+//         {       
+//                 cur_token = SCLL_shift(&container);
+//                 if(cur_token == '"' AND cut IS 1){
+//                         if(once IS 0){
+//                                 strings = CLL_create_node(SCLL_to_array(SCLL_slice(cpy,j-1,i)));
+//                                 once = 1;
+//                         } else if(once IS 1) {
+//                                 CLL_push_node(&strings,CLL_create_node(SCLL_to_array(SCLL_slice(cpy,j-1,i))));
+//                         }
 
-                        cut = 0;
+//                         cut = 0;
 
-                }
-                if(cur_token == '"' AND cut IS 0){
-                        cut = 1;
-                        j = i;
-                }
+//                 }
+//                 if(cur_token == '"' AND cut IS 0){
+//                         cut = 1;
+//                         j = i;
+//                 }
 
                 
-        }
+//         }
 
-        return strings;
+//         return strings;
 
-};
+// };
