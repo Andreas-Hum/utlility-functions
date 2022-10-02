@@ -79,8 +79,11 @@ double DLL_shift(double_linked_list** root);
 void DLL_change_element(double_linked_list** root, int index, double  new_data);
 void DLL_flip(double_linked_list** root);
 void DLL_push(double_linked_list** root, double data);
+void DLL_push_node(double_linked_list** root, double_linked_list* node);
 void DLL_unshift(double_linked_list** root,double  data);
+void DLL_unshift_node(double_linked_list** root, double_linked_list* node);
 void DLL_insert_at(double_linked_list** root, int index, double  new_data);
+void DLL_insert_node_at(double_linked_list** root, int index, double_linked_list* new_data);
 // void *DLL_remove_duplicates(double_linked_list** root);
 
 /* Utility functions */
@@ -137,8 +140,11 @@ int ILL_shift(int_linked_list** root);
 void ILL_change_element(int_linked_list** root, int index, int new_data);
 void ILL_flip(int_linked_list** root);
 void ILL_push(int_linked_list** root, int data);
+void ILL_push_node(int_linked_list** root,int_linked_list* node);
 void ILL_unshift(int_linked_list** root,int data);
+void ILL_unshift_node(int_linked_list** root,int_linked_list* node);
 void ILL_insert_at(int_linked_list** root, int index, int new_data);
+void ILL_insert_node_at(int_linked_list** root, int index, int_linked_list* new_data);
 
 /* Utility functions */
 
@@ -193,8 +199,11 @@ char *CLL_remove_index(char_linked_list** root, int index);
 void CLL_change_element(char_linked_list** root, int index, char *new_data);
 void CLL_flip(char_linked_list** root);
 void CLL_push(char_linked_list** root, char* data);
+void CLL_push_node(char_linked_list** root, char_linked_list* node);
 void CLL_unshift(char_linked_list** root,char *data);
+void CLL_unshift_node(char_linked_list** root,char_linked_list* node);
 void CLL_insert_at(char_linked_list** root, char index, char *new_data);
+void CLL_insert_node_at(char_linked_list** root, char index, char_linked_list *new_data);
 
 // /* Utility functions */
 
@@ -291,6 +300,7 @@ double_linked_list *DLL_concat(double_linked_list* list_one_root, double_linked_
 
         double_linked_list* concatinated_tree = DLL_cpy(list_one_root);
         double_linked_list* cur = concatinated_tree;
+
         while(cur->next NOT_EQUAL NULL ){
                 cur = cur->next;
         }
@@ -308,6 +318,7 @@ double_linked_list *DLL_filter(double_linked_list* root, int  f()){
         }
 
         int once = 0;
+
         double_linked_list* filtered_array;
         double_linked_list* cur = root;
 
@@ -422,7 +433,7 @@ double_linked_list *DLL_cpy_within(double_linked_list* root, int left, int right
 double_linked_list *DLL_slice(double_linked_list* root, int left, int right){
         
         if(root IS NULL){
-                return DLL_create_node(-1);
+                return DLL_create_node(-2);
         }
 
 
@@ -454,6 +465,7 @@ double_linked_list *DLL_splice(double_linked_list** root, int start, int delete_
 
         double_linked_list* cur = *root;
         double_linked_list* deleted;
+        int length = DLL_length(*root);
 
         if(*root IS NULL){
                 return add_remove;
@@ -461,7 +473,7 @@ double_linked_list *DLL_splice(double_linked_list** root, int start, int delete_
                 return cur;
         }else if(*root IS NULL AND add_remove IS NULL){
                 return DLL_create_node(-1);
-        } else if(delete_count > DLL_length(*root)){
+        } else if(delete_count > length){
                 return DLL_create_node(-1);
         }
 
@@ -481,7 +493,7 @@ double_linked_list *DLL_splice(double_linked_list** root, int start, int delete_
                 }
 
                 if(remove IS 0){
-                        for(int i = 0; i < DLL_length(add_remove); i++){
+                        for(int i = 0; i < length; i++){
                                 DLL_insert_at(root,start,DLL_at(add_remove,i));
                                 start++;
                         }
@@ -490,7 +502,7 @@ double_linked_list *DLL_splice(double_linked_list** root, int start, int delete_
                 return deleted;
 
         } else {
-                for(int i = 0; i < DLL_length(add_remove); i++){
+                for(int i = 0; i < length; i++){
                         DLL_insert_at(root,start,DLL_at(add_remove,i));
                         start++;
                 }
@@ -505,7 +517,7 @@ double_linked_list *DLL_splice(double_linked_list** root, int start, int delete_
 double DLL_pop(double_linked_list** root){
 
         if(*root IS NULL){
-                return -1;
+                return -2;
         }
 
         double  value;
@@ -524,7 +536,7 @@ double DLL_pop(double_linked_list** root){
 
 double DLL_remove_index(double_linked_list** root, int index){
         if(root IS NULL){
-                return -1;
+                return -2;
         }
 
         if(index IS 0 OR index > DLL_length(*root)){
@@ -608,6 +620,24 @@ void DLL_push(double_linked_list** root, double data){
         }
 }
 
+void DLL_push_node(double_linked_list** root, double_linked_list* node){
+
+        
+        if(root NOT_EQUAL NULL){
+                double_linked_list* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = node;
+                } else {
+                        cur->next = node;
+                }
+        }
+}
+
 void DLL_unshift(double_linked_list** root,double  data){
 
 
@@ -620,13 +650,26 @@ void DLL_unshift(double_linked_list** root,double  data){
         *root = new_root;
 }
 
+void DLL_unshift_node(double_linked_list** root,double_linked_list* node){
+
+
+        if(*root IS NULL){
+                return;
+        }
+
+        double_linked_list* new_root = node;
+        new_root->next = *root;
+        *root = new_root;
+}
+
 void DLL_insert_at(double_linked_list** root, int index, double  new_data){
 
         if(root IS NULL){
                 return;
         }
 
-        if(index > DLL_length(*root)){
+        int length = DLL_length(*root);
+        if(index > length){
                 return;
         }
 
@@ -635,8 +678,33 @@ void DLL_insert_at(double_linked_list** root, int index, double  new_data){
                 DLL_unshift(root,new_data);
         } else {
                 double_linked_list* temp_first_part = DLL_slice(*root,0,index);
-                double_linked_list* temp_last_part = DLL_slice(*root,index,DLL_length(*root));
+                double_linked_list* temp_last_part = DLL_slice(*root,index,length);
                 DLL_push(&temp_first_part,new_data);
+                *root = DLL_concat(temp_first_part,temp_last_part);
+        }
+
+        return;
+
+}
+
+void DLL_insert_node_at(double_linked_list** root, int index, double_linked_list* new_data){
+
+        if(root IS NULL){
+                return;
+        }
+
+        int length = DLL_length(*root);
+        if(index > length){
+                return;
+        }
+
+
+        if(index IS 0){
+                DLL_unshift_node(root,new_data);
+        } else {
+                double_linked_list* temp_first_part = DLL_slice(*root,0,index);
+                double_linked_list* temp_last_part = DLL_slice(*root,index,length);
+                DLL_push_node(&temp_first_part,new_data);
                 *root = DLL_concat(temp_first_part,temp_last_part);
         }
 
@@ -746,7 +814,7 @@ void DLL_free_node(double_linked_list** root, double_linked_list* node){
 int DLL_length(double_linked_list* root){
         int length = 0;
         if(root IS NULL){
-                return length;
+                return -2;
         }
 
         double_linked_list* cur = root;
@@ -764,7 +832,7 @@ int DLL_length(double_linked_list* root){
 int DLL_every(double_linked_list* root, int f()){
 
         if(root IS NULL){
-                return -1;
+                return -2;
         }
 
         double_linked_list* cur = root;
@@ -842,7 +910,7 @@ int DLL_find_last_index(double_linked_list* root, int f()){
 
 int DLL_includes(double_linked_list* root, double value){
         if(root IS NULL){
-                return -1;
+                return -2;
         }
 
         double_linked_list* cur = root;
@@ -885,24 +953,26 @@ int DLL_some(double_linked_list* root, int f()){
 
 double DLL_foldr(double_linked_list* root, double f(),double  start_value){
         if(root IS NULL){
-                return DLL_at(root,0);
+                return -2;
         }
 
         if(start_value < 0){
                 return DLL_at(root,0);
         }
 
-        if(DLL_length(root) < 2){
+        int length = DLL_length(root);
+
+        if(length < 2){
                 return DLL_at(root,0);
         }
 
-        if(DLL_length(root) IS 2){
+        if(length IS 2){
                 return f(DLL_at(root,0), DLL_at(root,1));
         }
 
         double  accumulator = start_value;
 
-        for (int i = 0; i < DLL_length(root); i++){
+        for (int i = 0; i < length; i++){
                 accumulator = f(accumulator,DLL_at(root,i));
         }
 
@@ -911,24 +981,26 @@ double DLL_foldr(double_linked_list* root, double f(),double  start_value){
 
 double DLL_foldl(double_linked_list* root, double f(),double start_value){
         if(root IS NULL){
-                return DLL_at(root,0);
+                return -2;
         }
 
         if(start_value < 0){
                 return DLL_at(root,0);
         }
 
-        if(DLL_length(root) < 2){
+        int length = DLL_length(root);
+
+        if(length < 2){
                 return DLL_at(root,0);
         }
 
-        if(DLL_length(root) IS 2){
+        if(length IS 2){
                 return f(DLL_at(root,1), DLL_at(root,0));
         }
 
         double  accumulator = start_value;
 
-        for (int i = DLL_length(root)-1; i >= 0; i--){
+        for (int i = length-1; i >= 0; i--){
                 accumulator = f(accumulator,DLL_at(root,i));
         }
 
@@ -938,7 +1010,7 @@ double DLL_foldl(double_linked_list* root, double f(),double start_value){
 double DLL_find(double_linked_list* root, int f()){
 
         if(root IS NULL){
-                return -1.0;
+                return -2;
         }
 
         double_linked_list* cur = root;
@@ -951,7 +1023,7 @@ double DLL_find(double_linked_list* root, int f()){
                 cur = cur->next;
         }
 
-        return -1.0;
+        return -1;
 }
 
 double DLL_find_last(double_linked_list* root, int f()){
@@ -975,7 +1047,7 @@ double DLL_find_last(double_linked_list* root, int f()){
 
 double DLL_at(double_linked_list* root, int index){
         if (root IS NULL){
-                return -1;
+                return -2;
         }
 
         if(index IS 0){
@@ -999,11 +1071,11 @@ double DLL_at(double_linked_list* root, int index){
 
 double DLL_for_each(double_linked_list* root, double f()){
         if (root IS NULL){
-                return -1;
+                return -2;
         }
 
-        double  *arr = DLL_to_array(root);
-        double  accumulator = 0;
+        double *arr = DLL_to_array(root);
+        double accumulator = 0;
         int once = 0;
 
         for(int i = 0; i < DLL_length(root) + 1; i++){
@@ -1026,7 +1098,7 @@ double *DLL_to_array(double_linked_list* root){
         }
 
         int length = DLL_length(root);
-        double  *arr = malloc(sizeof(double_linked_list));
+        double *arr = malloc(sizeof(root));
 
         double_linked_list* cur = root;
         for(int i = 0; i < length; i++){
@@ -1058,11 +1130,12 @@ void DLL_sort(double_linked_list** root){ /* BROKEn*/
         double_linked_list* cur = *root;
 
         double *arr = DLL_to_array(cur);
+        int length = DLL_length(cur);
 
-        double_mergeSort(arr,0,DLL_length(cur)-1);
+        double_mergeSort(arr,0,length-1);
 
         *root = cur;
-        for(int i = 0; i < DLL_length(*root);i++){
+        for(int i = 0; i < length;i++){
                 cur->data = arr[i];
                 cur = cur->next;
         }
@@ -1152,12 +1225,13 @@ int_linked_list *ILL_filter(int_linked_list* root, int f()){
 int_linked_list *ILL_fill(int_linked_list* root, int length,int value,int new_list){
         if(!new_list){
                 int_linked_list* cur = root;
-                if(ILL_length(root) < length){
-                        for(int i = 0; i < ILL_length(root); i++){
+                int length = ILL_length(root);
+                if(length < length){
+                        for(int i = 0; i < length; i++){
                                 cur->data = value;
                                 cur = cur->next;
                         }
-                        for (int i = ILL_length(root); i < length ; i++)
+                        for (int i = length; i < length ; i++)
                         {
                                 ILL_push(&root,value);
                         }
@@ -1486,6 +1560,24 @@ void ILL_push(int_linked_list** root, int data){
         }
 }
 
+void ILL_push_node(int_linked_list** root, int_linked_list* node){
+
+        
+        if(root NOT_EQUAL NULL){
+                int_linked_list* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = node;
+                } else {
+                        cur->next = node;
+                }
+        }
+}
+
 void ILL_unshift(int_linked_list** root,int data){
 
 
@@ -1498,13 +1590,27 @@ void ILL_unshift(int_linked_list** root,int data){
         *root = new_root;
 }
 
+void ILL_unshift_node(int_linked_list** root,int_linked_list* node){
+
+
+        if(*root IS NULL){
+                return;
+        }
+
+        int_linked_list* new_root = node;
+        new_root->next = *root;
+        *root = new_root;
+}
+
 void ILL_insert_at(int_linked_list** root, int index, int new_data){
 
         if(root IS NULL){
                 return;
         }
 
-        if(index > ILL_length(*root)){
+        int length = ILL_length(*root);
+
+        if(index > length){
                 return;
         }
 
@@ -1513,8 +1619,34 @@ void ILL_insert_at(int_linked_list** root, int index, int new_data){
                 ILL_unshift(root,new_data);
         } else {
                 int_linked_list* temp_first_part = ILL_slice(*root,0,index);
-                int_linked_list* temp_last_part = ILL_slice(*root,index,ILL_length(*root));
+                int_linked_list* temp_last_part = ILL_slice(*root,index,length);
                 ILL_push(&temp_first_part,new_data);
+                *root = ILL_concat(temp_first_part,temp_last_part);
+        }
+
+        return;
+
+}
+
+void ILL_insert_node_at(int_linked_list** root, int index, int_linked_list* new_data){
+
+        if(root IS NULL){
+                return;
+        }
+
+        int length = ILL_length(*root);
+
+        if(index > length){
+                return;
+        }
+
+
+        if(index IS 0){
+                ILL_unshift_node(root,new_data);
+        } else {
+                int_linked_list* temp_first_part = ILL_slice(*root,0,index);
+                int_linked_list* temp_last_part = ILL_slice(*root,index,length);
+                ILL_push_node(&temp_first_part,new_data);
                 *root = ILL_concat(temp_first_part,temp_last_part);
         }
 
@@ -1544,7 +1676,7 @@ int ILL_length(int_linked_list* root){
 int ILL_every(int_linked_list* root, int f()){
 
         if(root IS NULL){
-                return -1;
+                return -2;
         }
 
         int_linked_list* cur = root;
@@ -1562,7 +1694,7 @@ int ILL_every(int_linked_list* root, int f()){
 
 int ILL_for_each(int_linked_list* root, int f()){
         if (root IS NULL){
-                return -1;
+                return -2;
         }
 
         int *arr = ILL_to_array(root);
@@ -1585,11 +1717,10 @@ int ILL_for_each(int_linked_list* root, int f()){
 int *ILL_to_array(int_linked_list* root){
 
         if(root IS NULL){
-                return (int*)-1;
+                return (int*)-2;
         }
-
         int length = ILL_length(root);
-        int *arr = malloc(sizeof(int_linked_list));
+        int *arr = malloc(sizeof(root));
 
         int_linked_list* cur = root;
         for(int i = 0; i < length; i++){
@@ -1697,7 +1828,7 @@ int ILL_find_last_index(int_linked_list* root, int f()){
 
 int ILL_at(int_linked_list* root, int index){
         if (root IS NULL){
-                return -1;
+                return -2;
         }
 
         if(index IS 0){
@@ -1748,18 +1879,20 @@ int ILL_foldr(int_linked_list* root, int f(),int start_value){
                 return ILL_at(root,0);
         }
 
-        if(ILL_length(root) < 2){
+        int length = ILL_length(root);
+
+        if(length < 2){
                 return ILL_at(root,0);
         }
 
-        if(ILL_length(root) IS 2){
+        if(length IS 2){
                 return f(ILL_at(root,0), ILL_at(root,1));
         }
 
         int accumulator = start_value;
         int once = 0;
 
-        for (int i = 0; i < ILL_length(root); i++){
+        for (int i = 0; i < length; i++){
                 accumulator = f(accumulator,ILL_at(root,i));
         }
 
@@ -1774,19 +1907,21 @@ int ILL_foldl(int_linked_list* root, int f(),int start_value){
         if(start_value < 0){
                 return ILL_at(root,0);
         }
+        
+        int length = ILL_length(root);
 
-        if(ILL_length(root) < 2){
+        if( length < 2){
                 return ILL_at(root,0);
         }
 
-        if(ILL_length(root) IS 2){
+        if(length IS 2){
                 return f(ILL_at(root,1), ILL_at(root,0));
         }
 
         int accumulator = start_value;
         int once = 0;
 
-        for (int i = ILL_length(root)-1; i >= 0; i--){
+        for (int i = length-1; i >= 0; i--){
                 accumulator = f(accumulator,ILL_at(root,i));
         }
 
@@ -1839,10 +1974,12 @@ void ILL_sort(int_linked_list** root){ /* BROKEn*/
 
         int *arr = ILL_to_array(cur);
 
-        int_mergeSort(arr,0,ILL_length(cur)-1);
+        int length = ILL_length(cur);
+
+        int_mergeSort(arr,0,length-1);
 
         *root = cur;
-        for(int i = 0; i < ILL_length(*root);i++){
+        for(int i = 0; i < length;i++){
                 cur->data = arr[i];
                 cur = cur->next;
         }
@@ -1851,210 +1988,6 @@ void ILL_sort(int_linked_list** root){ /* BROKEn*/
 }
 
 
-int cpy_func (int i){
-        i;
-        return true;
-}
-
-
-void int_merge(int arr[], int l, int m, int r)
-{
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
-
-    /* create temp arrays */
-    int L[n1], R[n2];
-
-    /* Copy data to temp arrays L[] and R[] */
-    for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
-
-    /* Merge the temp arrays back into arr[l..r]*/
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
-    k = l; // Initial index of merged subarray
-    while (i < n1 AND j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
-        }
-        else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-
-    /* Copy the remaining elements of L[], if there
-    are any */
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-
-    /* Copy the remaining elements of R[], if there
-    are any */
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
-}
-
-void int_mergeSort(int arr[], int l, int r)
-{
-    if (l < r) {
-
-        int m = l + (r - l) / 2;
-
-        int_mergeSort(arr, l, m);
-        int_mergeSort(arr, m + 1, r);
-
-        int_merge(arr, l, m, r);
-    }
-}
-
-void double_merge(double arr[], int l, int m, int r)
-{
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
-
-
-    double L[n1], R[n2];
-
-
-    for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
-
-
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
-    k = l; // Initial index of merged subarray
-    while (i < n1 AND j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
-        }
-        else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-
-
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-
-
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
-}
-
-void double_mergeSort(double arr[], int l, int r)
-{
-    if (l < r) {
-
-        int m = l + (r - l) / 2;
-
-        double_mergeSort(arr, l, m);
-        double_mergeSort(arr, m + 1, r);
-
-        double_merge(arr, l, m, r);
-    }
-}
-
-void print_Array(int array[], int size) {
-  for (int i = 0; i < size; ++i) {
-    printf("%d  ", array[i]);
-  }
-  printf("\n");
-}
-
-
-int_linked_list *cpy_double_list_to_int(double_linked_list* root) {
-        if(root IS NULL){
-                return ILL_create_node(0);
-        }
-
-        int_linked_list* cur = ILL_create_node(0);
-        cur->data = (int)DLL_at(root, 0);
-
-        for (int i = 1; i < DLL_length(root); i++)
-        {
-                ILL_push(&cur,(int)DLL_at(root,i));
-        }
-
-        return cur;
-}
-
-double_linked_list *cpy_int_list_to_double(int_linked_list* root) {
-
-        if(root IS NULL){
-                return DLL_create_node(0);
-        }
-
-        double_linked_list* cur = DLL_create_node(0);
-        cur->data = (double)ILL_at(root, 0);
-
-        for (int i = 1; i < ILL_length(root); i++)
-        {
-                DLL_push(&cur,(double)ILL_at(root,i));
-        }
-
-        return cur;
-}
-
-/* A warning will appear when this functions is used, you can ingore it */
-void convert_double_list_to_int(double_linked_list** root){
-
-        if(root IS NULL){
-                return;
-        }
-
-        int_linked_list* cur = ILL_create_node(0);
-        cur->data = (int)DLL_at(*root, 0);
-
-        for (int i = 1; i < DLL_length(*root); i++)
-        {
-                ILL_push(&cur,(int)DLL_at(*root,i));
-        }
-
-        *root = cur;
-        return;
-}
-
-/* A warning will appear when this functions is used, you can ingore it */
-void convert_int_list_to_double(int_linked_list** root){
-
-        if(root IS NULL){
-                return;
-        }
-
-        double_linked_list* cur = DLL_create_node(0);
-        cur->data = (double)ILL_at(*root, 0);
-
-        for (int i = 1; i < ILL_length(*root); i++)
-        {
-                DLL_push(&cur,(double)ILL_at(*root,i));
-        }
-
-        *root = cur;
-        return;
-}
 
 
 
@@ -2471,6 +2404,23 @@ void CLL_push(char_linked_list** root,char* data){
         }
 }
 
+void CLL_push_node(char_linked_list** root, char_linked_list* node){
+
+        if(root NOT_EQUAL NULL){
+                char_linked_list* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = node;
+                } else {
+                        cur->next = node;
+                }
+        }
+}
+
 void CLL_unshift(char_linked_list** root,char *data){
 
         if(*root IS NULL){
@@ -2483,13 +2433,26 @@ void CLL_unshift(char_linked_list** root,char *data){
         return;
 }
 
+void CLL_unshift_node(char_linked_list** root,char_linked_list* node){
+
+        if(*root IS NULL){
+                return;
+        }
+
+        char_linked_list* new_root = node;
+        new_root->next = *root;
+        *root = new_root;
+}
+
 void CLL_insert_at(char_linked_list** root, char index, char *new_data){
 
         if(root IS NULL){
                 return;
         }
 
-        if(index > CLL_length(*root)){
+        int length = CLL_length(*root);
+
+        if(index > length){
                 return;
         }
 
@@ -2498,8 +2461,34 @@ void CLL_insert_at(char_linked_list** root, char index, char *new_data){
                 CLL_unshift(root,new_data);
         } else {
                 char_linked_list* temp_first_part = CLL_slice(*root,0,index);
-                char_linked_list* temp_last_part = CLL_slice(*root,index,CLL_length(*root));
+                char_linked_list* temp_last_part = CLL_slice(*root,index,length);
                 CLL_push(&temp_first_part,new_data);
+                *root = CLL_concat(temp_first_part,temp_last_part);
+        }
+
+        return;
+
+}
+
+void CLL_insert_node_at(char_linked_list** root, char index, char_linked_list* new_data){
+
+        if(root IS NULL){
+                return;
+        }
+
+        int length = CLL_length(*root);
+
+        if(index > length){
+                return;
+        }
+
+
+        if(index IS 0){
+                CLL_unshift_node(root,new_data);
+        } else {
+                char_linked_list* temp_first_part = CLL_slice(*root,0,index);
+                char_linked_list* temp_last_part = CLL_slice(*root,index,length);
+                CLL_push_node(&temp_first_part,new_data);
                 *root = CLL_concat(temp_first_part,temp_last_part);
         }
 
@@ -2835,6 +2824,210 @@ void CLL_print(char_linked_list* root){
 //         return;
 // }
 
+int cpy_func (int i){
+        i;
+        return true;
+}
+
+
+void int_merge(int arr[], int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    /* create temp arrays */
+    int L[n1], R[n2];
+
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 AND j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    /* Copy the remaining elements of L[], if there
+    are any */
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    /* Copy the remaining elements of R[], if there
+    are any */
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void int_mergeSort(int arr[], int l, int r)
+{
+    if (l < r) {
+
+        int m = l + (r - l) / 2;
+
+        int_mergeSort(arr, l, m);
+        int_mergeSort(arr, m + 1, r);
+
+        int_merge(arr, l, m, r);
+    }
+}
+
+void double_merge(double arr[], int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+
+    double L[n1], R[n2];
+
+
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 AND j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void double_mergeSort(double arr[], int l, int r)
+{
+    if (l < r) {
+
+        int m = l + (r - l) / 2;
+
+        double_mergeSort(arr, l, m);
+        double_mergeSort(arr, m + 1, r);
+
+        double_merge(arr, l, m, r);
+    }
+}
+
+void print_Array(int array[], int size) {
+  for (int i = 0; i < size; ++i) {
+    printf("%d  ", array[i]);
+  }
+  printf("\n");
+}
+
+
+int_linked_list *cpy_double_list_to_int(double_linked_list* root) {
+        if(root IS NULL){
+                return ILL_create_node(0);
+        }
+
+        int_linked_list* cur = ILL_create_node(0);
+        cur->data = (int)DLL_at(root, 0);
+
+        for (int i = 1; i < DLL_length(root); i++)
+        {
+                ILL_push(&cur,(int)DLL_at(root,i));
+        }
+
+        return cur;
+}
+
+double_linked_list *cpy_int_list_to_double(int_linked_list* root) {
+
+        if(root IS NULL){
+                return DLL_create_node(0);
+        }
+
+        double_linked_list* cur = DLL_create_node(0);
+        cur->data = (double)ILL_at(root, 0);
+
+        for (int i = 1; i < ILL_length(root); i++)
+        {
+                DLL_push(&cur,(double)ILL_at(root,i));
+        }
+
+        return cur;
+}
+
+/* A warning will appear when this functions is used, you can ingore it */
+void convert_double_list_to_int(double_linked_list** root){
+
+        if(root IS NULL){
+                return;
+        }
+
+        int_linked_list* cur = ILL_create_node(0);
+        cur->data = (int)DLL_at(*root, 0);
+
+        for (int i = 1; i < DLL_length(*root); i++)
+        {
+                ILL_push(&cur,(int)DLL_at(*root,i));
+        }
+
+        *root = cur;
+        return;
+}
+
+/* A warning will appear when this functions is used, you can ingore it */
+void convert_int_list_to_double(int_linked_list** root){
+
+        if(root IS NULL){
+                return;
+        }
+
+        double_linked_list* cur = DLL_create_node(0);
+        cur->data = (double)ILL_at(*root, 0);
+
+        for (int i = 1; i < ILL_length(*root); i++)
+        {
+                DLL_push(&cur,(double)ILL_at(*root,i));
+        }
+
+        *root = cur;
+        return;
+}
 
 key_value_double *KVD_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
 char_linked_list *KVD_keys_to_linked_list(key_value_double* root, char* id);
@@ -2843,7 +3036,9 @@ double_linked_list *KVD_values_to_linked_list(key_value_double* root, char* id);
 void KVD_free(key_value_double** root);
 void KVD_free_pair(key_value_double** root,key_value_double* node);
 
+key_value_double* KVD_pop(key_value_double** root);
 void KVD_add(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
+void KVD_add_pair(key_value_double** root, key_value_double* new_pair);
 void KVD_change_identifer(key_value_double** root, char* id, char* new_id);
 void KVD_change_some_identifers(key_value_double** root, char* id, char* new_id);
 void KVD_change_all_identifers(key_value_double** root, char* new_id);
@@ -2907,7 +3102,7 @@ double_linked_list *KVD_values_to_linked_list(key_value_double* root, char* id){
 }
 
 
-void KVD_free(key_value_double root){
+void KVD_free(key_value_double** root){
 
         key_value_double* cur = *root;
 
@@ -2920,13 +3115,15 @@ void KVD_free(key_value_double root){
         while (cur NOT_EQUAL NULL)
         {
                 cur = cur->next;
+                DLL_free(&prev->values);
+                CLL_free(&prev->keys);
                 free(prev);
                 prev = cur;
         }
 
 }
 
-void KVD_free_pair(key_value_double* root, key_value_double node){
+void KVD_free_pair(key_value_double** root, key_value_double* node){
 
 
         if(*root IS NULL){
@@ -2940,6 +3137,8 @@ void KVD_free_pair(key_value_double* root, key_value_double node){
         if(*root IS node){
                 *root = cur->next;
                 prev->next = NULL;
+                DLL_free(&cur->values);
+                CLL_free(&cur->keys);
                 free(cur);
         
         } else {
@@ -2953,12 +3152,50 @@ void KVD_free_pair(key_value_double* root, key_value_double node){
                 }else {
                         prev->next = NULL;
                 }
-        
+                DLL_free(&cur->values);
+                CLL_free(&cur->keys);
                 free(cur);
         }
 
 }
 
+
+key_value_double* KVD_pop(key_value_double** root){
+
+        if(*root IS NULL){
+                return NULL;
+        }
+
+        key_value_double* value;
+        key_value_double* cur = *root;
+
+        while (cur->next NOT_EQUAL NULL){
+                cur = cur->next;
+        }
+
+
+        value = KVD_create_pair(cur->identifier,CLL_cpy(cur->keys),DLL_cpy(cur->values));
+        KVD_free_pair(root,cur);
+
+        return value;
+
+}
+
+void KVD_flip(key_value_double** root){
+
+        key_value_double* new;
+        int once = 0;
+        for(int i = KVD_length(*root); i > 0; i--){
+                if(once IS 0){
+                        new = KVD_pop(root);
+                        once = 1;
+                } else {
+                        KVD_add_pair(&new,KVD_pop(root));
+                }
+        }
+
+        *root = new;
+}
 
 void KVD_add(key_value_double** root, char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
@@ -2979,6 +3216,27 @@ void KVD_add(key_value_double** root, char* id, char_linked_list *new_keys, doub
 
 
 }
+
+void KVD_add_pair(key_value_double** root, key_value_double* new_pair){
+
+       if(root NOT_EQUAL NULL){
+                key_value_double* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = new_pair;
+                } else {
+                        cur->next = new_pair;
+                }
+        }
+
+
+}
+
+
 
 void KVD_change_identifer(key_value_double** root, char* id, char* new_id){
         if(*root IS NULL){
