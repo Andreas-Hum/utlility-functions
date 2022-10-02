@@ -45,6 +45,18 @@ typedef struct key_value_double{
         struct key_value_double* next;
 } key_value_double;
 
+typedef struct single_char_linked_list{
+        char data;
+        struct single_char_linked_list* next;
+} single_char_linked_list;
+
+typedef struct JSON_parse{
+        char_linked_list* key;
+        char_linked_list* value;
+        struct JSON_parse* children;
+        struct JSON_parse* next;
+} JSON_parse;
+
 /* All functions are in order of return type:*/
 
 
@@ -223,6 +235,96 @@ int CLL_includes(char_linked_list* root, char *value);
 int CLL_some(char_linked_list* root, int f());
 void CLL_print(char_linked_list* root);
 // void ILL_sort(int_linked_list** root);
+
+
+// /*
+// *       Single char linked list
+// */
+
+single_char_linked_list *SCLL_create_node(char data);
+single_char_linked_list *SCLL_array_to_list(char array[],int size);
+single_char_linked_list *SCLL_concat(single_char_linked_list* list_one_root, single_char_linked_list* list_two_root);
+single_char_linked_list *SCLL_filter(single_char_linked_list* root, int  f());
+single_char_linked_list *SCLL_fill(single_char_linked_list* root, int length, char value,int new_list);
+// single_char_linked_list *SCLL_map(single_char_linked_list* root, char f());
+single_char_linked_list *SCLL_cpy(single_char_linked_list* root);
+single_char_linked_list *SCLL_cpy_within(single_char_linked_list* root, int left, int right);
+single_char_linked_list *SCLL_slice(single_char_linked_list* root, int left, int right);
+single_char_linked_list *SCLL_splice(single_char_linked_list** root, int start, int delete_count, single_char_linked_list* add_remove,int remove);
+
+// /* freeing memory */
+
+void SCLL_free(single_char_linked_list** root);
+void SCLL_free_node(single_char_linked_list** root, single_char_linked_list* node);
+
+// /* Mutating list */
+
+char SCLL_pop(single_char_linked_list** root);
+char SCLL_shift(single_char_linked_list** root);
+char SCLL_remove_index(single_char_linked_list** root, int index);
+void SCLL_change_element(single_char_linked_list** root, int index, char new_data);
+void SCLL_flip(single_char_linked_list** root);
+void SCLL_push(single_char_linked_list** root, char data);
+void SCLL_push_node(single_char_linked_list** root, single_char_linked_list* node);
+void SCLL_unshift(single_char_linked_list** root,char data);
+void SCLL_unshift_node(single_char_linked_list** root,single_char_linked_list* node);
+void SCLL_insert_at(single_char_linked_list** root, char index, char new_data);
+void SCLL_insert_node_at(single_char_linked_list** root, char index, single_char_linked_list *new_data);
+
+// /* Utility functions */
+
+char *SCLL_to_array(single_char_linked_list* root);
+char SCLL_at(single_char_linked_list* root, int index);
+char SCLL_find(single_char_linked_list* root, int f());
+char SCLL_find_last(single_char_linked_list* root, int f());
+int SCLL_length(single_char_linked_list* root);
+int SCLL_every(single_char_linked_list* root, int f());
+// int SCLL_for_each(single_char_linked_list* root, int f()); TODO
+int SCLL_find_index(single_char_linked_list* root, int f());
+int SCLL_find_index_by_value(single_char_linked_list* root, char value);
+int SCLL_find_last_index(single_char_linked_list* root, int f());
+int SCLL_includes(single_char_linked_list* root, char value);
+// int ILL_foldr(int_linked_list* root, int f(), int start_value);
+// int ILL_foldl(int_linked_list* root, int f(),int start_value);
+int SCLL_some(single_char_linked_list* root, int f());
+void SCLL_print(single_char_linked_list* root);
+
+// /*
+// *       Ney value double pair
+// */
+
+key_value_double *KVD_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
+key_value_double *KVD_slice(key_value_double* root, int left, int right);
+char_linked_list *KVD_keys_to_linked_list(key_value_double* root, char* id);
+double_linked_list *KVD_values_to_linked_list(key_value_double* root, char* id);
+
+void KVD_free(key_value_double** root);
+void KVD_free_pair(key_value_double** root,key_value_double* node);
+
+key_value_double* KVD_pop(key_value_double** root);
+key_value_double* KVD_shift(key_value_double** root);
+void KVD_flip(key_value_double** root);
+void KVD_add(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
+void KVD_add_pair(key_value_double** root, key_value_double* new_pair);
+void KVD_unshift(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
+void KVD_unshift_node(key_value_double** root,key_value_double* node);
+void KVD_change_identifer(key_value_double** root, char* id, char* new_id);
+void KVD_change_some_identifers(key_value_double** root, char* id, char* new_id);
+void KVD_change_all_identifers(key_value_double** root, char* new_id);
+
+
+key_value_double *KVD_at_identifer_index(key_value_double* root, int index);
+key_value_double *KVD_at(key_value_double* root, int_linked_list* indexes);
+key_value_double* KVD_cpy(key_value_double* root);
+int_linked_list *KVD_index_of_pair(key_value_double* root, char* key, double value);
+int KVD_index_of_identifier(key_value_double* root, char* id);
+int KVD_length(key_value_double* root);
+int KVD_length_of_keys_at(key_value_double* root,int index);
+int KVD_length_of_values_at(key_value_double* root,int index);
+void KVD_print(key_value_double* root);
+
+
+char_linked_list* parse_SCLL(single_char_linked_list* container);
 
 // /*
 // *       Non specific functions
@@ -2002,6 +2104,26 @@ char_linked_list *CLL_create_node(char *data){
         return node;
 }
 
+char *CLL_join(char_linked_list* root){
+        if(root IS NULL){
+                return "ERROR";
+        }
+
+        char_linked_list* cur = root;
+        int length = CLL_length(root);
+
+        char *arr = malloc(sizeof(char)*length+1);
+        for (int i = 0; i < length;i++)
+        {
+                arr[i] = *cur->data;
+                cur = cur->next;
+        }
+
+        arr[length+1] = '\0';
+
+        return arr;
+};
+
 char_linked_list *CLL_array_to_list(char *array[],int size){
 
 
@@ -2802,160 +2924,823 @@ void CLL_print(char_linked_list* root){
         CLL_print(root->next);
 }
 
-// void ILL_sort(int_linked_list** root){ /* BROKEn*/
 
-//         if(*root IS NULL){
-//                 return;
+
+
+
+single_char_linked_list *SCLL_create_node(char data){
+
+        single_char_linked_list* node = malloc(sizeof(single_char_linked_list));
+        if(node NOT_EQUAL NULL){
+                node->data = data;
+                node->next = NULL;
+        }
+
+        return node;
+}
+
+single_char_linked_list *SCLL_array_to_list(char array[],int size){
+
+
+        if(size IS 0){
+                printf("Error empty array\n");
+                return SCLL_create_node('e');
+        }
+
+
+        single_char_linked_list *root = SCLL_create_node(array[0]);
+
+       for(int i = 1; i < size;i++){
+                SCLL_push(&root,array[i]);
+       }
+
+        return root;
+}
+
+single_char_linked_list *SCLL_concat(single_char_linked_list* list_one_root, single_char_linked_list* list_two_root){
+
+        if(list_one_root IS NULL){
+                return list_two_root;
+        }
+
+        if(list_two_root IS NULL){
+                return list_one_root;
+        }
+
+        int length = SCLL_length(list_one_root)+SCLL_length(list_two_root);
+
+        single_char_linked_list* concatinated_tree = SCLL_cpy(list_one_root);
+        single_char_linked_list*cur = concatinated_tree;
+        while(cur->next NOT_EQUAL NULL ){
+                cur = cur->next;
+        }
+
+        cur->next = SCLL_cpy(list_two_root);
+
+        return concatinated_tree;
+
+}
+
+single_char_linked_list *SCLL_filter(single_char_linked_list* root, int  f()){
+
+        if(root IS NULL){
+                return root;
+        }
+
+        int once = 0;
+        single_char_linked_list* filtered_array;
+        single_char_linked_list* cur = root;
+
+        for (int i = 0; i < SCLL_length(root); i++)
+        {
+                if(f(cur->data) AND once IS 0){
+                        filtered_array = SCLL_create_node(cur->data);
+                        once = 1;
+                } else if(f(cur->data) AND once IS 1){
+                        SCLL_push(&filtered_array,cur->data);
+                }
+                cur = cur->next;
+        }
+
+        return filtered_array;
+
+}
+
+single_char_linked_list *SCLL_fill(single_char_linked_list* root, int length, char value,int new_list){
+        if(!new_list){
+                single_char_linked_list* cur = root;
+                if(SCLL_length(root) < length){
+                        for(int i = 0; i < SCLL_length(root); i++){
+                                cur->data = value;
+                                cur = cur->next;
+                        }
+                        for (int i = SCLL_length(root); i < length ; i++)
+                        {
+                                SCLL_push(&root,value);
+                        }
+                } else{
+                        for (int i = 0; i < length; i++)
+                        {
+                                cur->data = value;
+                                cur = cur->next;
+                        }
+                }
+
+        } else {
+                root = SCLL_create_node(value);
+                for (int i = 1; i < length; i++){
+                        SCLL_push(&root,value);
+                }
+        }
+
+        return root;
+}
+
+// single_char_linked_list *SCLL_map(single_char_linked_list* root, char f()){
+
+//         if(root IS NULL){
+//                 return root;
 //         }
 
+//         int once = 0;
+//         single_char_linked_list* filtered_array;
+//         single_char_linked_list* cur = root;
 
-//         int_linked_list* cur = *root;
-
-//         int *arr = ILL_to_array(cur);
-
-//         int_mergeSort(arr,0,ILL_length(cur)-1);
-
-//         *root = cur;
-//         for(int i = 0; i < ILL_length(*root);i++){
-//                 cur->data = arr[i];
+//         for (int i = 0; i < SCLL_length(root); i++)
+//         {
+//                 if(once IS 0){
+//                         filtered_array = SCLL_create_node(f(cur->data));
+//                         once = 1;
+//                 } else if(once IS 1){
+//                         SCLL_push(&filtered_array,SCLL_create_node(f(cur->data)));
+//                 }
 //                 cur = cur->next;
 //         }
-//         ILL_print(*root);
-//         return;
+
+//         return filtered_array;
+
 // }
 
-int cpy_func (int i){
-        i;
+single_char_linked_list *SCLL_cpy(single_char_linked_list* root){
+        if(root IS NULL){
+                return root;
+        }
+
+        return SCLL_filter(root,cpy_func);
+}
+
+single_char_linked_list *SCLL_cpy_within(single_char_linked_list* root, int left, int right){
+        if(root IS NULL){
+                return   SCLL_create_node('e');
+        }
+
+
+        if(left > right){
+                return   SCLL_create_node('e');
+        } else if (right > SCLL_length(root)){
+                return   SCLL_create_node('e');
+        } else if(left < 0 OR right < 0){
+                return   SCLL_create_node('e');
+        }
+
+        single_char_linked_list* copied;
+        int once = 0;
+
+        for (int i = left; i < right + 1 ; i++)
+        {
+                if(once IS 0){
+                        copied = SCLL_create_node(SCLL_at(root,i));
+                        once = 1;
+                } else {
+                        SCLL_push(&copied,SCLL_at(root,i));
+                }
+        }
+
+        return copied;
+}
+
+single_char_linked_list *SCLL_slice(single_char_linked_list* root, int left, int right){
+        
+        if(root IS NULL){
+                return   SCLL_create_node('e');
+        }
+
+
+        if(left > right){
+                return   SCLL_create_node('e');
+        } else if (right > SCLL_length(root)){
+                return   SCLL_create_node('e');
+        } else if(left < 0 OR right < 0){
+                return   SCLL_create_node('e');
+        }
+
+        single_char_linked_list* sliced;
+        int once = 0;
+
+        for (int i = left; i < right ; i++)
+        {
+                if(once IS 0){
+                        sliced = SCLL_create_node(SCLL_at(root,i));
+                        once = 1;
+                } else {
+                        SCLL_push(&sliced,SCLL_at(root,i));
+                }
+        }
+
+        return sliced;
+}
+
+single_char_linked_list *SCLL_splice(single_char_linked_list** root, int start, int delete_count, single_char_linked_list* add_remove,int remove){
+
+        single_char_linked_list* cur = *root;
+        single_char_linked_list* deleted;
+
+        if(*root IS NULL){
+                return add_remove;
+        } else if(add_remove IS NULL AND remove IS 0){
+                return cur;
+        }else if(*root IS NULL AND add_remove IS NULL){
+                return   SCLL_create_node('e');
+        } else if(delete_count > SCLL_length(*root)){
+                return   SCLL_create_node('e');
+        }
+
+
+
+        if(delete_count > 0){
+                int once = 0;
+                for(int i = 0; i < delete_count; i++){
+                        if (once IS 0){
+                               
+                                deleted = SCLL_create_node(SCLL_at(*root,start));
+                                SCLL_remove_index(root,start);
+                                once = 1;
+                        } else {
+                                SCLL_push(&deleted,SCLL_at(*root,start));
+                                SCLL_remove_index(root,start);
+                        }
+                }
+
+                if(remove IS 0){
+                        for(int i = 0; i < SCLL_length(add_remove); i++){
+                                SCLL_insert_at(root,start,SCLL_at(add_remove,i));
+                                start++;
+                        }
+                }
+                
+                return deleted;
+
+        } else {
+                for(int i = 0; i < SCLL_length(add_remove); i++){
+                        SCLL_insert_at(root,start,SCLL_at(add_remove,i));
+                        start++;
+                }
+                return SCLL_create_node(0);
+        }
+
+
+}
+
+
+void SCLL_free(single_char_linked_list** root){
+
+        single_char_linked_list* cur = *root;
+
+        if(cur->next IS NULL){
+                free(root);
+        }
+
+        single_char_linked_list* prev = *root;
+
+        while (cur NOT_EQUAL NULL)
+        {
+                cur = cur->next;
+                free(prev);
+                prev = cur;
+        }
+
+}
+
+void SCLL_free_node(single_char_linked_list** root, single_char_linked_list* node){
+
+
+        if(*root IS NULL){
+                SCLL_free(root);
+                return;
+        }
+
+        single_char_linked_list* cur = *root;
+        single_char_linked_list* prev = *root;
+
+        if(*root IS node){
+                *root = cur->next;
+                prev->next = NULL;
+                free(cur);
+        
+        } else {
+                for(int i = 0; i < abs(SCLL_length(*root)-SCLL_length(node));i++)
+                {
+                        prev = cur;
+                        cur = cur->next;
+                }
+                if(cur->next NOT_EQUAL NULL){
+                        prev->next = cur->next;
+                }else {
+                        prev->next = NULL;
+                }
+        
+                free(cur);
+        }
+
+}
+
+
+char SCLL_pop(single_char_linked_list** root){
+
+        if(*root IS NULL){
+                return 'e';
+        }
+
+
+        char value;
+
+        single_char_linked_list* cur = *root;
+
+        while (cur->next NOT_EQUAL NULL){
+                cur = cur->next;
+        }
+
+        value = cur->data;
+        SCLL_free_node(root,cur);
+
+        return value;
+
+}
+
+char SCLL_shift(single_char_linked_list** root){
+
+        SCLL_flip(root);
+        char value = SCLL_pop(root);
+        SCLL_flip(root);
+        return value;
+}
+
+char SCLL_remove_index(single_char_linked_list** root, int index){
+        if(root IS NULL){
+                return 'e';
+        }
+
+        if(index IS 0 OR index > SCLL_length(*root)){
+                return 'e';
+        }
+
+        single_char_linked_list* cur = *root;
+        *root = cur;
+        
+        for(int i = 0; i < index; i++){
+                cur = cur->next;
+        }
+
+        char value = cur->data;
+
+        SCLL_free_node(root,cur);
+
+        return value;
+
+}
+
+void SCLL_change_element(single_char_linked_list** root, int index, char new_data){
+        if(*root IS NULL){
+                return;
+        }
+
+        single_char_linked_list* cur = *root;
+        *root = cur;
+
+        for(int i = 0; i < index; i++){
+                cur = cur->next;
+        }
+
+        cur->data = new_data;
+        return;
+}
+
+void SCLL_flip(single_char_linked_list** root){
+
+        single_char_linked_list* flipped;
+        int once = 0;
+
+        for(int i = SCLL_length(*root); i > 0; i--){
+                if(once IS 0){
+                        flipped = SCLL_create_node( SCLL_pop(root));
+                        once = 1;
+                } else {
+                        SCLL_push(&flipped,SCLL_pop(root));
+                }
+        }
+
+        *root = flipped;
+        return;
+}
+
+void SCLL_push(single_char_linked_list** root,char data){
+
+        if(root NOT_EQUAL NULL){
+                single_char_linked_list* node = SCLL_create_node(data);
+                single_char_linked_list* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = node;
+                } else {
+                        cur->next = node;
+                }
+        }
+}
+
+void SCLL_push_node(single_char_linked_list** root, single_char_linked_list* node){
+
+        if(root NOT_EQUAL NULL){
+                single_char_linked_list* cur = *root;
+                *root = cur;
+
+                if(cur->next NOT_EQUAL NULL){
+                        while(cur->next NOT_EQUAL NULL){
+                                cur = cur->next;
+                        }
+                        cur->next = node;
+                } else {
+                        cur->next = node;
+                }
+        }
+}
+
+void SCLL_unshift(single_char_linked_list** root,char data){
+
+        if(*root IS NULL){
+                return;
+        }
+
+        single_char_linked_list* new_root = SCLL_create_node(data);
+        new_root->next = *root;
+        *root = new_root;
+        return;
+}
+
+void SCLL_unshift_node(single_char_linked_list** root,single_char_linked_list* node){
+
+        if(*root IS NULL){
+                return;
+        }
+
+        single_char_linked_list* new_root = node;
+        new_root->next = *root;
+        *root = new_root;
+}
+
+void SCLL_insert_at(single_char_linked_list** root, char index, char new_data){
+
+        if(root IS NULL){
+                return;
+        }
+
+        int length = SCLL_length(*root);
+
+        if(index > length){
+                return;
+        }
+
+
+        if(index IS 0){
+                SCLL_unshift(root,new_data);
+        } else {
+                single_char_linked_list* temp_first_part = SCLL_slice(*root,0,index);
+                single_char_linked_list* temp_last_part = SCLL_slice(*root,index,length);
+                SCLL_push(&temp_first_part,new_data);
+                *root = SCLL_concat(temp_first_part,temp_last_part);
+        }
+
+        return;
+
+}
+
+void SCLL_insert_node_at(single_char_linked_list** root, char index, single_char_linked_list* new_data){
+
+        if(root IS NULL){
+                return;
+        }
+
+        int length = SCLL_length(*root);
+
+        if(index > length){
+                return;
+        }
+
+
+        if(index IS 0){
+                SCLL_unshift_node(root,new_data);
+        } else {
+                single_char_linked_list* temp_first_part = SCLL_slice(*root,0,index);
+                single_char_linked_list* temp_last_part = SCLL_slice(*root,index,length);
+                SCLL_push_node(&temp_first_part,new_data);
+                *root = SCLL_concat(temp_first_part,temp_last_part);
+        }
+
+        return;
+
+}
+
+
+char *SCLL_to_array(single_char_linked_list* root){ 
+
+        if(root IS NULL){
+                return "ERROR";
+        }
+
+        int length = SCLL_length(root);
+        char *arr = malloc(sizeof(root)*length);
+        int j; 
+
+        single_char_linked_list* cur = root;
+        for(int i = 0; i < length; i++){
+                arr[i] = cur->data;
+                cur = cur->next;
+                j++;
+        };
+        arr[length] = '\0';
+        return arr;
+}
+
+char SCLL_at(single_char_linked_list* root, int index){
+        if (root IS NULL){
+                return 'e';
+        }
+
+        if(index IS 0){
+                return root->data;
+        }
+
+
+        single_char_linked_list* cur = root;
+
+        if(SCLL_length(root) < index){
+                return 'e';
+        }
+
+        for(int i = 0; i < index ;i++){
+                cur = cur->next;
+        }
+
+        return cur->data;
+
+}
+
+char SCLL_find(single_char_linked_list* root, int f()){
+
+        if(root IS NULL){
+                return 'e';
+        }
+
+        single_char_linked_list* cur = root;
+
+        for (int i = 0; i < SCLL_length(root); i++)
+        {
+                if(f(cur->data)){
+                        return cur->data;
+                }
+                cur = cur->next;
+        }
+
+       return 'e';
+}
+
+char SCLL_find_last(single_char_linked_list* root, int f()){
+        if(root IS NULL){
+                return 'e' ;
+        }
+
+        single_char_linked_list* cur = root;
+        char value = 'e';
+
+        for (int i = 0; i < SCLL_length(root); i++)
+        {
+                if(f(cur->data)){
+                        value = cur->data;
+                }
+                cur = cur->next;
+        }
+
+        return value;
+}
+
+int SCLL_length(single_char_linked_list* root){
+        int length = 0;
+        if(root IS NULL){
+                return length;
+        }
+
+        single_char_linked_list* cur = root;
+        while (cur NOT_EQUAL NULL)
+        {
+                cur = cur->next;
+                length++;
+        }
+
+        return length;
+
+}
+
+int SCLL_every(single_char_linked_list* root, int f()){
+
+        if(root IS NULL){
+                return -1;
+        }
+
+        single_char_linked_list* cur = root;
+
+        while (cur->next NOT_EQUAL NULL){
+                if(!f(cur->data)){
+                        return false;
+                }
+                cur = cur->next;
+        }
+
         return true;
+
 }
 
+// int SCLL_for_each(single_char_linked_list* root, int f()){
+//         if (root IS NULL){
+//                 return -1;
+//         }
 
-void int_merge(int arr[], int l, int m, int r)
-{
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
+//         char *arr = SCLL_to_array(root);
+//         int accumulator = 0;
+//         int once = 0;
 
-    /* create temp arrays */
-    int L[n1], R[n2];
+//         for(int i = 0; i < SCLL_length(root) + 1; i++){
+//                 if(i IS 2){
+//                         accumulator += f(arr[i-2],arr[i-1]);
+//                         once = 1;
+//                 } else if(once IS 1){
+//                         accumulator = f(accumulator,arr[i-1]);
+//                 }
+//         }
 
-    /* Copy data to temp arrays L[] and R[] */
-    for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
+//         free(arr);
+//         return accumulator;
+// }
 
-    /* Merge the temp arrays back into arr[l..r]*/
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
-    k = l; // Initial index of merged subarray
-    while (i < n1 AND j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
+int SCLL_find_index(single_char_linked_list* root, int f()){
+        if(root IS NULL){
+                return -2;
         }
-        else {
-            arr[k] = R[j];
-            j++;
+
+        single_char_linked_list* cur = root;
+
+        for (int i = 0; i < SCLL_length(root); i++)
+        {
+                if(f(cur->data)){
+                        return i;
+                }
+                cur = cur->next;
         }
-        k++;
-    }
 
-    /* Copy the remaining elements of L[], if there
-    are any */
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
+        return -1;
 
-    /* Copy the remaining elements of R[], if there
-    are any */
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
 }
 
-void int_mergeSort(int arr[], int l, int r)
-{
-    if (l < r) {
-
-        int m = l + (r - l) / 2;
-
-        int_mergeSort(arr, l, m);
-        int_mergeSort(arr, m + 1, r);
-
-        int_merge(arr, l, m, r);
-    }
-}
-
-void double_merge(double arr[], int l, int m, int r)
-{
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
-
-
-    double L[n1], R[n2];
-
-
-    for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
-
-
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
-    k = l; // Initial index of merged subarray
-    while (i < n1 AND j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
+int SCLL_find_index_by_value(single_char_linked_list* root, char value){
+        if(root IS NULL){
+                return -2;
         }
-        else {
-            arr[k] = R[j];
-            j++;
+
+        single_char_linked_list* cur = root;
+
+        for (int i = 0; i < SCLL_length(root); i++)
+        {
+                if(cur->data IS value){
+                        return i;
+                }
+                cur = cur->next;
         }
-        k++;
-    }
 
-
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-
-
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
+        return -1;
 }
 
-void double_mergeSort(double arr[], int l, int r)
-{
-    if (l < r) {
 
-        int m = l + (r - l) / 2;
+int SCLL_find_last_index(single_char_linked_list* root, int f()){
+        
+        if(root IS NULL){
+                return -2;
+        }
 
-        double_mergeSort(arr, l, m);
-        double_mergeSort(arr, m + 1, r);
+        single_char_linked_list* cur = root;
+        int index = -1;
 
-        double_merge(arr, l, m, r);
-    }
+        for (int i = 0; i < SCLL_length(root); i++)
+        {
+                if(f(cur->data)){
+                        index = i;
+                }
+                cur = cur->next;
+        }
+
+        return index;
 }
 
-void print_Array(int array[], int size) {
-  for (int i = 0; i < size; ++i) {
-    printf("%d  ", array[i]);
-  }
-  printf("\n");
+int SCLL_includes(single_char_linked_list* root, char value){
+        if(root IS NULL){
+                return -1;
+        }
+
+        single_char_linked_list* cur = root;
+
+        for (int i = 0; i < SCLL_length(root); i++)
+        {
+                if(cur->data IS value){
+                        return 1;
+                }
+        }
+
+
+        return 0;
+
+
 }
+
+// int ILL_foldr(int_linked_list* root, int f(),int start_value){
+//         if(root IS NULL){
+//                 return ILL_at(root,0);
+//         }
+
+//         if(start_value < 0){
+//                 return ILL_at(root,0);
+//         }
+
+//         if(ILL_length(root) < 2){
+//                 return ILL_at(root,0);
+//         }
+
+//         if(ILL_length(root) IS 2){
+//                 return f(ILL_at(root,0), ILL_at(root,1));
+//         }
+
+//         int accumulator = start_value;
+//         int once = 0;
+
+//         for (int i = 0; i < ILL_length(root); i++){
+//                 accumulator = f(accumulator,ILL_at(root,i));
+//         }
+
+//         return accumulator;
+// }
+
+// int ILL_foldl(int_linked_list* root, int f(),int start_value){
+//         if(root IS NULL){
+//                 return ILL_at(root,0);
+//         }
+
+//         if(start_value < 0){
+//                 return ILL_at(root,0);
+//         }
+
+//         if(ILL_length(root) < 2){
+//                 return ILL_at(root,0);
+//         }
+
+//         if(ILL_length(root) IS 2){
+//                 return f(ILL_at(root,1), ILL_at(root,0));
+//         }
+
+//         int accumulator = start_value;
+//         int once = 0;
+
+//         for (int i = ILL_length(root)-1; i >= 0; i--){
+//                 accumulator = f(accumulator,ILL_at(root,i));
+//         }
+
+//         return accumulator;
+// }
+
+int SCLL_some(single_char_linked_list* root, int f()){
+        if(root IS NULL){
+                return -2;
+        }
+
+        single_char_linked_list* cur = root;
+        int count = 0;
+
+        for (int i = 0; i < SCLL_length(root); i++)
+        {
+                if(f(cur->data)){
+                        count++;
+                }
+                cur = cur->next;
+        }
+
+        if(count IS 0){
+                return -1;
+        } else {
+                return count;
+        }
+
+}
+
+void SCLL_print(single_char_linked_list* root){
+
+        if(root IS NULL){
+                printf("Empty\n");
+                return;
+        }
+        printf("Data = %c\n", root->data);
+        printf("Next node: \n");
+        SCLL_print(root->next);
+}
+
 
 
 int_linked_list *cpy_double_list_to_int(double_linked_list* root) {
@@ -3029,35 +3814,6 @@ void convert_int_list_to_double(int_linked_list** root){
         return;
 }
 
-key_value_double *KVD_create_pair(char* id, char_linked_list *new_keys, double_linked_list *new_values);
-key_value_double *KVD_slice(key_value_double* root, int left, int right);
-char_linked_list *KVD_keys_to_linked_list(key_value_double* root, char* id);
-double_linked_list *KVD_values_to_linked_list(key_value_double* root, char* id);
-
-void KVD_free(key_value_double** root);
-void KVD_free_pair(key_value_double** root,key_value_double* node);
-
-key_value_double* KVD_pop(key_value_double** root);
-key_value_double* KVD_shift(key_value_double** root);
-void KVD_flip(key_value_double** root);
-void KVD_add(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
-void KVD_add_pair(key_value_double** root, key_value_double* new_pair);
-void KVD_unshift(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
-void KVD_unshift_node(key_value_double** root,key_value_double* node);
-void KVD_change_identifer(key_value_double** root, char* id, char* new_id);
-void KVD_change_some_identifers(key_value_double** root, char* id, char* new_id);
-void KVD_change_all_identifers(key_value_double** root, char* new_id);
-
-
-key_value_double *KVD_at_identifer_index(key_value_double* root, int index);
-key_value_double *KVD_at(key_value_double* root, int_linked_list* indexes);
-key_value_double* KVD_cpy(key_value_double* root);
-int_linked_list *KVD_index_of_pair(key_value_double* root, char* key, double value);
-int KVD_index_of_identifier(key_value_double* root, char* id);
-int KVD_length(key_value_double* root);
-int KVD_length_of_keys_at(key_value_double* root,int index);
-int KVD_length_of_values_at(key_value_double* root,int index);
-void KVD_print(key_value_double* root);
 
 
 
@@ -3591,3 +4347,205 @@ void KVD_print(key_value_double* root){
         printf("Next pair: \n");
         KVD_print(root->next);
 }
+
+
+
+single_char_linked_list *file_to_char_list(char* name_of_file){
+        
+        FILE* ptr;
+        ptr = fopen(name_of_file, "r+");
+
+        if (NULL == ptr) {
+                printf("file can't be opened \n");
+        }
+        char c;
+        int once = 0;
+        single_char_linked_list* input;
+
+        while (1) {
+                c = fgetc(ptr);
+                if(c == EOF){
+                        break;
+                }
+
+                if(once == 0){
+                        input = SCLL_create_node((c));
+                        once =  1;
+                } else if(once == 1){
+                        SCLL_push(&input,c);
+                }
+        }
+
+
+        return input;
+
+}
+
+int cpy_func (int i){
+        i;
+        return true;
+}
+
+void int_merge(int arr[], int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    /* create temp arrays */
+    int L[n1], R[n2];
+
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 AND j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    /* Copy the remaining elements of L[], if there
+    are any */
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    /* Copy the remaining elements of R[], if there
+    are any */
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void int_mergeSort(int arr[], int l, int r)
+{
+    if (l < r) {
+
+        int m = l + (r - l) / 2;
+
+        int_mergeSort(arr, l, m);
+        int_mergeSort(arr, m + 1, r);
+
+        int_merge(arr, l, m, r);
+    }
+}
+
+void double_merge(double arr[], int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+
+    double L[n1], R[n2];
+
+
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 AND j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void double_mergeSort(double arr[], int l, int r)
+{
+    if (l < r) {
+
+        int m = l + (r - l) / 2;
+
+        double_mergeSort(arr, l, m);
+        double_mergeSort(arr, m + 1, r);
+
+        double_merge(arr, l, m, r);
+    }
+}
+
+void print_Array(int array[], int size) {
+  for (int i = 0; i < size; ++i) {
+    printf("%d  ", array[i]);
+  }
+  printf("\n");
+}
+
+char_linked_list* parse_SCLL(single_char_linked_list* container){
+
+        char *buffer[50];
+        char cur_token;
+        int cut = 0;
+        int j;
+
+        char_linked_list* strings;
+
+        single_char_linked_list* cpy = SCLL_cpy(container);
+        int once = 0;
+        for (int i = 0; i < SCLL_length(container);i++)
+        {       
+                cur_token = SCLL_shift(&container);
+                if(cur_token == '"' AND cut IS 1){
+                        if(once IS 0){
+                                strings = CLL_create_node(SCLL_to_array(SCLL_slice(cpy,j-1,i)));
+                                once = 1;
+                        } else if(once IS 1) {
+                                CLL_push_node(&strings,CLL_create_node(SCLL_to_array(SCLL_slice(cpy,j-1,i))));
+                        }
+
+                        cut = 0;
+
+                }
+                if(cur_token == '"' AND cut IS 0){
+                        cut = 1;
+                        j = i;
+                }
+
+                
+        }
+
+        return strings;
+
+};
