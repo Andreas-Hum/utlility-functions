@@ -3,17 +3,19 @@
 *
 * Created by Andreas Svanberg Hummelmose, student at AAU
 *
-* Updated: 29-09-2022
+* Updated: 02-10-2022
 */
 
-#pragma warn -rvl /* return value */
+/* TODO optimiser alle methods og lav free methods for KVD */
+
+// #pragma warn -rvl /* return value */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <errno.h>
 
-/* Redefining some logical  for better readability*/
+/* Redefining some logical operators for better readability*/
 
 #define OR ||
 #define AND &&
@@ -63,8 +65,6 @@ double_linked_list *DLL_cpy(double_linked_list* root);
 double_linked_list *DLL_cpy_within(double_linked_list* root, int left, int right);
 double_linked_list *DLL_slice(double_linked_list* root, int left, int right);
 double_linked_list *DLL_splice(double_linked_list** root, int start, int delete_count, double_linked_list* add_remove,int remove);
-
-
 
 /* freeing memory */
 
@@ -290,7 +290,7 @@ double_linked_list *DLL_concat(double_linked_list* list_one_root, double_linked_
         int length = DLL_length(list_one_root)+DLL_length(list_two_root);
 
         double_linked_list* concatinated_tree = DLL_cpy(list_one_root);
-        double_linked_list*cur = concatinated_tree;
+        double_linked_list* cur = concatinated_tree;
         while(cur->next NOT_EQUAL NULL ){
                 cur = cur->next;
         }
@@ -328,13 +328,14 @@ double_linked_list *DLL_filter(double_linked_list* root, int  f()){
 
 double_linked_list *DLL_fill(double_linked_list* root, int length,double value,double new_list){
         if(!new_list){
+                int dll_length = DLL_length(root);
                 double_linked_list* cur = root;
-                if(DLL_length(root) < length){
-                        for(int i = 0; i < DLL_length(root); i++){
+                if(dll_length < length){
+                        for(int i = 0; i < dll_length; i++){
                                 cur->data = value;
                                 cur = cur->next;
                         }
-                        for (int i = DLL_length(root); i < length ; i++)
+                        for (int i = dll_length; i < length ; i++)
                         {
                                 DLL_push(&root,value);
                         }
@@ -2839,6 +2840,9 @@ key_value_double *KVD_create_pair(char* id, char_linked_list *new_keys, double_l
 char_linked_list *KVD_keys_to_linked_list(key_value_double* root, char* id);
 double_linked_list *KVD_values_to_linked_list(key_value_double* root, char* id);
 
+void KVD_free(key_value_double** root);
+void KVD_free_pair(key_value_double** root,key_value_double* node);
+
 void KVD_add(key_value_double** root,char* id, char_linked_list *new_keys, double_linked_list *new_values);
 void KVD_change_identifer(key_value_double** root, char* id, char* new_id);
 void KVD_change_some_identifers(key_value_double** root, char* id, char* new_id);
@@ -2901,6 +2905,60 @@ double_linked_list *KVD_values_to_linked_list(key_value_double* root, char* id){
 
         return KVD_at_identifer_index(root,index)->values;
 }
+
+
+void KVD_free(key_value_double root){
+
+        key_value_double* cur = *root;
+
+        if(cur->next IS NULL){
+                free(root);
+        }
+
+        key_value_double* prev = *root;
+
+        while (cur NOT_EQUAL NULL)
+        {
+                cur = cur->next;
+                free(prev);
+                prev = cur;
+        }
+
+}
+
+void KVD_free_pair(key_value_double* root, key_value_double node){
+
+
+        if(*root IS NULL){
+                KVD_free(root);
+                return;
+        }
+
+        key_value_double* cur = *root;
+        key_value_double* prev = *root;
+
+        if(*root IS node){
+                *root = cur->next;
+                prev->next = NULL;
+                free(cur);
+        
+        } else {
+                for(int i = 0; i < abs(KVD_length(*root)-KVD_length(node));i++)
+                {
+                        prev = cur;
+                        cur = cur->next;
+                }
+                if(cur->next NOT_EQUAL NULL){
+                        prev->next = cur->next;
+                }else {
+                        prev->next = NULL;
+                }
+        
+                free(cur);
+        }
+
+}
+
 
 void KVD_add(key_value_double** root, char* id, char_linked_list *new_keys, double_linked_list *new_values){
 
@@ -3028,7 +3086,6 @@ key_value_double *KVD_at(key_value_double* root, int_linked_list* indexes){
         return KVD_create_pair("Pair at",CLL_create_node(CLL_at(cur->keys,ILL_at(indexes,1))),DLL_create_node(DLL_at(cur->values,ILL_at(indexes,1))));
 }
 
-
 /* Returns a linked list where the first element is the index of the identifier and the second the index of the pair, else -1 */
 int_linked_list *KVD_index_of_pair(key_value_double* root, char* key, double value){
         if(root IS NULL){
@@ -3058,7 +3115,6 @@ int_linked_list *KVD_index_of_pair(key_value_double* root, char* key, double val
         return ILL_create_node(-1);
 
 }
-
 
 int KVD_index_of_identifier(key_value_double* root, char* id){
 
